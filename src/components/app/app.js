@@ -6,11 +6,12 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 
 function App() {
+  const { bun, main, sauce } = clusterData(data);
   return (
     <>
       <AppHeader />
       <main className={styles.main}>
-        <BurgerIngredients data={clusterData(data)} />
+        <BurgerIngredients bun={bun} main={main} sauce={sauce} />
         <BurgerConstructor data={data.slice(0, 7)} />
       </main>
     </>

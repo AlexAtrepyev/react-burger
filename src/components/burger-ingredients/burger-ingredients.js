@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css';
 import IngredientsGroup from '../ingredients-group/ingredients-group';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import dataPropTypes from '../../utils/prop-types';
 
-function BurgerIngredients({ data }) {
+function BurgerIngredients({ bun, main, sauce }) {
   const [current, setCurrent] = useState('Булки');
 
   return (
@@ -21,12 +23,18 @@ function BurgerIngredients({ data }) {
         </Tab>
       </div>
       <ul className={styles.list}>
-        <IngredientsGroup title="Булки" data={data.bun} />
-        <IngredientsGroup title="Соусы" data={data.sauce} />
-        <IngredientsGroup title="Начинки" data={data.main} />
+        <IngredientsGroup title="Булки" data={bun} />
+        <IngredientsGroup title="Соусы" data={sauce} />
+        <IngredientsGroup title="Начинки" data={main} />
       </ul>
     </section>
   );
 }
+
+BurgerIngredients.propTypes = {
+  bun: PropTypes.arrayOf(dataPropTypes),
+  sauce: PropTypes.arrayOf(dataPropTypes),
+  main: PropTypes.arrayOf(dataPropTypes)
+}; 
 
 export default BurgerIngredients;

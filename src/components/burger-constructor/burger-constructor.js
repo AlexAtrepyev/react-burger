@@ -1,6 +1,8 @@
+import PropTypes from 'prop-types';
 import styles from './burger-constructor.module.css';
 import BurgerComponents from '../burger-components/burger-components';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import dataPropTypes from '../../utils/prop-types';
 
 function BurgerConstructor({ data }) {
   const total = data.reduce((sum, item) => {
@@ -20,5 +22,9 @@ function BurgerConstructor({ data }) {
     </section>
   );
 }
+
+BurgerConstructor.propTypes = {
+  data: PropTypes.arrayOf(dataPropTypes)
+}; 
 
 export default BurgerConstructor;
