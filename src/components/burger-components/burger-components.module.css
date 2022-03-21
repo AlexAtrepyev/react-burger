@@ -1,0 +1,23 @@
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: calc(100vh - 424px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.element {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.deception {
+  width: 24px;
+  height: 24px;
+}

@@ -1,0 +1,22 @@
+.section {
+  width: 600px;
+  box-sizing: border-box;
+  padding: 100px 16px 52px;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 40px;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
