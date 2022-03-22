@@ -13,7 +13,7 @@ code {
 }
 
 #root {
-  width: 2000px;
+  min-width: 1320px;
   box-sizing: border-box;
   padding: 40px;
 }

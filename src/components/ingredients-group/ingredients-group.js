@@ -1,4 +1,9 @@
 import styles from './ingredients-group.module.css';
+
+import PropTypes from 'prop-types';
+
+import dataPropTypes from '../../utils/prop-types';
+
 import IngredientItem from '../ingredient-item/ingredient-item';
 
 function IngredientsGroup({ title, data }) {
@@ -15,5 +20,10 @@ function IngredientsGroup({ title, data }) {
     </li>
   );
 }
+
+IngredientsGroup.propTypes = {
+  title: PropTypes.string.isRequired,
+  data: PropTypes.arrayOf(dataPropTypes).isRequired
+}; 
 
 export default IngredientsGroup;

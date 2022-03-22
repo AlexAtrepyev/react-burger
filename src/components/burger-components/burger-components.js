@@ -1,19 +1,20 @@
 import styles from './burger-components.module.css';
+
+import PropTypes from 'prop-types';
+
+import dataPropTypes from '../../utils/prop-types';
+
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function BurgerComponents({ data }) {
-  const lastIndex = data.length - 1;
   return (
     <ul className={styles.list}>
-      {data.map((item, index) => {
-        const type = index === 0 ? 'top' : index === lastIndex ? 'bottom' : undefined;
-        const isLocked = Boolean(type);
+      {data.map(item => {
         return (
           <li className={styles.element} key={item._id}>
-            {isLocked ? <div className={styles.deception} /> : <DragIcon type="primary" />}
+            <DragIcon type="primary" />
             <ConstructorElement
-              type={type}
-              isLocked={isLocked}
+              isLocked={false}
               text={item.name}
               price={item.price}
               thumbnail={item.image_mobile}
@@ -24,5 +25,9 @@ function BurgerComponents({ data }) {
     </ul>
   );
 }
+
+BurgerComponents.propTypes = {
+  data: PropTypes.arrayOf(dataPropTypes).isRequired
+}; 
 
 export default BurgerComponents;

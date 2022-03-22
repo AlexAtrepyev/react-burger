@@ -5,7 +5,18 @@
   margin-right: auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+}
+
+.item {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.deception {
+  width: 24px;
+  height: 24px;
 }
 
 .container {
@@ -13,6 +24,7 @@
   justify-content: end;
   align-items: center;
   gap: 40px;
+  margin-top: 40px;
 }
 
 .info {
