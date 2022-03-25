@@ -3,15 +3,19 @@
   margin-left: auto;
 }
 
-.container {
+.tabs {
   display: flex;
+  margin-bottom: 40px;
 }
 
 .list {
   list-style: none;
   padding: 0;
   margin: 0;
-  max-height: calc(100vh - 324px);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-height: calc(100vh - 364px);
   overflow-x: hidden;
   overflow-y: auto;
 }

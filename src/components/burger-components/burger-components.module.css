@@ -10,7 +10,7 @@
   overflow-y: auto;
 }
 
-.element {
+.item {
   width: 100%;
   display: flex;
   gap: 8px;

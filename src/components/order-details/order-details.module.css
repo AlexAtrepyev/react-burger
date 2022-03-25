@@ -1,0 +1,8 @@
+.done {
+  width: 120px;
+  height: 120px;
+  margin: 60px 0;
+  background-image: url("../../images/done.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}

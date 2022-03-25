@@ -1,17 +1,22 @@
 import styles from './app-header-link.module.css';
 
-function AppHeaderLink(props) {
-  const linkClass = `${styles.link} pt-4 pr-5 pb-4 pl-5 mt-4 mb-4`;
+import PropTypes from 'prop-types';
 
-  let textClass = 'ml-2 text text_type_main-default';
-  if (props.inactive) textClass += ' text_color_inactive';
+function AppHeaderLink({ children, text, inactive }) {
+  const textClass = `ml-2 text text_type_main-default${inactive ? ' text_color_inactive' : ''}`;
 
   return (
-    <a className={linkClass} href="#">
-      {props.children}
-      <span className={textClass}>{props.text}</span>
+    <a className={styles.link} href="#">
+      {children}
+      <span className={textClass}>{text}</span>
     </a>
   );
 }
+
+AppHeaderLink.propTypes = {
+  children: PropTypes.object.isRequired,
+  text: PropTypes.string.isRequired,
+  inactive: PropTypes.bool,
+}; 
 
 export default AppHeaderLink;

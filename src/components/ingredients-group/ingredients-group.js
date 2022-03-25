@@ -4,17 +4,25 @@ import PropTypes from 'prop-types';
 
 import dataPropTypes from '../../utils/prop-types';
 
-import IngredientItem from '../ingredient-item/ingredient-item';
+import Ingredient from '../ingredient/ingredient';
 
 function IngredientsGroup({ title, data }) {
-  const listClass = `${styles.list} pl-4 pr-4`;
-
   return (
     <li>
-      <h2 className="text text_type_main-medium mt-10 mb-6">{title}</h2>
-      <ul className={listClass}>
+      <h2 className="text text_type_main-medium mb-6">{title}</h2>
+      <ul className={styles.list}>
         {data.map(item => (
-          <IngredientItem key={item._id} name={item.name} price={item.price} image={item.image} />
+          <Ingredient
+            key={item._id}
+            name={item.name}
+            proteins={item.proteins}
+            fat={item.fat}
+            carbohydrates={item.carbohydrates}
+            calories={item.calories}
+            price={item.price}
+            image={item.image}
+            imageLarge={item.image_large}
+          />
         ))}
       </ul>
     </li>
