@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 
 import dataPropTypes from '../../utils/prop-types';
 
-import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function BurgerComponents({ data }) {
   return (
     <ul className={styles.list}>
       {data.map(item => {
         return (
-          <li className={styles.element} key={item._id}>
+          <li className={styles.item} key={item._id}>
             <DragIcon type="primary" />
             <ConstructorElement
               isLocked={false}

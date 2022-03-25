@@ -14,7 +14,7 @@ function BurgerIngredients({ bun, main, sauce }) {
   return (
     <section className={styles.section}>
       <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
-      <div className={styles.container}>
+      <div className={styles.tabs}>
         <Tab value="Булки" active={current === 'Булки'} onClick={setCurrent}>
           Булки
         </Tab>
