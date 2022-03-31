@@ -1,9 +1,12 @@
 import styles from './app.module.css';
 
-import { useState, useEffect } from 'react';
+import { useState, useReducer, useEffect } from 'react';
+
+import { IngredientsContext } from '../../services/ingredientsContext';
+import { OrderContext } from '../../services/orderContext';
 
 import Api from '../../utils/api';
-import { BASE_URL, clusterData } from '../../utils/utils';
+import { BASE_URL, ingredientsInitialState, reducer, getIngredientsId } from '../../utils/utils';
 
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -12,26 +15,33 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 function App() {
   const api = new Api(BASE_URL);
 
-  const [data, setData] = useState(null);
+  const [ingredientsState, ingredientsDispatcher] = useReducer(reducer, ingredientsInitialState);
+  const [order, setOrder] = useState(null);
   
   useEffect(() => {
-    api.getData()
-      .then(res => setData(res.data))
+    api.getIngredients()
+      .then(res => ingredientsDispatcher({ type: 'set', payload: res.data }))
       .catch(err => console.log(err));
   }, []);
-  
-  const { bun, main, sauce } = clusterData(data);
+
+  function createOrder() {
+    api.createOrder(getIngredientsId(ingredientsState.constructor))
+      .then(res => setTimeout(() => setOrder(res), 1000))
+      .catch(err => console.log(err));
+  }
   
   return (
-    <>
-      <AppHeader />
-      {data && (
-        <main className={styles.main}>
-          <BurgerIngredients bun={bun} main={main} sauce={sauce} />
-          <BurgerConstructor bun={bun[0]} data={[...main, ...sauce].slice(0, 5)} />
-        </main>
-      )}
-    </>
+    <IngredientsContext.Provider value={ingredientsState}>
+      <OrderContext.Provider value={order}>
+        <AppHeader />
+        {ingredientsState.constructor && ingredientsState.all &&  (
+          <main className={styles.main}>
+            <BurgerIngredients />
+            <BurgerConstructor createOrder={createOrder} />
+          </main>
+        )}
+      </OrderContext.Provider>
+    </IngredientsContext.Provider>
   );
 }
 

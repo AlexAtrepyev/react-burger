@@ -1,15 +1,19 @@
 import styles from './burger-ingredients.module.css';
 
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useState, useContext } from 'react';
 
-import dataPropTypes from '../../utils/prop-types';
+import { IngredientsContext } from '../../services/ingredientsContext';
+
+import { clusterIngredients } from '../../utils/utils';
 
 import IngredientsGroup from '../ingredients-group/ingredients-group';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
-function BurgerIngredients({ bun, main, sauce }) {
+function BurgerIngredients() {
+  const ingredientState = useContext(IngredientsContext);
   const [current, setCurrent] = useState('Булки');
+
+  const { buns, sauces, mains } = clusterIngredients(ingredientState.all);
 
   return (
     <section className={styles.section}>
@@ -26,18 +30,12 @@ function BurgerIngredients({ bun, main, sauce }) {
         </Tab>
       </div>
       <ul className={styles.list}>
-        <IngredientsGroup title="Булки" data={bun} />
-        <IngredientsGroup title="Соусы" data={sauce} />
-        <IngredientsGroup title="Начинки" data={main} />
+        <IngredientsGroup title="Булки" data={buns} />
+        <IngredientsGroup title="Соусы" data={sauces} />
+        <IngredientsGroup title="Начинки" data={mains} />
       </ul>
     </section>
   );
 }
-
-BurgerIngredients.propTypes = {
-  bun: PropTypes.arrayOf(dataPropTypes).isRequired,
-  sauce: PropTypes.arrayOf(dataPropTypes).isRequired,
-  main: PropTypes.arrayOf(dataPropTypes).isRequired
-}; 
 
 export default BurgerIngredients;
