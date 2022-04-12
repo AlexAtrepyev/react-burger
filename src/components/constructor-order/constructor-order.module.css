@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

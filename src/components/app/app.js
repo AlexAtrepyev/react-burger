@@ -1,47 +1,37 @@
 import styles from './app.module.css';
 
-import { useState, useReducer, useEffect } from 'react';
+import { useEffect } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { IngredientsContext } from '../../services/ingredientsContext';
-import { OrderContext } from '../../services/orderContext';
-
-import Api from '../../utils/api';
-import { BASE_URL, ingredientsInitialState, reducer, getIngredientsId } from '../../utils/utils';
+import { getIngredients } from '../../services/actions';
 
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 
 function App() {
-  const api = new Api(BASE_URL);
+  const dispatch = useDispatch();
 
-  const [ingredientsState, ingredientsDispatcher] = useReducer(reducer, ingredientsInitialState);
-  const [order, setOrder] = useState(null);
+  const ingredients = useSelector(state => state.burger.ingredients.items);
   
   useEffect(() => {
-    api.getIngredients()
-      .then(res => ingredientsDispatcher({ type: 'set', payload: res.data }))
-      .catch(err => console.log(err));
-  }, []);
-
-  function createOrder() {
-    api.createOrder(getIngredientsId(ingredientsState.constructor))
-      .then(res => setTimeout(() => setOrder(res), 1000))
-      .catch(err => console.log(err));
-  }
+    dispatch(getIngredients());
+  }, [dispatch]);
   
   return (
-    <IngredientsContext.Provider value={ingredientsState}>
-      <OrderContext.Provider value={order}>
-        <AppHeader />
-        {ingredientsState.constructor && ingredientsState.all &&  (
-          <main className={styles.main}>
+    <>
+      <AppHeader />
+      {ingredients.length > 0 && (
+        <main className={styles.main}>
+          <DndProvider backend={HTML5Backend}>
             <BurgerIngredients />
-            <BurgerConstructor createOrder={createOrder} />
-          </main>
-        )}
-      </OrderContext.Provider>
-    </IngredientsContext.Provider>
+            <BurgerConstructor />
+          </DndProvider>
+        </main>
+      )}
+    </>
   );
 }
 
