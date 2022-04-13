@@ -21,10 +21,8 @@ function BurgerIngredients() {
   
   function handleScroll(e) {
     const nearestRef = getNearestRef(e.currentTarget, [bunsRef, saucesRef, mainsRef]);
-
-    nearestRef === bunsRef ? dispatch({ type: SET_CURRENT_TAB, currentTab: 'bun' }) :
-    nearestRef === saucesRef ? dispatch({ type: SET_CURRENT_TAB, currentTab: 'sauce' }) :
-    dispatch({ type: SET_CURRENT_TAB, currentTab: 'main' });
+    const newTab = nearestRef === bunsRef ? 'bun' : nearestRef === saucesRef ? 'sauce' : 'main';
+    newTab !== currentTab && dispatch({ type: SET_CURRENT_TAB, currentTab: newTab });
   }
   
   return (

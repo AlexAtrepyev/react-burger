@@ -30,7 +30,7 @@ function Modal({ children, title, onClose }) {
         </div>
       </div>
     </ModalOverlay>,
-    document.getElementById('root')
+    document.getElementById('modals')
   );
 }
 
