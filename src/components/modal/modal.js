@@ -1,8 +1,8 @@
 import styles from './modal.module.css';
 
+import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
@@ -30,7 +30,7 @@ function Modal({ children, title, onClose }) {
         </div>
       </div>
     </ModalOverlay>,
-    document.getElementById('root')
+    document.getElementById('modals')
   );
 }
 

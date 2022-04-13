@@ -1,4 +1,4 @@
-export default class Api {
+class Api {
   constructor(baseUrl) {
     this._baseUrl = baseUrl;
     this._headers = { 'Content-Type': 'application/json' };
@@ -22,3 +22,5 @@ export default class Api {
     }).then(res => this._checkResponseStatus(res));
   }
 }
+
+export default new Api('https://norma.nomoreparties.space/api');

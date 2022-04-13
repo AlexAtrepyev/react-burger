@@ -1,37 +1,20 @@
 import styles from './ingredients-group.module.css';
 
-import PropTypes from 'prop-types';
+import React from 'react';
 
-import dataPropTypes from '../../utils/prop-types';
+import IngredientsItem from '../ingredients-item/ingredients-item';
 
-import Ingredient from '../ingredient/ingredient';
+const IngredientsGroup = React.forwardRef((props, ref) => {
+  const { title, items } = props;
 
-function IngredientsGroup({ title, data }) {
   return (
     <li>
-      <h2 className="text text_type_main-medium mb-6">{title}</h2>
+      <h2 ref={ref} className="text text_type_main-medium mb-6">{title}</h2>
       <ul className={styles.list}>
-        {data.map(item => (
-          <Ingredient
-            key={item._id}
-            name={item.name}
-            proteins={item.proteins}
-            fat={item.fat}
-            carbohydrates={item.carbohydrates}
-            calories={item.calories}
-            price={item.price}
-            image={item.image}
-            imageLarge={item.image_large}
-          />
-        ))}
+        {items.map(item => <IngredientsItem key={item._id} item={item} />)}
       </ul>
     </li>
   );
-}
-
-IngredientsGroup.propTypes = {
-  title: PropTypes.string.isRequired,
-  data: PropTypes.arrayOf(dataPropTypes).isRequired
-}; 
+});
 
 export default IngredientsGroup;

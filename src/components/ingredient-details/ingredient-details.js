@@ -1,10 +1,12 @@
 import styles from './ingredient-details.module.css';
 
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import NutritionalValue from '../nutritional-value/nutritional-value';
 
-function IngredientDetails({ name, proteins, fat, carbohydrates, calories, image }) {
+function IngredientDetails() {
+  const { name, proteins, fat, carbohydrates, calories, image } = useSelector(state => state.burger.currentIngredient);
+
   return (
     <>
       <img src={image} alt={name} />
@@ -18,14 +20,5 @@ function IngredientDetails({ name, proteins, fat, carbohydrates, calories, image
     </>
   );
 }
-
-IngredientDetails.propTypes = {
-  name: PropTypes.string.isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
-  calories: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired
-};
 
 export default IngredientDetails;

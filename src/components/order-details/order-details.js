@@ -1,15 +1,13 @@
 import styles from './order-details.module.css';
 
-import { useContext } from 'react';
-
-import { OrderContext } from '../../services/orderContext';
+import { useSelector } from 'react-redux';
 
 function OrderDetails() {
-  const order = useContext(OrderContext);
+  const orderNumber = useSelector(state => state.order.number);
 
-  return order ? (
+  return orderNumber ? (
     <>
-      <h3 className="text text_type_digits-large mt-4 mb-8">{order.order.number}</h3>
+      <h3 className="text text_type_digits-large mt-4 mb-8">{orderNumber}</h3>
       <p className="text text_type_main-medium">идентификатор заказа</p>
       <span className={styles.done}></span>
       <p className="text text_type_main-default">Ваш заказ начали готовить</p>

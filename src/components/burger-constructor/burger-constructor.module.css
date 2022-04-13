@@ -7,28 +7,11 @@
   flex-direction: column;
 }
 
-.item {
-  width: 100%;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.deception {
-  width: 24px;
-  height: 24px;
-}
-
-.container {
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  gap: 40px;
-  margin-top: 40px;
-}
-
-.summary {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.hover {
+  box-shadow: 0 0 .2rem #fff,
+              0 0 .2rem #fff,
+              0 0 2rem #bc13fe,
+              0 0 0.8rem #bc13fe,
+              0 0 2.8rem #bc13fe,
+              inset 0 0 1.3rem #bc13fe;
 }
