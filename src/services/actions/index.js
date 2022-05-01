@@ -54,7 +54,7 @@ export function getIngredients() {
 export function createOrder(ingredientIDs) {
   return function(dispatch) {
     dispatch({ type: CREATE_ORDER });
-    api.createOrder(ingredientIDs)
+    api.createOrder(ingredientIDs, getCookie('accessToken'))
       .then(res => {
         if (res.success) {
           dispatch({

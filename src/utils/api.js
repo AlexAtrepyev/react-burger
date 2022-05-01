@@ -14,10 +14,13 @@ class Api {
     }).then(res => this._checkResponseStatus(res));
   }
 
-  createOrder(ingredients) {
+  createOrder(ingredients, token) {
     return fetch(`${this._baseUrl}/orders`, {
       method: 'POST',
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token
+      },
       body: JSON.stringify({ "ingredients": ingredients })
     }).then(res => this._checkResponseStatus(res));
   }

@@ -1,11 +1,15 @@
 import styles from './ingredient-details.module.css';
 
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import NutritionalValue from '../nutritional-value/nutritional-value';
 
 function IngredientDetails() {
-  const { name, proteins, fat, carbohydrates, calories, image } = useSelector(state => state.burger.currentIngredient);
+  const ingredients = useSelector(state => state.burger.ingredients.items);
+  
+  const { ingredientId } = useParams();
+  const { name, proteins, fat, carbohydrates, calories, image } = ingredients.find(item => item._id === ingredientId);
 
   return (
     <>

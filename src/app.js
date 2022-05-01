@@ -1,11 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from 'react-router-dom';
 
-import { getUser } from './services/actions';
+import { getUser, getIngredients } from './services/actions';
+
+import { RESET_CURRENT_INGREDIENT, TOGGLE_INGREDIENT_MODAL } from './utils/constants';
 
 import AppHeader from './components/app-header/app-header';
 import ProtectedRoute from './components/protected-route/protected-route';
+import Modal from './components/modal/modal';
+import IngredientDetails from './components/ingredient-details/ingredient-details';
 
 import {
   ForgotPasswordPage,
@@ -23,13 +27,24 @@ function App() {
   
   useEffect(() => {
     dispatch(getUser());
+    dispatch(getIngredients());
   }, [dispatch]);
 
-  return (
-    <>
-      <Router>
+  const ModalSwitch = () => {
+    const location = useLocation();
+    const history = useHistory();
+    let background = location.state && location.state.background;
+
+    function handleCloseModal() {
+      dispatch({ type: TOGGLE_INGREDIENT_MODAL });
+      dispatch({ type: RESET_CURRENT_INGREDIENT });
+      history.goBack();
+    }
+
+    return (
+      <>
         <AppHeader />
-        <Switch>
+        <Switch location={background || location}>
           <Route exact path="/">
             <Main />
           </Route>
@@ -48,15 +63,28 @@ function App() {
           <ProtectedRoute path="/profile">
             <ProfilePage />
           </ProtectedRoute>
-          <ProtectedRoute path="/ingredient/:id">
+          <ProtectedRoute path="/ingredients/:ingredientId">
             <IngredientPage />
           </ProtectedRoute>
           <Route>
             <NotFoundPage />
           </Route>
         </Switch>
-      </Router>
-    </>
+        {background && (
+          <Route path='/ingredients/:ingredientId'>
+            <Modal title="Детали ингредиента" onClose={handleCloseModal}>
+              <IngredientDetails />
+            </Modal>
+          </Route>
+        )}
+      </>
+    );
+  };
+
+  return (
+    <Router>
+      <ModalSwitch />
+    </Router>
   );
 }
 
