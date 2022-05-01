@@ -1,18 +1,41 @@
 import styles from './profile.module.css';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import { updateUser, logout } from '../../services/actions';
+
+import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function ProfilePage() {
-  const [value, setValue] = useState('');
+  const dispatch = useDispatch();
 
-  const onChange = (e) => {
-    setValue(e.target.value);
+  const user = useSelector(state => state.auth.user);
+  const [form, setValue] = useState({ name: '', email: '', password: '' });
+
+  useEffect(() => {
+    setValue({ name: user.name, email: user.email, password: '' });
+  }, [user]);
+
+  const onChange = e => {
+    setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const linkClass = 'text text_type_main-medium text_decoration_none text_color_inactive';
+  const onSubmit = e => {
+    e.preventDefault();
+    dispatch(updateUser(form));
+  };
+
+  const onCancel = e => {
+    setValue({ name: user.name, email: user.email, password: '' });
+  };
+
+  const onLogout = e => {
+    dispatch(logout());
+  };
+
+  const linkClass = 'text text_type_main-medium text_decoration_none text_color_inactive ';
 
   return (
     <section className={styles.section}>
@@ -25,7 +48,7 @@ function ProfilePage() {
             <NavLink to="/profile/orders" className={linkClass} activeClassName={styles.activeLink}>История заказов</NavLink>
           </li>
           <li className={styles.item}>
-            <NavLink to="/logout" className={linkClass} activeClassName={styles.activeLink}>Выход</NavLink>
+            <button className={linkClass + styles.logout} onClick={onLogout}>Выход</button>
           </li>
         </ul>
         <p className="text text_type_main-default text_color_inactive mt-20">
@@ -38,7 +61,7 @@ function ProfilePage() {
           type="text"
           name="name"
           placeholder="Имя"
-          value={value}
+          value={form['name']}
           onChange={onChange}
           icon="EditIcon"
         />
@@ -46,7 +69,7 @@ function ProfilePage() {
           type="email"
           name="email"
           placeholder="Логин"
-          value={value}
+          value={form['email']}
           onChange={onChange}
           icon="EditIcon"
         />
@@ -54,10 +77,12 @@ function ProfilePage() {
           type="password"
           name="password"
           placeholder="Пароль"
-          value={value}
+          value={form['password']}
           onChange={onChange}
           icon="EditIcon"
         />
+        <Button type="primary" htmlType="submit" size="medium" onClick={onSubmit}>Сохранить</Button>
+        <Button type="primary" htmlType="button" size="medium" onClick={onCancel}>Отмена</Button>
       </form>
     </section>
   );

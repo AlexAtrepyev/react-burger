@@ -9,12 +9,12 @@ function AppHeader() {
       <nav>
         <ul className={styles.list}>
           <li className="mr-2">
-            <AppHeaderLink text='Конструктор'>
+            <AppHeaderLink text='Конструктор' route="/">
               <BurgerIcon type="primary" />
             </AppHeaderLink>
           </li>
           <li>
-            <AppHeaderLink text='Лента заказов' inactive>
+            <AppHeaderLink text='Лента заказов' inactive route="/profile/orders">
               <ListIcon type="secondary" />
             </AppHeaderLink>
           </li>
@@ -23,7 +23,7 @@ function AppHeader() {
       <div className={styles.logo}>
         <Logo />
       </div>
-      <AppHeaderLink text='Личный кабинет' inactive>
+      <AppHeaderLink text='Личный кабинет' route="/profile">
         <ProfileIcon type="secondary" />
       </AppHeaderLink>
     </header>

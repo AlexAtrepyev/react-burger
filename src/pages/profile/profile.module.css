@@ -25,6 +25,12 @@
   color: #f2f2f3;
 }
 
+.logout {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 .form {
   display: flex;
   flex-direction: column;

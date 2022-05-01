@@ -1,4 +1,8 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+import { getUser } from './services/actions';
 
 import AppHeader from './components/app-header/app-header';
 import {
@@ -13,6 +17,12 @@ import {
 } from './pages';
 
 function App() {
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
+
   return (
     <>
       <Router>

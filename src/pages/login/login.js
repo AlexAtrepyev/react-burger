@@ -1,22 +1,40 @@
 import styles from './login.module.css';
 
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
+
+import { login } from '../../services/actions';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function LoginPage() {
-  const [value, setValue] = useState('');
+  const dispatch = useDispatch();
 
-  const onChange = (e) => {
-    setValue(e.target.value);
+  const user = useSelector(state => state.auth.user);
+
+  const [form, setValue] = useState({ email: '', password: '' });
+
+  const onChange = e => {
+    setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleClick = (e) => {
-    console.log('button has been clicked');
+  const onSubmit = e => {
+    e.preventDefault();
+    dispatch(login(form));
   };
   
   const linkClass = 'text text_type_main-default text_color_link text_decoration_none';
+
+  if (user.name) {
+    return (
+      <Redirect
+        to={{
+          pathname: '/'
+        }}
+      />
+    );
+  }
 
   return (
     <section className={styles.section}>
@@ -27,18 +45,18 @@ function LoginPage() {
             type="email"
             name="email"
             placeholder="E-mail"
-            value={value}
+            value={form['email']}
             onChange={onChange}
           />
           <Input
             type="password"
             name="password"
             placeholder="Введите новый пароль"
-            value={value}
+            value={form['password']}
             onChange={onChange}
             icon="ShowIcon"
           />
-          <Button type="primary" size="medium" onClick={handleClick}>Войти</Button>
+          <Button type="primary" htmlType="submit" size="medium" onClick={onSubmit}>Войти</Button>
         </form>
         <span className="text text_type_main-default text_color_inactive mt-20 mb-4">
           Вы — новый пользователь? <Link className={linkClass} to="/register">Зарегистрироваться</Link>

@@ -1,22 +1,40 @@
 import styles from './reset-password.module.css';
 
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
+
+import { resetPasswordStepTwo } from '../../services/actions';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function ResetPasswordPage() {
-  const [value, setValue] = useState('');
+  const dispatch = useDispatch();
 
-  const onChange = (e) => {
-    setValue(e.target.value);
+  const success = useSelector(state => state.auth.resetPassword.stepTwo.success);
+  
+  const [form, setValue] = useState({ password: '', token: '' });
+  
+  const onChange = e => {
+    setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleClick = (e) => {
-    console.log('button has been clicked');
+  const onSubmit = e => {
+    e.preventDefault();
+    dispatch(resetPasswordStepTwo(form));
   };
   
   const linkClass = 'text text_type_main-default text_color_link text_decoration_none';
+
+  if (success) {
+    return (
+      <Redirect
+        to={{
+          pathname: '/login'
+        }}
+      />
+    );
+  }
 
   return (
     <section className={styles.section}>
@@ -27,18 +45,18 @@ function ResetPasswordPage() {
             type="password"
             name="password"
             placeholder="Введите новый пароль"
-            value={value}
+            value={form['password']}
             onChange={onChange}
             icon="ShowIcon"
           />
           <Input
             type="text"
-            name="code"
+            name="token"
             placeholder="Введите код из письма"
-            value={value}
+            value={form['token']}
             onChange={onChange}
           />
-          <Button type="primary" size="medium" onClick={handleClick}>Сохранить</Button>
+          <Button type="primary" htmlType="submit" size="medium" onClick={onSubmit}>Сохранить</Button>
         </form>
         <span className="text text_type_main-default text_color_inactive mt-20">
           Вспомнили пароль? <Link className={linkClass} to="/login">Войти</Link>
