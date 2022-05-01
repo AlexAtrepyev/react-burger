@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { getUser } from './services/actions';
 
 import AppHeader from './components/app-header/app-header';
+import ProtectedRoute from './components/protected-route/protected-route';
+
 import {
   ForgotPasswordPage,
   IngredientPage,
@@ -31,24 +33,24 @@ function App() {
           <Route exact path="/">
             <Main />
           </Route>
-          <Route path="/login">
+          <Route exact path="/login">
             <LoginPage />
           </Route>
-          <Route path="/register">
+          <Route exact path="/register">
             <RegisterPage />
           </Route>
-          <Route path="/forgot-password">
+          <Route exact path="/forgot-password">
             <ForgotPasswordPage />
           </Route>
-          <Route path="/reset-password">
+          <Route exact path="/reset-password">
             <ResetPasswordPage />
           </Route>
-          <Route exact path="/profile">
+          <ProtectedRoute path="/profile">
             <ProfilePage />
-          </Route>
-          <Route path="/ingredient">
+          </ProtectedRoute>
+          <ProtectedRoute path="/ingredient/:id">
             <IngredientPage />
-          </Route>
+          </ProtectedRoute>
           <Route>
             <NotFoundPage />
           </Route>

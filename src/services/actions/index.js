@@ -1,6 +1,5 @@
 import api from '../../utils/api';
 import {
-  TOKEN_LIFETIME,
   GET_INGREDIENTS,
   GET_INGREDIENTS_FAILED,
   GET_INGREDIENTS_SUCCESS,
@@ -127,7 +126,7 @@ export function login({ email, password }) {
       .then(res => {
         if (res.success) {
           const accessToken = res.accessToken.split('Bearer ')[1];
-          accessToken && setCookie('accessToken', accessToken, { expires: TOKEN_LIFETIME });
+          accessToken && setCookie('accessToken', accessToken);
           res.refreshToken && setCookie('refreshToken', res.refreshToken);
           dispatch({
             type: LOGIN_SUCCESS,
@@ -180,7 +179,7 @@ export function getUser() {
           .then(res => {
             if (res.success) {
               const accessToken = res.accessToken.split('Bearer ')[1];
-              accessToken && setCookie('accessToken', accessToken, { expires: TOKEN_LIFETIME });
+              accessToken && setCookie('accessToken', accessToken);
               res.refreshToken && setCookie('refreshToken', res.refreshToken);
               dispatch({
                 type: GET_NEW_TOKEN_SUCCESS,
@@ -232,7 +231,7 @@ export function updateUser({ name, email, password }) {
           .then(res => {
             if (res.success) {
               const accessToken = res.accessToken.split('Bearer ')[1];
-              accessToken && setCookie('accessToken', accessToken, { expires: TOKEN_LIFETIME });
+              accessToken && setCookie('accessToken', accessToken);
               res.refreshToken && setCookie('refreshToken', res.refreshToken);
               dispatch({
                 type: GET_NEW_TOKEN_SUCCESS,

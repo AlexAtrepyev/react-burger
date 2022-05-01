@@ -11,6 +11,8 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 function ResetPasswordPage() {
   const dispatch = useDispatch();
 
+  const user = useSelector(state => state.auth.user);
+  const permission = useSelector(state => state.auth.resetPassword.stepOne.success);
   const success = useSelector(state => state.auth.resetPassword.stepTwo.success);
   
   const [form, setValue] = useState({ password: '', token: '' });
@@ -25,6 +27,26 @@ function ResetPasswordPage() {
   };
   
   const linkClass = 'text text_type_main-default text_color_link text_decoration_none';
+
+  if (user.name) {
+    return (
+      <Redirect
+        to={{
+          pathname: '/'
+        }}
+      />
+    );
+  }
+  
+  if (!permission) {
+    return (
+      <Redirect
+        to={{
+          pathname: '/forgot-password'
+        }}
+      />
+    );
+  }
 
   if (success) {
     return (

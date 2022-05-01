@@ -2,13 +2,14 @@ import styles from './login.module.css';
 
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 
 import { login } from '../../services/actions';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function LoginPage() {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const user = useSelector(state => state.auth.user);
@@ -29,9 +30,7 @@ function LoginPage() {
   if (user.name) {
     return (
       <Redirect
-        to={{
-          pathname: '/'
-        }}
+        to={ history.location.state?.from || '/' }
       />
     );
   }
