@@ -1,15 +1,16 @@
 import styles from './app-header-link.module.css';
 
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 function AppHeaderLink({ children, text, inactive }) {
   const textClass = `ml-2 text text_type_main-default${inactive ? ' text_color_inactive' : ''}`;
 
   return (
-    <a className={styles.link} href="#">
+    <Link className={styles.link} to="/profile">
       {children}
       <span className={textClass}>{text}</span>
-    </a>
+    </Link>
   );
 }
 
