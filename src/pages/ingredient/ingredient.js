@@ -15,7 +15,7 @@ function IngredientPage() {
   } else {
     console.log('empty');
   }
-  const { name, proteins, fat, carbohydrates, calories, image } = ingredient;
+  const { name, proteins, fat, carbohydrates, calories, image } = ingredient ?? {name:'', proteins:'', fat:'', carbohydrates:'', calories:'', image:''};
   
   return (
     <section className={styles.section}>

@@ -39,7 +39,7 @@ function LoginPage() {
     <section className={styles.section}>
       <div className={styles.content}>
         <h1 className="text text_type_main-medium mb-6">Вход</h1>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={onSubmit}>
           <Input
             type="email"
             name="email"
@@ -55,7 +55,7 @@ function LoginPage() {
             onChange={onChange}
             icon="ShowIcon"
           />
-          <Button type="primary" htmlType="submit" size="medium" onClick={onSubmit}>Войти</Button>
+          <Button type="primary" htmlType="submit" size="medium">Войти</Button>
         </form>
         <span className="text text_type_main-default text_color_inactive mt-20 mb-4">
           Вы — новый пользователь? <Link className={linkClass} to="/register">Зарегистрироваться</Link>

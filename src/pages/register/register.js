@@ -40,7 +40,7 @@ function RegisterPage() {
     <section className={styles.section}>
       <div className={styles.content}>
         <h1 className="text text_type_main-medium mb-6">Регистрация</h1>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={onSubmit}>
           <Input
             type="text"
             name="name"
@@ -63,7 +63,7 @@ function RegisterPage() {
             onChange={onChange}
             icon="ShowIcon"
           />
-          <Button type="primary" htmlType="submit" size="medium" onClick={onSubmit}>Зарегистрироваться</Button>
+          <Button type="primary" htmlType="submit" size="medium">Зарегистрироваться</Button>
         </form>
         <span className="text text_type_main-default text_color_inactive mt-20">
           Уже зарегистрированы? <Link className={linkClass} to="/login">Войти</Link>

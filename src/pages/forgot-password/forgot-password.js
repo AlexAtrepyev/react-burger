@@ -51,7 +51,7 @@ function ForgotPasswordPage() {
     <section className={styles.section}>
       <div className={styles.content}>
         <h1 className="text text_type_main-medium mb-6">Восстановление пароля</h1>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={onSubmit}>
           <Input
             type="email"
             name="email"
@@ -59,7 +59,7 @@ function ForgotPasswordPage() {
             value={form['email']}
             onChange={onChange}
           />
-          <Button type="primary" htmlType="submit" size="medium" onClick={onSubmit}>Восстановить</Button>
+          <Button type="primary" htmlType="submit" size="medium">Восстановить</Button>
         </form>
         <span className="text text_type_main-default text_color_inactive mt-20">
           Вспомнили пароль? <Link className={linkClass} to="/login">Войти</Link>

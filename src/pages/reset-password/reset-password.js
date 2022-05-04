@@ -62,7 +62,7 @@ function ResetPasswordPage() {
     <section className={styles.section}>
       <div className={styles.content}>
         <h1 className="text text_type_main-medium mb-6">Восстановление пароля</h1>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={onSubmit}>
           <Input
             type="password"
             name="password"
@@ -78,7 +78,7 @@ function ResetPasswordPage() {
             value={form['token']}
             onChange={onChange}
           />
-          <Button type="primary" htmlType="submit" size="medium" onClick={onSubmit}>Сохранить</Button>
+          <Button type="primary" htmlType="submit" size="medium">Сохранить</Button>
         </form>
         <span className="text text_type_main-default text_color_inactive mt-20">
           Вспомнили пароль? <Link className={linkClass} to="/login">Войти</Link>

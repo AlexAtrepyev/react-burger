@@ -56,7 +56,7 @@ function ProfilePage() {
         </p>
       </div>
       
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={onSubmit}>
         <Input
           type="text"
           name="name"
@@ -81,7 +81,7 @@ function ProfilePage() {
           onChange={onChange}
           icon="EditIcon"
         />
-        <Button type="primary" htmlType="submit" size="medium" onClick={onSubmit}>Сохранить</Button>
+        <Button type="primary" htmlType="submit" size="medium">Сохранить</Button>
         <Button type="primary" htmlType="button" size="medium" onClick={onCancel}>Отмена</Button>
       </form>
     </section>

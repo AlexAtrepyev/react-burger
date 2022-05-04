@@ -2,14 +2,14 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from 'react-router-dom';
 
-import { getUser, getIngredients } from './services/actions';
+import { getUser, getIngredients } from '../../services/actions';
 
-import { RESET_CURRENT_INGREDIENT, TOGGLE_INGREDIENT_MODAL } from './utils/constants';
+import { RESET_CURRENT_INGREDIENT, TOGGLE_INGREDIENT_MODAL } from '../../utils/constants';
 
-import AppHeader from './components/app-header/app-header';
-import ProtectedRoute from './components/protected-route/protected-route';
-import Modal from './components/modal/modal';
-import IngredientDetails from './components/ingredient-details/ingredient-details';
+import AppHeader from '../app-header/app-header';
+import ProtectedRoute from '../protected-route/protected-route';
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import {
   ForgotPasswordPage,
@@ -20,7 +20,7 @@ import {
   ProfilePage,
   RegisterPage,
   ResetPasswordPage
-} from './pages';
+} from '../../pages';
 
 function App() {
   const dispatch = useDispatch();
@@ -48,11 +48,14 @@ function App() {
           <Route exact path="/">
             <Main />
           </Route>
-          <Route exact path="/login">
-            <LoginPage />
+          <Route exact path="/ingredients/:ingredientId">
+            <IngredientPage />
           </Route>
           <Route exact path="/register">
             <RegisterPage />
+          </Route>
+          <Route exact path="/login">
+            <LoginPage />
           </Route>
           <Route exact path="/forgot-password">
             <ForgotPasswordPage />
@@ -62,9 +65,6 @@ function App() {
           </Route>
           <ProtectedRoute path="/profile">
             <ProfilePage />
-          </ProtectedRoute>
-          <ProtectedRoute path="/ingredients/:ingredientId">
-            <IngredientPage />
           </ProtectedRoute>
           <Route>
             <NotFoundPage />
