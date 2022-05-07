@@ -7,15 +7,10 @@ import NutritionalValue from '../../components/nutritional-value/nutritional-val
 
 function IngredientPage() {
   const ingredients = useSelector(state => state.burger.ingredients.items);
-  
+
   const { ingredientId } = useParams();
-  let ingredient;
-  if (ingredients.length) {
-    ingredient = ingredients.find(item => item._id === ingredientId);
-  } else {
-    console.log('empty');
-  }
-  const { name, proteins, fat, carbohydrates, calories, image } = ingredient ?? {name:'', proteins:'', fat:'', carbohydrates:'', calories:'', image:''};
+  const ingredient = ingredients.find(item => item._id === ingredientId);
+  const { name, proteins, fat, carbohydrates, calories, image } = ingredient ? ingredient : {};
   
   return (
     <section className={styles.section}>

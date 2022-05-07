@@ -9,7 +9,8 @@ function IngredientDetails() {
   const ingredients = useSelector(state => state.burger.ingredients.items);
   
   const { ingredientId } = useParams();
-  const { name, proteins, fat, carbohydrates, calories, image } = ingredients.find(item => item._id === ingredientId);
+  const ingredient = ingredients.find(item => item._id === ingredientId);
+  const { name, proteins, fat, carbohydrates, calories, image } = ingredient ? ingredient : {};
 
   return (
     <>

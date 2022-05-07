@@ -16,7 +16,8 @@ export const orderReducer = (state = initialState, action) => {
       return {
         ...state,
         request: true,
-        failed: false
+        failed: false,
+        number: null
       };
     }
     case CREATE_ORDER_SUCCESS: {

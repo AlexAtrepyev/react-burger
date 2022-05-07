@@ -61,9 +61,7 @@ const initialState = {
     updateFailed: false,
     name: '',
     email: ''
-  },
-  accessToken: '',
-  refreshToken: ''
+  }
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -88,9 +86,7 @@ export const authReducer = (state = initialState, action) => {
           ...state.user,
           name: action.user.name,
           email: action.user.email
-        },
-        accessToken: action.accessToken,
-        refreshToken: action.refreshToken
+        }
       };
     }
     case REGISTER_FAILED: {
@@ -208,9 +204,7 @@ export const authReducer = (state = initialState, action) => {
           ...state.user,
           name: action.user.name,
           email: action.user.email
-        },
-        accessToken: action.accessToken,
-        refreshToken: action.refreshToken
+        }
       };
     }
     case LOGIN_FAILED: {

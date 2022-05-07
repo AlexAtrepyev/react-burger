@@ -13,7 +13,7 @@ function NutritionalValue({ name, value }) {
 
 NutritionalValue.propTypes = {
   name: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired
+  value: PropTypes.number
 };
 
 export default NutritionalValue;

@@ -22,6 +22,7 @@ function ConstructorOrder() {
     const { bunItem, interItems } = state.burger.constructor;
     return bunItem._id ? interItems.concat([bunItem, bunItem]) : interItems;
   });
+  const orderRequest = useSelector(state => state.order.request);
   const modalVisible = useSelector(state => state.ui.orderModal);
   
   function handleClick() {
@@ -30,9 +31,10 @@ function ConstructorOrder() {
         pathname: '/login',
         state: { from: location }
       });
+    } else {
+      dispatch(createOrder(getIDs(allItems)));
+      dispatch({ type: TOGGLE_ORDER_MODAL });
     }
-    dispatch(createOrder(getIDs(allItems)));
-    dispatch({ type: TOGGLE_ORDER_MODAL });
   }
 
   function handleCloseModal() {
@@ -45,7 +47,7 @@ function ConstructorOrder() {
         <span className="text text_type_digits-medium">{getTotalPrice(allItems)}</span>
         <CurrencyIcon type="primary" />
       </div>
-      {allItems.length && <Button type="primary" size="large" onClick={handleClick}>Оформить заказ</Button>}
+      {allItems.length && !orderRequest && <Button type="primary" size="large" onClick={handleClick}>Оформить заказ</Button>}
 
       {modalVisible && (
         <Modal onClose={handleCloseModal}>
