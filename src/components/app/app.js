@@ -1,37 +1,90 @@
-import styles from './app.module.css';
-
 import { useEffect } from 'react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from 'react-router-dom';
 
-import { getIngredients } from '../../services/actions';
+import { getUser, getIngredients } from '../../services/actions';
+
+import { RESET_CURRENT_INGREDIENT, TOGGLE_INGREDIENT_MODAL } from '../../utils/constants';
 
 import AppHeader from '../app-header/app-header';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import ProtectedRoute from '../protected-route/protected-route';
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+
+import {
+  ForgotPasswordPage,
+  IngredientPage,
+  LoginPage,
+  Main,
+  NotFoundPage,
+  ProfilePage,
+  RegisterPage,
+  ResetPasswordPage
+} from '../../pages';
 
 function App() {
   const dispatch = useDispatch();
-
-  const ingredients = useSelector(state => state.burger.ingredients.items);
   
   useEffect(() => {
+    dispatch(getUser());
     dispatch(getIngredients());
   }, [dispatch]);
-  
+
+  const ModalSwitch = () => {
+    const location = useLocation();
+    const history = useHistory();
+    let background = location.state && location.state.background;
+
+    function handleCloseModal() {
+      dispatch({ type: TOGGLE_INGREDIENT_MODAL });
+      dispatch({ type: RESET_CURRENT_INGREDIENT });
+      history.goBack();
+    }
+
+    return (
+      <>
+        <AppHeader />
+        <Switch location={background || location}>
+          <Route exact path="/">
+            <Main />
+          </Route>
+          <Route exact path="/ingredients/:ingredientId">
+            <IngredientPage />
+          </Route>
+          <Route exact path="/register">
+            <RegisterPage />
+          </Route>
+          <Route exact path="/login">
+            <LoginPage />
+          </Route>
+          <Route exact path="/forgot-password">
+            <ForgotPasswordPage />
+          </Route>
+          <Route exact path="/reset-password">
+            <ResetPasswordPage />
+          </Route>
+          <ProtectedRoute path="/profile">
+            <ProfilePage />
+          </ProtectedRoute>
+          <Route>
+            <NotFoundPage />
+          </Route>
+        </Switch>
+        {background && (
+          <Route path='/ingredients/:ingredientId'>
+            <Modal title="Детали ингредиента" onClose={handleCloseModal}>
+              <IngredientDetails />
+            </Modal>
+          </Route>
+        )}
+      </>
+    );
+  };
+
   return (
-    <>
-      <AppHeader />
-      {ingredients.length > 0 && (
-        <main className={styles.main}>
-          <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </DndProvider>
-        </main>
-      )}
-    </>
+    <Router>
+      <ModalSwitch />
+    </Router>
   );
 }
 
