@@ -6,8 +6,8 @@ import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-dev
 
 function AppHeader() {
   const { pathname } = useLocation();
-
-  const getType = (link) => {
+  
+  const getType = (link: string): 'primary' | 'secondary' => {
     return link === pathname ? 'primary' : 'secondary';
   };
 

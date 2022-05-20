@@ -1,12 +1,12 @@
 import styles from './modal.module.css';
 
-import PropTypes from 'prop-types';
+import { FC } from 'react';
 import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
-function Modal({ children, title, onClose }) {
+const Modal: FC<{ title?: string, onClose: () => void }> = ({ children, title, onClose }) => {
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
     return () => {
@@ -14,11 +14,13 @@ function Modal({ children, title, onClose }) {
     }
   }, []);
 
-  function handleKeyPress(e) {
+  function handleKeyPress(e: KeyboardEvent): void {
     e.key === 'Escape' && onClose();
   }
 
-  return ReactDOM.createPortal(
+  const container = document.getElementById('modals');
+
+  return container && ReactDOM.createPortal(
     <ModalOverlay onClose={onClose}>
       <div className={styles.modal}>
         <div className={styles.title}>
@@ -30,14 +32,8 @@ function Modal({ children, title, onClose }) {
         </div>
       </div>
     </ModalOverlay>,
-    document.getElementById('modals')
+    container
   );
 }
-
-Modal.propTypes = {
-  children: PropTypes.object.isRequired,
-  title: PropTypes.string,
-  onClose: PropTypes.func.isRequired
-};
 
 export default Modal;

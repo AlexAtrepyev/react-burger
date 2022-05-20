@@ -3,15 +3,24 @@ import styles from './ingredient-details.module.css';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import { TIngredient } from '../../types';
+
 import NutritionalValue from '../nutritional-value/nutritional-value';
 
 function IngredientDetails() {
-  const ingredients = useSelector(state => state.burger.ingredients.items);
+  const ingredients = useSelector<any, TIngredient[]>(state => state.burger.ingredients.items);
   
-  const { ingredientId } = useParams();
+  const { ingredientId } = useParams<{ ingredientId: string }>();
   const ingredient = ingredients.find(item => item._id === ingredientId);
-  const { name, proteins, fat, carbohydrates, calories, image } = ingredient ? ingredient : {};
-
+  const {
+    image=undefined,
+    name=undefined,
+    calories=undefined,
+    proteins=undefined,
+    fat=undefined,
+    carbohydrates=undefined
+  } = ingredient ? ingredient : {};
+  
   return (
     <>
       <img src={image} alt={name} />

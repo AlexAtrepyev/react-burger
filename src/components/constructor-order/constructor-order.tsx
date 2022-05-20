@@ -8,6 +8,8 @@ import { createOrder } from '../../services/actions';
 import { TOGGLE_ORDER_MODAL } from '../../utils/constants';
 import { getTotalPrice, getIDs } from '../../utils/utils';
 
+import { TIngredient, TUser } from '../../types';
+
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -17,13 +19,13 @@ function ConstructorOrder() {
   const location = useLocation();
   const history = useHistory();
   
-  const user = useSelector(state => state.auth.user);
-  const allItems = useSelector(state => {
+  const user = useSelector<any, TUser>(state => state.auth.user);
+  const allItems = useSelector<any, TIngredient[]>(state => {
     const { bunItem, interItems } = state.burger.constructor;
     return bunItem._id ? interItems.concat([bunItem, bunItem]) : interItems;
   });
-  const orderRequest = useSelector(state => state.order.request);
-  const modalVisible = useSelector(state => state.ui.orderModal);
+  const orderRequest = useSelector<any, boolean>(state => state.order.request);
+  const modalVisible = useSelector<any, boolean>(state => state.ui.orderModal);
   
   function handleClick() {
     if (!user.name) {

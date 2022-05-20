@@ -1,37 +1,39 @@
 import styles from './profile.module.css';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { updateUser, logout } from '../../services/actions';
+
+import { TUser, TForm } from '../../types';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function ProfilePage() {
   const dispatch = useDispatch();
 
-  const user = useSelector(state => state.auth.user);
-  const [form, setValue] = useState({ name: '', email: '', password: '' });
+  const user = useSelector<any, TUser>(state => state.auth.user);
+  const [form, setValue] = useState<TForm>({ name: '', email: '', password: '' });
 
   useEffect(() => {
     setValue({ name: user.name, email: user.email, password: '' });
   }, [user]);
 
-  const onChange = e => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    dispatch(updateUser(form));
+    dispatch(updateUser({ name: form.name, email: form.email, password: form.password }));
   };
 
-  const onCancel = e => {
+  const onCancel = (): void => {
     setValue({ name: user.name, email: user.email, password: '' });
   };
 
-  const onLogout = e => {
+  const onLogout = (): void => {
     dispatch(logout());
   };
 
@@ -61,7 +63,7 @@ function ProfilePage() {
           type="text"
           name="name"
           placeholder="Имя"
-          value={form['name']}
+          value={form['name'] ?? ''}
           onChange={onChange}
           icon="EditIcon"
         />
@@ -69,7 +71,7 @@ function ProfilePage() {
           type="email"
           name="email"
           placeholder="Логин"
-          value={form['email']}
+          value={form['email'] ?? ''}
           onChange={onChange}
           icon="EditIcon"
         />
@@ -77,7 +79,7 @@ function ProfilePage() {
           type="password"
           name="password"
           placeholder="Пароль"
-          value={form['password']}
+          value={form['password'] ?? ''}
           onChange={onChange}
           icon="EditIcon"
         />

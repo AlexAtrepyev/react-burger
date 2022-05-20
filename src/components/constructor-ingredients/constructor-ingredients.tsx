@@ -5,14 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { UPDATE_INTER_INGREDIENT } from '../../utils/constants';
 
+import { TIngredient, TMoveCard } from '../../types';
+
 import ConstructorBunItem from '../constructor-bun-item/constructor-bun-item';
 import ConstructorInterItem from '../constructor-inter-item/constructor-inter-item';
 
 function ConstructorIngredients() {
-  const { interItems } = useSelector(state => state.burger.constructor);
+  const interItems = useSelector<any, TIngredient[]>(state => state.burger.constructor.interItems);
   const dispatch = useDispatch();
   
-  const moveCard = useCallback((dragIndex, hoverIndex) => {
+  const moveCard = useCallback<TMoveCard>((dragIndex, hoverIndex) => {
     const dragItem = interItems[dragIndex];
     const newItems = [ ...interItems ];
     newItems.splice(dragIndex, 1);

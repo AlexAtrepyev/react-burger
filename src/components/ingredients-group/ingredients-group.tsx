@@ -3,11 +3,17 @@ import styles from './ingredients-group.module.css';
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import { TIngredient } from '../../types';
+
 import IngredientsItem from '../ingredients-item/ingredients-item';
 
-const IngredientsGroup = React.forwardRef((props, ref) => {
-  const location = useLocation();
-  const { title, items } = props;
+type TIngredientsGroupProps = {
+  title: string;
+  items: TIngredient[];
+};
+
+const IngredientsGroup = React.forwardRef<HTMLHeadingElement, TIngredientsGroupProps>(({ title, items }, ref) => {
+  const location = useLocation<any>();
 
   return (
     <li>
