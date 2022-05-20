@@ -1,28 +1,34 @@
 import styles from './constructor-inter-item.module.css';
 
-import PropTypes from 'prop-types';
-import { useRef } from 'react';
-import { useDrag, useDrop } from 'react-dnd';
+import { FC, useRef } from 'react';
+import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 
 import { REMOVE_INTER_INGREDIENT } from '../../utils/constants';
-import { itemObject } from '../../utils/prop-types';
+
+import { TIngredient, TMoveCard } from '../../types';
 
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-function ConstructorInterItem({ index, item, moveCard }) {
+type TConstructorInterItemProps = {
+  index: number;
+  item: TIngredient;
+  moveCard: TMoveCard;
+};
+
+const ConstructorInterItem: FC<TConstructorInterItemProps> = ({ index, item, moveCard }) => {
   const dispatch = useDispatch();
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLLIElement>(null);
 
-  const [{ handlerId }, drop] = useDrop({
+  const [{ handlerId }, drop] = useDrop<TIngredient, any, any>({
     accept: 'orderedIngredient',
-    collect(monitor) {
+    collect(monitor: DropTargetMonitor) {
       return {
         handlerId: monitor.getHandlerId()
       }
     },
-    hover(item, monitor) {
+    hover(item: TIngredient, monitor: DropTargetMonitor) {
       if (!ref.current) {
         return;
       }
@@ -44,20 +50,20 @@ function ConstructorInterItem({ index, item, moveCard }) {
       const clientOffset = monitor.getClientOffset();
       // Вычисляем координаты курсора и координаты середины карточки
       // на которую мы навели наш перетаскиваемый ингредиент
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = clientOffset && clientOffset.y - hoverBoundingRect.top;
       // Условие для перетаскивании элементов сверху вниз
       // Если перетаскиваемый ингредиент пересекает середину
       // текущего ингредиента, то мы идем дальше и выполняем moveCard
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+      if (dragIndex && dragIndex < hoverIndex && hoverClientY && hoverClientY < hoverMiddleY) {
         return;
       }
       // Условие для перетаскивании элементов снизу вверх
       // Происходит тоже самое что и выше, только в обратном порядке
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+      if (dragIndex && dragIndex > hoverIndex && hoverClientY && hoverClientY > hoverMiddleY) {
         return;
       }
       // Выполняем наш коллбэк с перемещением карточек внутри массива
-      moveCard(dragIndex, hoverIndex);
+      dragIndex && moveCard(dragIndex, hoverIndex);
       // Это сделано для внутренней оптимизации библиотеки
       // для поиска и замены элементом
       item.index = hoverIndex;
@@ -66,7 +72,7 @@ function ConstructorInterItem({ index, item, moveCard }) {
   
   const [{ opacity }, drag] = useDrag({
     type: 'orderedIngredient',
-    item: () => ({ id: item.id, index }),
+    item: () => ({ _id: item._id, index }),
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0 : 1
     }),
@@ -100,11 +106,5 @@ function ConstructorInterItem({ index, item, moveCard }) {
     </li>
   )
 }
-
-ConstructorInterItem.propTypes = {
-  index: PropTypes.number.isRequired,
-  item: itemObject.isRequired,
-  moveCard: PropTypes.func.isRequired
-};
 
 export default ConstructorInterItem;

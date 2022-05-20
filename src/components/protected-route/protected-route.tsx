@@ -1,12 +1,15 @@
+import { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
-export function ProtectedRoute({ children, ...rest }) {
-  const user = useSelector(state => state.auth.user);
+import { TUser } from '../../types';
+
+const ProtectedRoute: FC<{ path: string }> = ({ children, path }) => {
+  const user = useSelector<any, TUser>(state => state.auth.user);
   
   return (
     <Route
-      {...rest}
+      {...path}
       render={({ location }) =>
         user.name ? (
           children

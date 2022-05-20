@@ -1,27 +1,29 @@
 import styles from './register.module.css';
 
-import { useState } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
 import { register } from '../../services/actions';
+
+import { TUser, TForm } from '../../types';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function RegisterPage() {
   const dispatch = useDispatch();
 
-  const user = useSelector(state => state.auth.user);
+  const user = useSelector<any, TUser>(state => state.auth.user);
 
-  const [form, setValue] = useState({ name: '', email: '', password: '' });
+  const [form, setValue] = useState<TForm>({ name: '', email: '', password: '' });
 
-  const onChange = e => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    dispatch(register(form));
+    dispatch(register({ name: form.name, email: form.email, password: form.password }));
   };
   
   const linkClass = 'text text_type_main-default text_color_link text_decoration_none';
@@ -45,21 +47,21 @@ function RegisterPage() {
             type="text"
             name="name"
             placeholder="Имя"
-            value={form['name']}
+            value={form['name'] ?? ''}
             onChange={onChange}
           />
           <Input
             type="email"
             name="email"
             placeholder="E-mail"
-            value={form['email']}
+            value={form['email'] ?? ''}
             onChange={onChange}
           />
           <Input
             type="password"
             name="password"
             placeholder="Введите новый пароль"
-            value={form['password']}
+            value={form['password'] ?? ''}
             onChange={onChange}
             icon="ShowIcon"
           />

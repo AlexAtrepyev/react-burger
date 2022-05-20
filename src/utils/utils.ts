@@ -1,9 +1,14 @@
-export function getNearestRef(container, refs) {
+import { SyntheticEvent, RefObject } from 'react';
+
+import { TIngredient } from '../types';
+
+export function getNearestRef(container: SyntheticEvent['currentTarget'], refs: RefObject<HTMLHeadingElement>[]): any {
   const aim = container.getBoundingClientRect().top;
   let minDistance = Number.MAX_VALUE;
   let nearestRef = null;
   refs.forEach(ref => {
-    const distance = Math.abs(aim - ref.current.getBoundingClientRect().top);
+    const top = ref.current ? ref.current.getBoundingClientRect().top : 0;
+    const distance = Math.abs(aim - top);
     if (distance < minDistance) {
       minDistance = distance;
       nearestRef = ref;
@@ -12,7 +17,7 @@ export function getNearestRef(container, refs) {
   return nearestRef;
 }
 
-export function filterIngredients(ingredients, type) {
+export function filterIngredients(ingredients: TIngredient[], type: 'bun' | 'sauce' | 'main'): TIngredient[] {
   if (ingredients.length) {
     return ingredients.filter(ingredient => ingredient.type === type);
   } else {
@@ -20,17 +25,17 @@ export function filterIngredients(ingredients, type) {
   }
 }
 
-export function getTotalPrice(items) {
+export function getTotalPrice(items: TIngredient[]): number {
   return items.reduce((sum, item) => {
     return sum + item.price;
   }, 0);
 }
 
-export function getIDs(items) {
+export function getIDs(items: TIngredient[]): string[] {
   return items.map(item => item._id);
 }
 
-export function setCookie(name, value, props) {
+export function setCookie(name: string, value: string, props: any): void {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
@@ -53,7 +58,7 @@ export function setCookie(name, value, props) {
   document.cookie = updatedCookie;
 }
 
-export function getCookie(name) {
+export function getCookie(name: string): string | undefined {
   const matches = document.cookie.match(
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
   );

@@ -3,14 +3,23 @@ import styles from './ingredient.module.css';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import { TIngredient } from '../../types';
+
 import NutritionalValue from '../../components/nutritional-value/nutritional-value';
 
 function IngredientPage() {
-  const ingredients = useSelector(state => state.burger.ingredients.items);
+  const ingredients = useSelector<any, TIngredient[]>(state => state.burger.ingredients.items);
 
-  const { ingredientId } = useParams();
-  const ingredient = ingredients.find(item => item._id === ingredientId);
-  const { name, proteins, fat, carbohydrates, calories, image } = ingredient ? ingredient : {};
+  const { ingredientId } = useParams<{ ingredientId: string }>();
+  const ingredient = ingredients.find((item: TIngredient) => item._id === ingredientId);
+  const {
+    name=undefined,
+    proteins=undefined,
+    fat=undefined,
+    carbohydrates=undefined,
+    calories=undefined,
+    image=undefined
+  } = ingredient ? ingredient : {};
   
   return (
     <section className={styles.section}>

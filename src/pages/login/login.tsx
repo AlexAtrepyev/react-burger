@@ -1,28 +1,30 @@
 import styles from './login.module.css';
 
-import { useState } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 
 import { login } from '../../services/actions';
 
+import { TUser, TForm } from '../../types';
+
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function LoginPage() {
-  const history = useHistory();
+  const history = useHistory<any>();
   const dispatch = useDispatch();
 
-  const user = useSelector(state => state.auth.user);
+  const user = useSelector<any, TUser>(state => state.auth.user);
 
-  const [form, setValue] = useState({ email: '', password: '' });
+  const [form, setValue] = useState<TForm>({ email: '', password: '' });
 
-  const onChange = e => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    dispatch(login(form));
+    dispatch(login({ email: form.email, password: form.password }));
   };
   
   const linkClass = 'text text_type_main-default text_color_link text_decoration_none';
@@ -44,14 +46,14 @@ function LoginPage() {
             type="email"
             name="email"
             placeholder="E-mail"
-            value={form['email']}
+            value={form['email'] ?? ''}
             onChange={onChange}
           />
           <Input
             type="password"
             name="password"
             placeholder="Введите новый пароль"
-            value={form['password']}
+            value={form['password'] ?? ''}
             onChange={onChange}
             icon="ShowIcon"
           />
