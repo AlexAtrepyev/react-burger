@@ -44,10 +44,10 @@ function ProfilePage() {
       <div className={styles.container}>
         <ul className={styles.list}>
           <li className={styles.item}>
-            <NavLink to="/profile" className={linkClass} activeClassName={styles.activeLink}>Профиль</NavLink>
+            <NavLink className={linkClass} activeClassName={styles.activeLink} exact to="/profile">Профиль</NavLink>
           </li>
           <li className={styles.item}>
-            <NavLink to="/profile/orders" className={linkClass} activeClassName={styles.activeLink}>История заказов</NavLink>
+            <NavLink className={linkClass} activeClassName={styles.activeLink} exact to="/profile/orders">История заказов</NavLink>
           </li>
           <li className={styles.item}>
             <button className={linkClass + styles.logout} onClick={onLogout}>Выход</button>

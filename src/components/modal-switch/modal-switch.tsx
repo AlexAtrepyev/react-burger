@@ -9,12 +9,15 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import {
+  FeedPage,
   ForgotPasswordPage,
   IngredientPage,
   LoginPage,
   Main,
   NotFoundPage,
+  OrderInfo,
   ProfilePage,
+  ProfileOrdersPage,
   RegisterPage,
   ResetPasswordPage
 } from '../../pages';
@@ -36,12 +39,6 @@ function ModalSwitch() {
     <>
       <AppHeader />
       <Switch location={background || location}>
-        <Route exact path="/">
-          <Main />
-        </Route>
-        <Route exact path="/ingredients/:ingredientId">
-          <IngredientPage />
-        </Route>
         <Route exact path="/register">
           <RegisterPage />
         </Route>
@@ -54,8 +51,26 @@ function ModalSwitch() {
         <Route exact path="/reset-password">
           <ResetPasswordPage />
         </Route>
-        <ProtectedRoute path="/profile">
+        <Route exact path="/">
+          <Main />
+        </Route>
+        <Route exact path="/ingredients/:ingredientId">
+          <IngredientPage />
+        </Route>
+        <Route exact path="/feed">
+          <FeedPage />
+        </Route>
+        <Route exact path="/feed/:id">
+          <OrderInfo />
+        </Route>
+        <ProtectedRoute exact path="/profile">
           <ProfilePage />
+        </ProtectedRoute>
+        <ProtectedRoute exact path="/profile/orders">
+          <ProfileOrdersPage />
+        </ProtectedRoute>
+        <ProtectedRoute exact path="/profile/orders/:id">
+          <OrderInfo />
         </ProtectedRoute>
         <Route>
           <NotFoundPage />

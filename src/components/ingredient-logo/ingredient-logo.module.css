@@ -1,0 +1,26 @@
+.external {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(63.18deg, #801AB3 0%, #4C4CFF 100%);
+  box-sizing: border-box;
+  border-radius: 100%;
+  /*margin-right: -16px;*/
+}
+
+.internal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  background: #131316;
+  border-radius: 100%;
+}
+
+.image {
+  width: 112px;
+  height: 56px;
+}

@@ -23,6 +23,14 @@ code {
   color: #4c4cff;
 }
 
+.text_color_success {
+  color: #00cccc;
+}
+
+.text_align_center {
+  text-align: center;
+}
+
 .text_decoration_none {
   text-decoration: none;
 }

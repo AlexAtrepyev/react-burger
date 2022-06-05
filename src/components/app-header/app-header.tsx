@@ -7,8 +7,12 @@ import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-dev
 function AppHeader() {
   const { pathname } = useLocation();
   
-  const getType = (link: string): 'primary' | 'secondary' => {
-    return link === pathname ? 'primary' : 'secondary';
+  const getType = (link: string, exact?: 'exact'): 'primary' | 'secondary' => {
+    if (exact) {
+      return link === pathname ? 'primary' : 'secondary';
+    } else {
+      return pathname.startsWith(link) ? 'primary' : 'secondary';
+    }
   };
 
   return (
@@ -17,18 +21,18 @@ function AppHeader() {
         <ul className={styles.list}>
           <li className={styles.item}>
             <NavLink className={styles.link} activeClassName={styles.link_active} exact to="/">
-              <BurgerIcon type={getType('/')} />
+              <BurgerIcon type={getType('/', 'exact')} />
               <span className="text text_type_main-default">Конструктор</span>
             </NavLink>
           </li>
           <li className={styles.item}>
-            <NavLink className={styles.link} activeClassName={styles.link_active} to="/profile/orders">
-              <ListIcon type={getType('/profile/orders')} />
+            <NavLink className={styles.link} activeClassName={styles.link_active} exact to="/feed">
+              <ListIcon type={getType('/feed', 'exact')} />
               <span className="text text_type_main-default">Лента заказов</span>
             </NavLink>
           </li>
           <li className={styles.item}>
-            <NavLink className={styles.link} activeClassName={styles.link_active} exact to="/profile">
+            <NavLink className={styles.link} activeClassName={styles.link_active} to="/profile">
               <ProfileIcon type={getType('/profile')} />
               <span className="text text_type_main-default">Личный кабинет</span>
             </NavLink>

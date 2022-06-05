@@ -1,0 +1,33 @@
+.section {
+  max-width: 1240px;
+  margin: auto;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 60px;
+}
+
+.orders {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: calc(100vh - 258px);
+  overflow-y: auto;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.cont {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 36px;
+}
