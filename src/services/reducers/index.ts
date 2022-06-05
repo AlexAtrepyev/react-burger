@@ -10,4 +10,4 @@ export const rootReducer = combineReducers({
   burger: burgerReducer,
   order: orderReducer,
   ui: uiReducer
-})
+});

@@ -1,21 +1,18 @@
 import styles from './burger-ingredients.module.css';
 
 import { useRef, SyntheticEvent } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
-import { SET_CURRENT_TAB } from '../../utils/constants';
-import { getNearestRef, filterIngredients } from '../../utils/utils';
-
-import { TIngredient } from '../../types';
+import { setCurrentTabAction } from '../../services/actions/ui';
+import { useSelector, useDispatch } from '../../services/hooks';
+import { getNearestRef, filterIngredients } from '../../services/utils';
 
 import IngredientsGroup from '../ingredients-group/ingredients-group';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function BurgerIngredients() {
   const dispatch = useDispatch();
-
-  const ingredients = useSelector<any, TIngredient[]>(state => state.burger.ingredients.items);
-  const currentTab = useSelector<any, 'bun' | 'sauce' | 'main'>(state => state.ui.currentTab);
+  const ingredients = useSelector(state => state.burger.ingredients.items);
+  const currentTab = useSelector(state => state.ui.currentTab);
 
   const bunsRef = useRef<HTMLHeadingElement>(null);
   const saucesRef = useRef<HTMLHeadingElement>(null);
@@ -24,7 +21,7 @@ function BurgerIngredients() {
   function handleScroll(e: SyntheticEvent) {
     const nearestRef = getNearestRef(e.currentTarget, [bunsRef, saucesRef, mainsRef]);
     const newTab = nearestRef === bunsRef ? 'bun' : nearestRef === saucesRef ? 'sauce' : 'main';
-    newTab !== currentTab && dispatch({ type: SET_CURRENT_TAB, currentTab: newTab });
+    newTab !== currentTab && dispatch(setCurrentTabAction(newTab));
   }
   
   return (

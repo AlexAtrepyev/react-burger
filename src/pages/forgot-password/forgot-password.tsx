@@ -1,20 +1,18 @@
 import styles from './forgot-password.module.css';
 
 import { useState, ChangeEvent, FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
-import { resetPasswordStepOne } from '../../services/actions';
-
-import { TUser, TForm } from '../../types';
+import { resetPasswordStepOneThunk } from '../../services/actions/auth';
+import { TForm } from '../../services/types/data';
+import { useSelector, useDispatch } from '../../services/hooks';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function ForgotPasswordPage() {
   const dispatch = useDispatch();
-
-  const user = useSelector<any, TUser>(state => state.auth.user);
-  const success = useSelector<any, boolean>(state => state.auth.resetPassword.stepOne.success);
+  const user = useSelector(state => state.auth.user);
+  const success = useSelector(state => state.auth.resetPassword.stepOne.success);
   
   const [form, setValue] = useState<TForm>({ email: '' });
   
@@ -24,7 +22,7 @@ function ForgotPasswordPage() {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    dispatch(resetPasswordStepOne({ email: form.email }));
+    dispatch(resetPasswordStepOneThunk(form.email));
   };
   
   const linkClass: string = 'text text_type_main-default text_color_link text_decoration_none';

@@ -1,6 +1,6 @@
 import { SyntheticEvent, RefObject } from 'react';
 
-import { TIngredient } from '../types';
+import { TIngredient } from './types/data';
 
 export function getNearestRef(container: SyntheticEvent['currentTarget'], refs: RefObject<HTMLHeadingElement>[]): any {
   const aim = container.getBoundingClientRect().top;
@@ -35,7 +35,7 @@ export function getIDs(items: TIngredient[]): string[] {
   return items.map(item => item._id);
 }
 
-export function setCookie(name: string, value: string, props: any): void {
+export function setCookie(name: string, value: string, props?: any): void {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {

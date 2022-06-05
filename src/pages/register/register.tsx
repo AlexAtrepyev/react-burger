@@ -1,19 +1,17 @@
 import styles from './register.module.css';
 
 import { useState, ChangeEvent, FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
-import { register } from '../../services/actions';
-
-import { TUser, TForm } from '../../types';
+import { registerThunk } from '../../services/actions/auth';
+import { TForm } from '../../services/types/data';
+import { useSelector, useDispatch } from '../../services/hooks';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function RegisterPage() {
   const dispatch = useDispatch();
-
-  const user = useSelector<any, TUser>(state => state.auth.user);
+  const user = useSelector(state => state.auth.user);
 
   const [form, setValue] = useState<TForm>({ name: '', email: '', password: '' });
 
@@ -23,7 +21,7 @@ function RegisterPage() {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    dispatch(register({ name: form.name, email: form.email, password: form.password }));
+    dispatch(registerThunk(form.name, form.email, form.password));
   };
   
   const linkClass = 'text text_type_main-default text_color_link text_decoration_none';

@@ -3,7 +3,6 @@ import styles from './order-card.module.css';
 import { FC } from 'react';
 
 import IngredientLogo from '../ingredient-logo/ingredient-logo';
-
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const OrderCard: FC<{ location: 'feed' | 'profile' }> = ({ location }) => {

@@ -1,7 +1,6 @@
 import styles from './order-item.module.css';
 
 import IngredientLogo from '../ingredient-logo/ingredient-logo';
-
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function OrderItem() {

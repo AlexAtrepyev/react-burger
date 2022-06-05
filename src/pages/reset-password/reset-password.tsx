@@ -1,21 +1,19 @@
 import styles from './reset-password.module.css';
 
 import { useState, ChangeEvent, FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
-import { resetPasswordStepTwo } from '../../services/actions';
-
-import { TUser, TForm } from '../../types';
+import { resetPasswordStepTwoThunk } from '../../services/actions/auth';
+import { TForm } from '../../services/types/data';
+import { useSelector, useDispatch } from '../../services/hooks';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function ResetPasswordPage() {
   const dispatch = useDispatch();
-
-  const user = useSelector<any, TUser>(state => state.auth.user);
-  const permission = useSelector<any, boolean>(state => state.auth.resetPassword.stepOne.success);
-  const success = useSelector<any, boolean>(state => state.auth.resetPassword.stepTwo.success);
+  const user = useSelector(state => state.auth.user);
+  const permission = useSelector(state => state.auth.resetPassword.stepOne.success);
+  const success = useSelector(state => state.auth.resetPassword.stepTwo.success);
   
   const [form, setValue] = useState<TForm>({ password: '', token: '' });
   
@@ -25,7 +23,7 @@ function ResetPasswordPage() {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    dispatch(resetPasswordStepTwo({ password: form.password, token: form.token }));
+    dispatch(resetPasswordStepTwoThunk(form.password, form.token));
   };
   
   const linkClass = 'text text_type_main-default text_color_link text_decoration_none';

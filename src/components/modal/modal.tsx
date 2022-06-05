@@ -1,7 +1,6 @@
 import styles from './modal.module.css';
 
-import { FC } from 'react';
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import ModalOverlay from '../modal-overlay/modal-overlay';

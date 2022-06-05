@@ -1,4 +1,4 @@
-import { TIngredient, TCreateOrderRes, TMessageRes, TAuthRes, TGetNewTokenRes, TUserRes } from '../types';
+import { TIngredient, TCreateOrderRes, TMessageRes, TAuthRes, TGetNewTokenRes, TUserRes } from './types/data';
 
 class Api {
   private baseUrl: string;

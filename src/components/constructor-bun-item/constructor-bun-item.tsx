@@ -1,14 +1,13 @@
 import styles from './constructor-bun-item.module.css';
 
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
 
-import { TIngredient } from '../../types';
+import { useSelector } from '../../services/hooks';
 
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const ConstructorBunItem: FC<{ type: 'top' | 'bottom' | undefined }> = ({ type }) => {
-  const bunItem = useSelector<any, TIngredient>(state => state.burger.constructor.bunItem);
+  const bunItem = useSelector(state => state.burger.constructor.bunItem);
 
   const text = `${bunItem.name} ${type === 'top' ? '(верх)' : '(низ)'}`;
 

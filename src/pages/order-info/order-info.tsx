@@ -1,7 +1,6 @@
 import styles from './order-info.module.css';
 
 import OrderItem from '../../components/order-item/order-item';
-
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function OrderInfo() {

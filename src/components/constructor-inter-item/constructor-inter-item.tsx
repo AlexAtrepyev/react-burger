@@ -2,11 +2,10 @@ import styles from './constructor-inter-item.module.css';
 
 import { FC, useRef } from 'react';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
-import { useDispatch } from 'react-redux';
 
-import { REMOVE_INTER_INGREDIENT } from '../../utils/constants';
-
-import { TIngredient, TMoveCard } from '../../types';
+import { removeInterIngredientAction } from '../../services/actions/burger';
+import { TIngredient, TMoveCard } from '../../services/types/data';
+import { useDispatch } from '../../services/hooks';
 
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -81,10 +80,7 @@ const ConstructorInterItem: FC<TConstructorInterItemProps> = ({ index, item, mov
   if (item.type !== 'bun') drag(drop(ref));
 
   function removeOrderedIngredient() {
-    dispatch({
-      type: REMOVE_INTER_INGREDIENT,
-      item: item
-    });
+    dispatch(removeInterIngredientAction(item));
   }
 
   return (

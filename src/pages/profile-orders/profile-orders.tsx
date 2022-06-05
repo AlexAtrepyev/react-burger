@@ -1,9 +1,9 @@
 import styles from './profile-orders.module.css';
 
-import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import { logout } from '../../services/actions';
+import { logoutThunk } from '../../services/actions/auth';
+import { useDispatch } from '../../services/hooks';
 
 import OrderCard from '../../components/order-card/order-card';
 
@@ -11,7 +11,7 @@ function ProfileOrdersPage() {
   const dispatch = useDispatch();
   
   const onLogout = (): void => {
-    dispatch(logout());
+    dispatch(logoutThunk());
   };
 
   const linkClass = 'text text_type_main-medium text_decoration_none text_color_inactive ';
