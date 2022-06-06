@@ -1,10 +1,12 @@
 import styles from './ingredient-logo.module.css';
 
-function IngredientLogo() {
+import { FC } from 'react';
+
+const IngredientLogo: FC<{ image: string, name: string }> = ({ image, name }) => {
   return (
     <div className={styles.external}>
       <div className={styles.internal}>
-        <img className={styles.image} src="https://code.s3.yandex.net/react/code/bun-02-mobile.png" alt="инш" />
+        <img className={styles.image} src={image} alt={name} />
       </div>
     </div>
   );

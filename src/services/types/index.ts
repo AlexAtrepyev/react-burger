@@ -3,12 +3,13 @@ import { ThunkAction } from 'redux-thunk';
 
 import { TAuthActions } from '../actions/auth';
 import { TBurgerActions } from '../actions/burger';
+import { TFeedActions } from '../actions/feed';
 import { TOrderActions } from '../actions/order';
 import { TUIActions } from '../actions/ui';
 
 import store from '../store';
 
-type TApplicationActions = TAuthActions | TBurgerActions | TOrderActions | TUIActions;
+type TApplicationActions = TAuthActions | TBurgerActions | TFeedActions | TOrderActions | TUIActions;
 
 export type RootState = ReturnType<typeof store.getState>;
 

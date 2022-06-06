@@ -8,6 +8,7 @@ import AppHeader from '../app-header/app-header';
 import ProtectedRoute from '../protected-route/protected-route';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import OrderInfo from '../order-info/order-info';
 
 import {
   FeedPage,
@@ -16,7 +17,7 @@ import {
   LoginPage,
   Main,
   NotFoundPage,
-  OrderInfo,
+  OrderInfoPage,
   ProfilePage,
   ProfileOrdersPage,
   RegisterPage,
@@ -63,7 +64,7 @@ function ModalSwitch() {
           <FeedPage />
         </Route>
         <Route exact path="/feed/:id">
-          <OrderInfo />
+          <OrderInfoPage />
         </Route>
         <ProtectedRoute exact path="/profile">
           <ProfilePage />
@@ -72,7 +73,7 @@ function ModalSwitch() {
           <ProfileOrdersPage />
         </ProtectedRoute>
         <ProtectedRoute exact path="/profile/orders/:id">
-          <OrderInfo />
+          <OrderInfoPage />
         </ProtectedRoute>
         <Route>
           <NotFoundPage />
@@ -85,6 +86,22 @@ function ModalSwitch() {
             <IngredientDetails />
           </Modal>
         </Route>
+      )}
+
+      {background && (
+        <Route path='/feed/:id'>
+          <Modal onClose={handleCloseModal}>
+            <OrderInfo />
+          </Modal>
+        </Route>
+      )}
+
+      {background && (
+        <ProtectedRoute path='/profile/orders/:id'>
+          <Modal onClose={handleCloseModal}>
+            <OrderInfo />
+          </Modal>
+        </ProtectedRoute>
       )}
     </>
   );

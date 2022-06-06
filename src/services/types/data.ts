@@ -1,3 +1,29 @@
+import {
+  WS_CONNECTION_START,
+  WS_CONNECTION_SUCCESS,
+  WS_CONNECTION_ERROR,
+  WS_CONNECTION_CLOSED,
+  WS_GET_MESSAGE
+} from '../constants';
+
+export type TOrder = {
+  _id: string;
+  ingredients: string[];
+  ingredientsDetails?: TIngredient[];
+  status: 'created' | 'pending' | 'done';
+  number: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TOrdersRes = {
+  success: boolean;
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
+};
+
 export type TUser = {
   name: string;
   email: string;
@@ -65,4 +91,12 @@ export type TUserRes = {
     email: string,
     name: string
   }
+};
+
+export type TWsActions = {
+  wsInit: typeof WS_CONNECTION_START;
+  onOpen: typeof WS_CONNECTION_SUCCESS;
+  onError: typeof WS_CONNECTION_ERROR;
+  onClose: typeof WS_CONNECTION_CLOSED;
+  onMessage: typeof WS_GET_MESSAGE;
 };

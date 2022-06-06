@@ -1,14 +1,34 @@
 import styles from './profile-orders.module.css';
 
-import { NavLink } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 
 import { logoutThunk } from '../../services/actions/auth';
-import { useDispatch } from '../../services/hooks';
+import { wsConnectionStartAction, wsConnectionClosedAction } from '../../services/actions/feed';
+import { TOrder } from '../../services/types/data';
+import { useSelector, useDispatch } from '../../services/hooks';
+import { getIngredientsDetails, getCookie } from '../../services/utils';
 
 import OrderCard from '../../components/order-card/order-card';
 
 function ProfileOrdersPage() {
+  const location = useLocation<any>();
+
   const dispatch = useDispatch();
+  const orders = useSelector(state => state.feed.orders);
+  const ingredients = useSelector(state => state.burger.ingredients.items);
+
+  const improvedOrders: TOrder[] = orders.map(order => {
+    order.ingredientsDetails = getIngredientsDetails(ingredients, order.ingredients);
+    return order;
+  }).reverse();
+  
+  useEffect(() => {
+    dispatch(wsConnectionStartAction(`wss://norma.nomoreparties.space/orders?token=${getCookie('accessToken')}`));
+    return () => {
+      dispatch(wsConnectionClosedAction());
+    };
+  }, []);
   
   const onLogout = (): void => {
     dispatch(logoutThunk());
@@ -36,13 +56,18 @@ function ProfileOrdersPage() {
       </div>
       
       <ul className={styles.orders}>
-        <OrderCard location="profile" />
-        <OrderCard location="profile" />
-        <OrderCard location="profile" />
-        <OrderCard location="profile" />
-        <OrderCard location="profile" />
-        <OrderCard location="profile" />
-        <OrderCard location="profile" />
+        {improvedOrders.map(order => 
+          <Link
+            key={order._id}
+            className={styles.link}
+            to={{
+              pathname: `/profile/orders/${order._id}`,
+              state: { background: location }
+            }}
+            >
+              <OrderCard location="profile" data={order} />
+            </Link>
+          )}
       </ul>
     </section>
   );

@@ -1,6 +1,6 @@
 import { SyntheticEvent, RefObject } from 'react';
 
-import { TIngredient } from './types/data';
+import { TIngredient, TOrder } from './types/data';
 
 export function getNearestRef(container: SyntheticEvent['currentTarget'], refs: RefObject<HTMLHeadingElement>[]): any {
   const aim = container.getBoundingClientRect().top;
@@ -63,4 +63,36 @@ export function getCookie(name: string): string | undefined {
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+function getCountedArray(array: string[]): { name: string, count: number }[] {
+  const dict = array.reduce((dict: { [key: string]: number }, element) => {
+    dict[element] = (dict[element] || 0) + 1;
+    return dict;
+  }, {});
+
+  return Object.entries(dict).map(entry => {
+    return { name: entry[0], count: entry[1] };
+  });
+}
+
+export function getIngredientsDetails(initialIngredients: TIngredient[], ids: string[]): TIngredient[] {
+  const filteredIngredients: TIngredient[] = [];
+  
+  getCountedArray(ids).forEach(id => {
+    const filteredIngredient = initialIngredients.find(initialIngredient => initialIngredient._id === id.name);
+    filteredIngredient && filteredIngredients.push({ ...filteredIngredient, count: id.count });
+  });
+
+  return filteredIngredients;
+}
+
+export function getOrderPrice(items: TIngredient[]): number {
+  return items.reduce((sum, item) => {
+    return sum + item.price * item.count;
+  }, 0);
+}
+
+export function getOrderNumbers(items: TOrder[]): number[] {
+  return items.map(item => item.number);
 }

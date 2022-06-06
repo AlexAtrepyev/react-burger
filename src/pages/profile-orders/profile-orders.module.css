@@ -41,3 +41,8 @@
   max-height: calc(100vh - 284px);
   overflow-y: auto;
 }
+
+.link {
+  text-decoration: none;
+  color: #f2f2f3;
+}

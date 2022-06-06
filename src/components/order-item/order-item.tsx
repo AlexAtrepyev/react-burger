@@ -1,15 +1,17 @@
 import styles from './order-item.module.css';
 
+import { FC } from 'react';
+
 import IngredientLogo from '../ingredient-logo/ingredient-logo';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-function OrderItem() {
+const OrderItem: FC<{ name: string, image: string, count: number, price: number }> = ({ name, image, count, price }) => {
   return (
     <li className={styles.item}>
-      <IngredientLogo />
-      <h3 className="text text_type_main-default">Флюоресцентная булка R2-D3</h3>
+      <IngredientLogo image={image} name={name} />
+      <h3 className="text text_type_main-default">{name}</h3>
       <div className={styles.price}>
-        <span className="text text_type_digits-default">2 x 20</span>
+        <span className="text text_type_digits-default">{`${count} x ${price}`}</span>
         <CurrencyIcon type="primary" />
       </div>
     </li>
