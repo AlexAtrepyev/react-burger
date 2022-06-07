@@ -1,39 +1,45 @@
 import type { Middleware, MiddlewareAPI } from 'redux';
 
-import {
-  wsConnectionSuccessAction,
-  wsConnectionErrorAction,
-  wsConnectionClosedAction,
-  wsGetMessageAction
-} from '../actions/feed';
-import { WS_CONNECTION_START } from '../constants';
 import type { AppDispatch, RootState } from '../types';
+import { TWsActions } from "../types/data";
+import { getCookie } from "../utils";
 
-export const socketMiddleware = (wsUrl: string): Middleware => {
+export const socketMiddleware = (wsUrl: string, wsActions: TWsActions): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
     
     return next => action => {
       const { dispatch } = store;
-      const { type, payload } = action;
+      const { type } = action;
+      const { wsInit, wsAuthInit, wsClose, onOpen, onError, onClose, onMessage } = wsActions;
+      const accessToken = getCookie('accessToken');
 
-      if (type === WS_CONNECTION_START) {
-        socket = new WebSocket(payload);
+      if (type === wsInit) {
+        socket = new WebSocket(`${wsUrl}/all`);
+      }
+      if (type === wsAuthInit) {
+        socket = new WebSocket(`${wsUrl}?token=${accessToken}`);
       }
       if (socket) {
-        socket.onopen = event => {
-          dispatch(wsConnectionSuccessAction());
-        };
-        socket.onerror = event => {
-          dispatch(wsConnectionErrorAction());
-        };
-        socket.onclose = event => {
-          socket?.close();
-          dispatch(wsConnectionClosedAction());
-        };
+        if (type === wsClose) {
+          socket.close();
+        }
+        
+        socket.onopen = () => {
+          dispatch({ type: onOpen });
+        }
+
+        socket.onerror = () => {
+          dispatch({ type: onError });
+        }
+
+        socket.onclose = () => {
+          dispatch({ type: onClose });
+        }
+
         socket.onmessage = event => {
           const parsedData = JSON.parse(event.data);
-          parsedData && parsedData.success && dispatch(wsGetMessageAction(parsedData));
+          parsedData && parsedData.success && dispatch({ type: onMessage, payload: parsedData });
         };
       }
       next(action);

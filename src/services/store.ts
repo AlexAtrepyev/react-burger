@@ -1,6 +1,7 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
+import { wsActions } from './actions/feed';
 import { socketMiddleware } from './middleware';
 import { rootReducer } from './reducers';
 
@@ -12,7 +13,7 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware('wss://norma.nomoreparties.space/order')));
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware('wss://norma.nomoreparties.space/orders', wsActions)));
 
 const store = createStore(rootReducer, enhancer);
 

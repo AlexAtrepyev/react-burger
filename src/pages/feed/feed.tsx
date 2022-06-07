@@ -3,7 +3,7 @@ import styles from './feed.module.css';
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import { wsConnectionStartAction, wsConnectionClosedAction } from '../../services/actions/feed';
+import { wsConnectionStartAction, wsConnectionCloseAction } from '../../services/actions/feed';
 import { TOrder } from '../../services/types/data';
 import { useSelector, useDispatch } from '../../services/hooks';
 import { getIngredientsDetails, getOrderNumbers } from '../../services/utils';
@@ -27,9 +27,9 @@ function FeedPage() {
   const pendingNumbers = getOrderNumbers(orders.filter(order => order.status === 'pending'));
   
   useEffect(() => {
-    dispatch(wsConnectionStartAction('wss://norma.nomoreparties.space/orders/all'));
+    dispatch(wsConnectionStartAction());
     return () => {
-      dispatch(wsConnectionClosedAction());
+      dispatch(wsConnectionCloseAction());
     };
   }, []);
 

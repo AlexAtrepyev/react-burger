@@ -4,10 +4,10 @@ import { useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 import { logoutThunk } from '../../services/actions/auth';
-import { wsConnectionStartAction, wsConnectionClosedAction } from '../../services/actions/feed';
+import { wsAuthConnectionStartAction, wsConnectionCloseAction } from '../../services/actions/feed';
 import { TOrder } from '../../services/types/data';
 import { useSelector, useDispatch } from '../../services/hooks';
-import { getIngredientsDetails, getCookie } from '../../services/utils';
+import { getIngredientsDetails } from '../../services/utils';
 
 import OrderCard from '../../components/order-card/order-card';
 
@@ -24,9 +24,9 @@ function ProfileOrdersPage() {
   }).reverse();
   
   useEffect(() => {
-    dispatch(wsConnectionStartAction(`wss://norma.nomoreparties.space/orders?token=${getCookie('accessToken')}`));
+    dispatch(wsAuthConnectionStartAction());
     return () => {
-      dispatch(wsConnectionClosedAction());
+      dispatch(wsConnectionCloseAction());
     };
   }, []);
   

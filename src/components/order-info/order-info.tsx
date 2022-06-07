@@ -3,7 +3,7 @@ import styles from './order-info.module.css';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { wsConnectionStartAction, wsConnectionClosedAction } from '../../services/actions/feed';
+import { wsConnectionStartAction, wsConnectionCloseAction } from '../../services/actions/feed';
 import { TOrder } from '../../services/types/data';
 import { useSelector, useDispatch } from '../../services/hooks';
 import { getOrderPrice, getIngredientsDetails } from '../../services/utils';
@@ -24,9 +24,9 @@ function OrderInfo() {
   const order = improvedOrders.find(order => order._id === id);
 
   useEffect(() => {
-    dispatch(wsConnectionStartAction('wss://norma.nomoreparties.space/orders/all'));
+    dispatch(wsConnectionStartAction());
     return () => {
-      dispatch(wsConnectionClosedAction());
+      dispatch(wsConnectionCloseAction());
     };
   }, []);
 
