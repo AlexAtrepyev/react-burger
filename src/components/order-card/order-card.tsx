@@ -1,8 +1,8 @@
 import styles from './order-card.module.css';
 
 import { FC } from 'react';
-import { v4 as uuid } from 'uuid';
 
+import { MAX_CARD_LOGO_COUNT } from '../../services/constants';
 import { TOrder } from '../../services/types/data';
 import { getOrderPrice } from '../../services/utils';
 
@@ -22,6 +22,11 @@ const OrderCard: FC<{ location: 'feed' | 'profile', data: TOrder }> = ({ locatio
         return (<p className="text text_type_main-default mb-6">Нет данных</p>);
     }
   }
+  
+  let hiddenCount = data.ingredientsDetails && data.ingredientsDetails.length - MAX_CARD_LOGO_COUNT;
+  if (hiddenCount && hiddenCount < 1) hiddenCount = undefined;
+
+  const overlayNeeded = data.ingredientsDetails && data.ingredientsDetails.length > MAX_CARD_LOGO_COUNT;
 
   return (
     <li className={`${styles.card} ${location === 'feed' ? styles.card_location_feed : styles.card_location_profile}`}>
@@ -35,11 +40,21 @@ const OrderCard: FC<{ location: 'feed' | 'profile', data: TOrder }> = ({ locatio
 
       <div className={styles.info}>
         <ul className={styles.ingredients}>
-          {data.ingredientsDetails && data.ingredientsDetails.map(ingredient => (
-            <span key={uuid()} className={styles.container}>
-              <IngredientLogo image={ingredient.image_mobile} name={ingredient.name} />
-            </span>
-          ))}
+          {data.ingredientsDetails && data.ingredientsDetails.slice(0, MAX_CARD_LOGO_COUNT).map((ingredient, index) => {
+            if (overlayNeeded && index === 0) {
+              return (
+                <span key={index} className={styles.container}>
+                  <IngredientLogo image={ingredient.image_mobile} name={ingredient.name} hiddenCount={hiddenCount} />
+                </span>
+              )
+            } else {
+              return (
+                <span key={index} className={styles.container}>
+                  <IngredientLogo image={ingredient.image_mobile} name={ingredient.name} />
+                </span>
+              )
+            }
+          })}
         </ul>
         <div className={styles.price}>
           <span className="text text_type_digits-default">

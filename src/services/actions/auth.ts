@@ -287,7 +287,7 @@ export const resetPasswordStepTwoThunk: AppThunk = (password: string, token: str
 export const logoutThunk: AppThunk = () => (dispatch: AppDispatch) => {
   dispatch(logoutAction());
   const refreshToken = getCookie('refreshToken');
-  refreshToken && api.logout(refreshToken)
+  api.logout(refreshToken)
     .then(res => {
       if (res && res.success) {
         dispatch(logoutSuccessAction());
@@ -303,7 +303,7 @@ export const logoutThunk: AppThunk = () => (dispatch: AppDispatch) => {
 export const getUserThunk: AppThunk = () => (dispatch: AppDispatch) => {
   dispatch(getUserAction());
   const accessToken = getCookie('accessToken');
-  accessToken && api.getUser(accessToken)
+  api.getUser(accessToken)
     .then(res => {
       if (res && res.success) {
         dispatch(getUserSuccessAction(res.user));
@@ -314,7 +314,7 @@ export const getUserThunk: AppThunk = () => (dispatch: AppDispatch) => {
     .catch(() => {
       dispatch(getNewTokenAction());
       const refreshToken = getCookie('refreshToken');
-      refreshToken && api.getNewToken(refreshToken)
+      api.getNewToken(refreshToken)
         .then(res => {
           if (res && res.success) {
             const accessToken = res.accessToken.split('Bearer ')[1];
@@ -345,7 +345,7 @@ export const getUserThunk: AppThunk = () => (dispatch: AppDispatch) => {
 export const updateUserThunk: AppThunk = (name: string, email: string, password: string) => (dispatch: AppDispatch) => {
   dispatch(updateUserAction());
   const accessToken = getCookie('accessToken');
-  accessToken && api.updateUser(accessToken, name, email, password)
+  api.updateUser(name, email, password, accessToken)
     .then(res => {
       if (res && res.success) {
         dispatch(updateUserSuccessAction(res.user));
@@ -356,7 +356,7 @@ export const updateUserThunk: AppThunk = (name: string, email: string, password:
     .catch(() => {
       dispatch(getNewTokenAction());
       const refreshToken = getCookie('refreshToken');
-      refreshToken && api.getNewToken(refreshToken)
+      api.getNewToken(refreshToken)
         .then(res => {
           if (res && res.success) {
             const accessToken = res.accessToken.split('Bearer ')[1];
