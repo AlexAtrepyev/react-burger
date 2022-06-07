@@ -1,5 +1,6 @@
 import { SyntheticEvent, RefObject } from 'react';
 
+import { MONTH_DICT } from '../services/constants';
 import { TIngredient, TOrder } from './types/data';
 
 export function getNearestRef(container: SyntheticEvent['currentTarget'], refs: RefObject<HTMLHeadingElement>[]): any {
@@ -95,4 +96,14 @@ export function getOrderPrice(items: TIngredient[]): number {
 
 export function getOrderNumbers(items: TOrder[]): number[] {
   return items.map(item => item.number);
+}
+
+function parseTime(time: number) {
+  const stringTime = time.toString();
+  return stringTime.length === 1 ? `0${stringTime}` : stringTime;
+}
+
+export function parseOrderDate(orderDate: string): string {
+  const date = new Date(orderDate);
+  return `${date.getDate()} ${MONTH_DICT[date.getMonth()]}, ${parseTime(date.getHours())}:${parseTime(date.getMinutes())}`;
 }

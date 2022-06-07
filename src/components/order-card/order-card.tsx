@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 import { MAX_CARD_LOGO_COUNT } from '../../services/constants';
 import { TOrder } from '../../services/types/data';
-import { getOrderPrice } from '../../services/utils';
+import { getOrderPrice, parseOrderDate } from '../../services/utils';
 
 import IngredientLogo from '../ingredient-logo/ingredient-logo';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -32,7 +32,7 @@ const OrderCard: FC<{ location: 'feed' | 'profile', data: TOrder }> = ({ locatio
     <li className={`${styles.card} ${location === 'feed' ? styles.card_location_feed : styles.card_location_profile}`}>
       <div className={styles.number}>
         <span className="text text_type_digits-default">{data.number}</span>
-        <span className="text text_type_main-default text_color_inactive">{data.createdAt}</span>
+        <span className="text text_type_main-default text_color_inactive">{parseOrderDate(data.createdAt)}</span>
       </div>
       <h2 className={`text text_type_main-medium mt-6 ${location === 'feed' ? 'mb-6' : 'mb-2'}`}>{data.name}</h2>
 

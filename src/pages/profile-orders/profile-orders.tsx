@@ -7,7 +7,7 @@ import { logoutThunk } from '../../services/actions/auth';
 import { wsAuthConnectionStartAction, wsConnectionCloseAction } from '../../services/actions/feed';
 import { TOrder } from '../../services/types/data';
 import { useSelector, useDispatch } from '../../services/hooks';
-import { getIngredientsDetails } from '../../services/utils';
+import { getIngredientsDetails, getCookie } from '../../services/utils';
 
 import OrderCard from '../../components/order-card/order-card';
 
@@ -24,7 +24,7 @@ function ProfileOrdersPage() {
   }).reverse();
   
   useEffect(() => {
-    dispatch(wsAuthConnectionStartAction());
+    dispatch(wsAuthConnectionStartAction(`wss://norma.nomoreparties.space/orders?token=${getCookie('accessToken')}`));
     return () => {
       dispatch(wsConnectionCloseAction());
     };

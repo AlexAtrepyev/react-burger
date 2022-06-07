@@ -6,7 +6,7 @@ import { useParams, useLocation, useRouteMatch } from 'react-router-dom';
 import { wsConnectionStartAction, wsAuthConnectionStartAction, wsConnectionCloseAction } from '../../services/actions/feed';
 import { TOrder } from '../../services/types/data';
 import { useSelector, useDispatch } from '../../services/hooks';
-import { getOrderPrice, getIngredientsDetails } from '../../services/utils';
+import { getOrderPrice, getIngredientsDetails, getCookie } from '../../services/utils';
 
 import OrderItem from '../../components/order-item/order-item';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -29,8 +29,9 @@ function OrderInfo() {
   
   useEffect(() => {
     const isBackground = location.state && location.state.background;
-    !isBackground && isFeed && dispatch(wsConnectionStartAction());
-    !isBackground && isProfile && dispatch(wsAuthConnectionStartAction());
+    !isBackground && isFeed && dispatch(wsConnectionStartAction('wss://norma.nomoreparties.space/orders/all'));
+    !isBackground && isProfile &&
+      dispatch(wsAuthConnectionStartAction(`wss://norma.nomoreparties.space/orders?token=${getCookie('accessToken')}`));
     return () => {
       !isBackground && dispatch(wsConnectionCloseAction());
     };

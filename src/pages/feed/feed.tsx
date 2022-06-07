@@ -27,7 +27,7 @@ function FeedPage() {
   const pendingNumbers = getOrderNumbers(orders.filter(order => order.status === 'pending'));
   
   useEffect(() => {
-    dispatch(wsConnectionStartAction());
+    dispatch(wsConnectionStartAction('wss://norma.nomoreparties.space/orders/all'));
     return () => {
       dispatch(wsConnectionCloseAction());
     };

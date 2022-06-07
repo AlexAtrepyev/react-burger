@@ -23,9 +23,11 @@ export const wsActions: TWsActions = {
 // Типизация экшенов
 export interface IWsConnectionStartAction {
   readonly type: typeof WS_CONNECTION_START;
+  readonly payload: string;
 }
 export interface IWsAuthConnectionStartAction {
   readonly type: typeof WS_AUTH_CONNECTION_START;
+  readonly payload: string;
 }
 export interface IWsConnectionCloseAction {
   readonly type: typeof WS_CONNECTION_CLOSE;
@@ -57,11 +59,13 @@ export type TFeedActions =
   | IWsGetMessageAction;
 
 // Генераторы экшенов
-export const wsConnectionStartAction = (): IWsConnectionStartAction => ({
-  type: WS_CONNECTION_START
+export const wsConnectionStartAction = (payload: string): IWsConnectionStartAction => ({
+  type: WS_CONNECTION_START,
+  payload
 });
-export const wsAuthConnectionStartAction = (): IWsAuthConnectionStartAction => ({
-  type: WS_AUTH_CONNECTION_START
+export const wsAuthConnectionStartAction = (payload: string): IWsAuthConnectionStartAction => ({
+  type: WS_AUTH_CONNECTION_START,
+  payload
 });
 export const wsConnectionCloseAction = (): IWsConnectionCloseAction => ({
   type: WS_CONNECTION_CLOSE
