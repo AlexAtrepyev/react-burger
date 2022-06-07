@@ -1,9 +1,9 @@
 import styles from './order-info.module.css';
 
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation, useRouteMatch } from 'react-router-dom';
 
-import { wsConnectionStartAction, wsConnectionCloseAction } from '../../services/actions/feed';
+import { wsConnectionStartAction, wsAuthConnectionStartAction, wsConnectionCloseAction } from '../../services/actions/feed';
 import { TOrder } from '../../services/types/data';
 import { useSelector, useDispatch } from '../../services/hooks';
 import { getOrderPrice, getIngredientsDetails } from '../../services/utils';
@@ -12,6 +12,10 @@ import OrderItem from '../../components/order-item/order-item';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function OrderInfo() {
+  const location = useLocation<any>();
+  const isFeed = useRouteMatch<any>('/feed');
+  const isProfile = useRouteMatch<any>('/profile');
+
   const dispatch = useDispatch();
   const orders = useSelector(state => state.feed.orders);
   const ingredients = useSelector(state => state.burger.ingredients.items);
@@ -22,15 +26,15 @@ function OrderInfo() {
   });
   const { id } = useParams<{ id: string }>();
   const order = improvedOrders.find(order => order._id === id);
-
+  
   useEffect(() => {
-    dispatch(wsConnectionStartAction());
+    const isBackground = location.state && location.state.background;
+    !isBackground && isFeed && dispatch(wsConnectionStartAction());
+    !isBackground && isProfile && dispatch(wsAuthConnectionStartAction());
     return () => {
-      dispatch(wsConnectionCloseAction());
+      !isBackground && dispatch(wsConnectionCloseAction());
     };
   }, []);
-
-  console.log(order);
 
   function getStatus(status: "created" | "pending" | "done"): JSX.Element {
     switch(status) {

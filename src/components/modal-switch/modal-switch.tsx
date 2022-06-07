@@ -90,7 +90,7 @@ function ModalSwitch() {
 
       {background && (
         <Route path='/feed/:id'>
-          <Modal onClose={handleCloseModal}>
+          <Modal onClose={() => history.goBack()}>
             <OrderInfo />
           </Modal>
         </Route>
@@ -98,7 +98,7 @@ function ModalSwitch() {
 
       {background && (
         <ProtectedRoute path='/profile/orders/:id'>
-          <Modal onClose={handleCloseModal}>
+          <Modal onClose={() => history.goBack()}>
             <OrderInfo />
           </Modal>
         </ProtectedRoute>
