@@ -1,16 +1,24 @@
+import type { TUIActions } from '../actions/ui';
+
 import {
   TOGGLE_INGREDIENT_MODAL,
   TOGGLE_ORDER_MODAL,
   SET_CURRENT_TAB
-} from '../../utils/constants';
+} from '../constants';
 
-const initialState = {
+type TUIState = {
+  ingredientModal: boolean,
+  orderModal: boolean,
+  currentTab: 'bun' | 'sauce' | 'main'
+}
+
+const uiInitialState: TUIState = {
   ingredientModal: false,
   orderModal: false,
   currentTab: 'bun'
 }
 
-export const uiReducer = (state = initialState, action) => {
+export const uiReducer = (state = uiInitialState, action: TUIActions): TUIState => {
   switch (action.type) {
     case TOGGLE_INGREDIENT_MODAL: {
       return {

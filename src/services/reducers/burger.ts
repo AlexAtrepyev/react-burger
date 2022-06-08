@@ -1,16 +1,33 @@
+import type { TBurgerActions } from '../actions/burger';
+
 import {
-  GET_INGREDIENTS,
-  GET_INGREDIENTS_FAILED,
-  GET_INGREDIENTS_SUCCESS,
+  GET_INGREDIENTS_REQUEST,
+  GET_INGREDIENTS_REQUEST_SUCCESS,
+  GET_INGREDIENTS_REQUEST_FAILED,
   ADD_BUN,
   ADD_INTER_INGREDIENT,
   UPDATE_INTER_INGREDIENT,
   REMOVE_INTER_INGREDIENT,
   SET_CURRENT_INGREDIENT,
   RESET_CURRENT_INGREDIENT
-} from '../../utils/constants';
+} from '../constants';
 
-const initialState = {
+import { TIngredient } from '../types/data';
+
+type TBurgerState = {
+  ingredients: {
+    request: boolean,
+    failed: boolean,
+    items: TIngredient[]
+  },
+  constructor: {
+    bunItem: any,
+    interItems: TIngredient[]
+  },
+  currentIngredient: any
+}
+
+const burgerInitialState: TBurgerState = {
   ingredients: {
     request: false,
     failed: false,
@@ -23,9 +40,9 @@ const initialState = {
   currentIngredient: {}
 }
 
-export const burgerReducer = (state = initialState, action) => {
+export const burgerReducer = (state = burgerInitialState, action: TBurgerActions): TBurgerState => {
   switch (action.type) {
-    case GET_INGREDIENTS: {
+    case GET_INGREDIENTS_REQUEST: {
       return {
         ...state,
         ingredients: {
@@ -35,7 +52,7 @@ export const burgerReducer = (state = initialState, action) => {
         }
       };
     }
-    case GET_INGREDIENTS_SUCCESS: {
+    case GET_INGREDIENTS_REQUEST_SUCCESS: {
       return {
         ...state,
         ingredients: {
@@ -47,7 +64,7 @@ export const burgerReducer = (state = initialState, action) => {
         }
       };
     }
-    case GET_INGREDIENTS_FAILED: {
+    case GET_INGREDIENTS_REQUEST_FAILED: {
       return {
         ...state,
         ingredients: {

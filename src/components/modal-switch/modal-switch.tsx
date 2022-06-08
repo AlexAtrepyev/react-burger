@@ -1,34 +1,40 @@
-import { useDispatch } from 'react-redux';
 import { Route, Switch, useLocation, useHistory } from 'react-router-dom';
 
-import { RESET_CURRENT_INGREDIENT, TOGGLE_INGREDIENT_MODAL } from '../../utils/constants';
+import { resetCurrentIngredientAction } from '../../services/actions/burger';
+import { toggleIngredientModalAction } from '../../services/actions/ui';
+import { useDispatch } from '../../services/hooks';
 
 import AppHeader from '../app-header/app-header';
 import ProtectedRoute from '../protected-route/protected-route';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import OrderInfo from '../order-info/order-info';
 
 import {
+  FeedPage,
   ForgotPasswordPage,
   IngredientPage,
   LoginPage,
   Main,
   NotFoundPage,
+  OrderInfoPage,
   ProfilePage,
+  ProfileOrdersPage,
   RegisterPage,
   ResetPasswordPage
 } from '../../pages';
 
 function ModalSwitch() {
-  const dispatch = useDispatch();
-  
   const location = useLocation<any>();
   const history = useHistory<any>();
+
+  const dispatch = useDispatch();
+  
   let background = location.state && location.state.background;
   
   function handleCloseModal() {
-    dispatch({ type: TOGGLE_INGREDIENT_MODAL });
-    dispatch({ type: RESET_CURRENT_INGREDIENT });
+    dispatch(toggleIngredientModalAction());
+    dispatch(resetCurrentIngredientAction());
     history.goBack();
   }
   
@@ -36,12 +42,6 @@ function ModalSwitch() {
     <>
       <AppHeader />
       <Switch location={background || location}>
-        <Route exact path="/">
-          <Main />
-        </Route>
-        <Route exact path="/ingredients/:ingredientId">
-          <IngredientPage />
-        </Route>
         <Route exact path="/register">
           <RegisterPage />
         </Route>
@@ -54,8 +54,26 @@ function ModalSwitch() {
         <Route exact path="/reset-password">
           <ResetPasswordPage />
         </Route>
-        <ProtectedRoute path="/profile">
+        <Route exact path="/">
+          <Main />
+        </Route>
+        <Route exact path="/ingredients/:ingredientId">
+          <IngredientPage />
+        </Route>
+        <Route exact path="/feed">
+          <FeedPage />
+        </Route>
+        <Route exact path="/feed/:id">
+          <OrderInfoPage />
+        </Route>
+        <ProtectedRoute exact path="/profile">
           <ProfilePage />
+        </ProtectedRoute>
+        <ProtectedRoute exact path="/profile/orders">
+          <ProfileOrdersPage />
+        </ProtectedRoute>
+        <ProtectedRoute exact path="/profile/orders/:id">
+          <OrderInfoPage />
         </ProtectedRoute>
         <Route>
           <NotFoundPage />
@@ -68,6 +86,22 @@ function ModalSwitch() {
             <IngredientDetails />
           </Modal>
         </Route>
+      )}
+
+      {background && (
+        <Route path='/feed/:id'>
+          <Modal onClose={() => history.goBack()}>
+            <OrderInfo />
+          </Modal>
+        </Route>
+      )}
+
+      {background && (
+        <ProtectedRoute path='/profile/orders/:id'>
+          <Modal onClose={() => history.goBack()}>
+            <OrderInfo />
+          </Modal>
+        </ProtectedRoute>
       )}
     </>
   );

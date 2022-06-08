@@ -1,9 +1,9 @@
 import styles from './order-details.module.css';
 
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 
 function OrderDetails() {
-  const orderNumber = useSelector<any, number>(state => state.order.number);
+  const orderNumber = useSelector(state => state.order.number);
 
   return orderNumber ? (
     <>

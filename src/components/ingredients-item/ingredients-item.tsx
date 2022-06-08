@@ -2,11 +2,11 @@ import styles from './ingredients-item.module.css';
 
 import { FC } from 'react';
 import { useDrag } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { RESET_CURRENT_INGREDIENT, TOGGLE_INGREDIENT_MODAL } from '../../utils/constants';
-
-import { TIngredient } from '../../types';
+import { resetCurrentIngredientAction } from '../../services/actions/burger';
+import { toggleIngredientModalAction } from '../../services/actions/ui';
+import { TIngredient } from '../../services/types/data';
+import { useSelector, useDispatch } from '../../services/hooks';
 
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
@@ -14,9 +14,8 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 
 const IngredientsItem: FC<{ item: TIngredient }> = ({ item }) => {
   const dispatch = useDispatch();
-
-  const modalVisible = useSelector<any, boolean>(state => state.ui.ingredientModal);
-  const currentIngredient = useSelector<any, TIngredient>(state => state.burger.currentIngredient);
+  const modalVisible = useSelector(state => state.ui.ingredientModal);
+  const currentIngredient = useSelector(state => state.burger.currentIngredient);
   
   const [{ opacity }, dragRef] = useDrag({
     type: 'ingredient',
@@ -32,8 +31,8 @@ const IngredientsItem: FC<{ item: TIngredient }> = ({ item }) => {
   }
   */
   function handleCloseModal() {
-    dispatch({ type: TOGGLE_INGREDIENT_MODAL });
-    dispatch({ type: RESET_CURRENT_INGREDIENT });
+    dispatch(toggleIngredientModalAction());
+    dispatch(resetCurrentIngredientAction());
   }
   
   return (

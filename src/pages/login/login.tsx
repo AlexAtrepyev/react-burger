@@ -1,20 +1,19 @@
 import styles from './login.module.css';
 
 import { useState, ChangeEvent, FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 
-import { login } from '../../services/actions';
-
-import { TUser, TForm } from '../../types';
+import { loginThunk } from '../../services/actions/auth';
+import { TForm } from '../../services/types/data';
+import { useSelector, useDispatch } from '../../services/hooks';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function LoginPage() {
   const history = useHistory<any>();
+  
   const dispatch = useDispatch();
-
-  const user = useSelector<any, TUser>(state => state.auth.user);
+  const user = useSelector(state => state.auth.user);
 
   const [form, setValue] = useState<TForm>({ email: '', password: '' });
 
@@ -24,7 +23,7 @@ function LoginPage() {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    dispatch(login({ email: form.email, password: form.password }));
+    dispatch(loginThunk(form.email, form.password));
   };
   
   const linkClass = 'text text_type_main-default text_color_link text_decoration_none';

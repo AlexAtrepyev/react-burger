@@ -3,7 +3,7 @@ import styles from './ingredients-group.module.css';
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import { TIngredient } from '../../types';
+import { TIngredient } from '../../services/types/data';
 
 import IngredientsItem from '../ingredients-item/ingredients-item';
 

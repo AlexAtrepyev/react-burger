@@ -1,31 +1,72 @@
-import {
-  REGISTER,
-  REGISTER_SUCCESS,
-  REGISTER_FAILED,
-  RESET_PASSWORD_STEP_ONE,
-  RESET_PASSWORD_STEP_ONE_SUCCESS,
-  RESET_PASSWORD_STEP_ONE_FAILED,
-  RESET_PASSWORD_STEP_TWO,
-  RESET_PASSWORD_STEP_TWO_SUCCESS,
-  RESET_PASSWORD_STEP_TWO_FAILED,
-  LOGIN,
-  LOGIN_SUCCESS,
-  LOGIN_FAILED,
-  GET_NEW_TOKEN,
-  GET_NEW_TOKEN_SUCCESS,
-  GET_NEW_TOKEN_FAILED,
-  LOGOUT,
-  LOGOUT_SUCCESS,
-  LOGOUT_FAILED,
-  GET_USER,
-  GET_USER_SUCCESS,
-  GET_USER_FAILED,
-  UPDATE_USER,
-  UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILED
-} from '../../utils/constants';
+import type { TAuthActions } from '../actions/auth';
 
-const initialState = {
+import {
+  REGISTER_REQUEST,
+  REGISTER_REQUEST_SUCCESS,
+  REGISTER_REQUEST_FAILED,
+  LOGIN_REQUEST,
+  LOGIN_REQUEST_SUCCESS,
+  LOGIN_REQUEST_FAILED,
+  RESET_PASSWORD_STEP_ONE_REQUEST,
+  RESET_PASSWORD_STEP_ONE_REQUEST_SUCCESS,
+  RESET_PASSWORD_STEP_ONE_REQUEST_FAILED,
+  RESET_PASSWORD_STEP_TWO_REQUEST,
+  RESET_PASSWORD_STEP_TWO_REQUEST_SUCCESS,
+  RESET_PASSWORD_STEP_TWO_REQUEST_FAILED,
+  LOGOUT_REQUEST,
+  LOGOUT_REQUEST_SUCCESS,
+  LOGOUT_REQUEST_FAILED,
+  GET_NEW_TOKEN_REQUEST,
+  GET_NEW_TOKEN_REQUEST_SUCCESS,
+  GET_NEW_TOKEN_REQUEST_FAILED,
+  GET_USER_REQUEST,
+  GET_USER_REQUEST_SUCCESS,
+  GET_USER_REQUEST_FAILED,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_REQUEST_SUCCESS,
+  UPDATE_USER_REQUEST_FAILED
+} from '../constants';
+
+type TAuthState = {
+  register: {
+    request: boolean,
+    failed: boolean
+  },
+  resetPassword: {
+    stepOne: {
+      request: boolean,
+      failed: boolean,
+      success: boolean
+    },
+    stepTwo: {
+      request: boolean,
+      failed: boolean,
+      success: boolean
+    }
+  },
+  login: {
+    request: boolean,
+    failed: boolean
+  },
+  getNewToken: {
+    request: boolean,
+    failed: boolean
+  },
+  logout: {
+    request: boolean,
+    failed: boolean
+  },
+  user: {
+    getRequest: boolean,
+    getFailed: boolean,
+    updateRequest: boolean,
+    updateFailed: boolean,
+    name: string,
+    email: string
+  }
+}
+
+const authInitialState: TAuthState = {
   register: {
     request: false,
     failed: false
@@ -64,9 +105,9 @@ const initialState = {
   }
 }
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = authInitialState, action: TAuthActions): TAuthState => {
   switch (action.type) {
-    case REGISTER: {
+    case REGISTER_REQUEST: {
       return {
         ...state,
         register: {
@@ -75,7 +116,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case REGISTER_SUCCESS: {
+    case REGISTER_REQUEST_SUCCESS: {
       return {
         ...state,
         register: {
@@ -89,7 +130,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case REGISTER_FAILED: {
+    case REGISTER_REQUEST_FAILED: {
       return {
         ...state,
         register: {
@@ -98,7 +139,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case RESET_PASSWORD_STEP_ONE: {
+    case RESET_PASSWORD_STEP_ONE_REQUEST: {
       return {
         ...state,
         resetPassword: {
@@ -115,7 +156,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case RESET_PASSWORD_STEP_ONE_SUCCESS: {
+    case RESET_PASSWORD_STEP_ONE_REQUEST_SUCCESS: {
       return {
         ...state,
         resetPassword: {
@@ -128,7 +169,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case RESET_PASSWORD_STEP_ONE_FAILED: {
+    case RESET_PASSWORD_STEP_ONE_REQUEST_FAILED: {
       return {
         ...state,
         resetPassword: {
@@ -141,7 +182,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case RESET_PASSWORD_STEP_TWO: {
+    case RESET_PASSWORD_STEP_TWO_REQUEST: {
       return {
         ...state,
         resetPassword: {
@@ -158,7 +199,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case RESET_PASSWORD_STEP_TWO_SUCCESS: {
+    case RESET_PASSWORD_STEP_TWO_REQUEST_SUCCESS: {
       return {
         ...state,
         resetPassword: {
@@ -171,7 +212,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case RESET_PASSWORD_STEP_TWO_FAILED: {
+    case RESET_PASSWORD_STEP_TWO_REQUEST_FAILED: {
       return {
         ...state,
         resetPassword: {
@@ -184,7 +225,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case LOGIN: {
+    case LOGIN_REQUEST: {
       return {
         ...state,
         login: {
@@ -193,7 +234,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case LOGIN_SUCCESS: {
+    case LOGIN_REQUEST_SUCCESS: {
       return {
         ...state,
         login: {
@@ -207,7 +248,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case LOGIN_FAILED: {
+    case LOGIN_REQUEST_FAILED: {
       return {
         ...state,
         login: {
@@ -216,7 +257,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case GET_NEW_TOKEN: {
+    case GET_NEW_TOKEN_REQUEST: {
       return {
         ...state,
         getNewToken: {
@@ -225,7 +266,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case GET_NEW_TOKEN_SUCCESS: {
+    case GET_NEW_TOKEN_REQUEST_SUCCESS: {
       return {
         ...state,
         getNewToken: {
@@ -234,7 +275,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case GET_NEW_TOKEN_FAILED: {
+    case GET_NEW_TOKEN_REQUEST_FAILED: {
       return {
         ...state,
         getNewToken: {
@@ -243,7 +284,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case LOGOUT: {
+    case LOGOUT_REQUEST: {
       return {
         ...state,
         logout: {
@@ -252,7 +293,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case LOGOUT_SUCCESS: {
+    case LOGOUT_REQUEST_SUCCESS: {
       return {
         ...state,
         logout: {
@@ -266,7 +307,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case LOGOUT_FAILED: {
+    case LOGOUT_REQUEST_FAILED: {
       return {
         ...state,
         logout: {
@@ -275,7 +316,7 @@ export const authReducer = (state = initialState, action) => {
         }
       };
     }
-    case GET_USER: {
+    case GET_USER_REQUEST: {
       return {
         ...state,
         user: {
@@ -285,7 +326,7 @@ export const authReducer = (state = initialState, action) => {
         },
       };
     }
-    case GET_USER_SUCCESS: {
+    case GET_USER_REQUEST_SUCCESS: {
       return {
         ...state,
         user: {
@@ -296,7 +337,7 @@ export const authReducer = (state = initialState, action) => {
         },
       };
     }
-    case GET_USER_FAILED: {
+    case GET_USER_REQUEST_FAILED: {
       return {
         ...state,
         user: {
@@ -306,7 +347,7 @@ export const authReducer = (state = initialState, action) => {
         },
       };
     }
-    case UPDATE_USER: {
+    case UPDATE_USER_REQUEST: {
       return {
         ...state,
         user: {
@@ -316,7 +357,7 @@ export const authReducer = (state = initialState, action) => {
         },
       };
     }
-    case UPDATE_USER_SUCCESS: {
+    case UPDATE_USER_REQUEST_SUCCESS: {
       return {
         ...state,
         user: {
@@ -327,7 +368,7 @@ export const authReducer = (state = initialState, action) => {
         },
       };
     }
-    case UPDATE_USER_FAILED: {
+    case UPDATE_USER_REQUEST_FAILED: {
       return {
         ...state,
         user: {

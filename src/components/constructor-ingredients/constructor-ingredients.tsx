@@ -1,18 +1,17 @@
 import styles from './constructor-ingredients.module.css';
 
 import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { UPDATE_INTER_INGREDIENT } from '../../utils/constants';
-
-import { TIngredient, TMoveCard } from '../../types';
+import { updateInterIngredientAction } from '../../services/actions/burger';
+import { TMoveCard } from '../../services/types/data';
+import { useSelector, useDispatch } from '../../services/hooks';
 
 import ConstructorBunItem from '../constructor-bun-item/constructor-bun-item';
 import ConstructorInterItem from '../constructor-inter-item/constructor-inter-item';
 
 function ConstructorIngredients() {
-  const interItems = useSelector<any, TIngredient[]>(state => state.burger.constructor.interItems);
   const dispatch = useDispatch();
+  const interItems = useSelector(state => state.burger.constructor.interItems);
   
   const moveCard = useCallback<TMoveCard>((dragIndex, hoverIndex) => {
     const dragItem = interItems[dragIndex];
@@ -20,10 +19,7 @@ function ConstructorIngredients() {
     newItems.splice(dragIndex, 1);
     newItems.splice(hoverIndex, 0, dragItem);
     
-    dispatch({
-      type: UPDATE_INTER_INGREDIENT,
-      newInterItems: newItems
-    })
+    dispatch(updateInterIngredientAction(newItems));
   }, [interItems, dispatch]);
 
   return (

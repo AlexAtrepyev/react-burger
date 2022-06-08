@@ -1,6 +1,7 @@
 import { SyntheticEvent, RefObject } from 'react';
 
-import { TIngredient } from '../types';
+import { MONTH_DICT } from '../services/constants';
+import { TIngredient, TOrder } from './types/data';
 
 export function getNearestRef(container: SyntheticEvent['currentTarget'], refs: RefObject<HTMLHeadingElement>[]): any {
   const aim = container.getBoundingClientRect().top;
@@ -35,7 +36,7 @@ export function getIDs(items: TIngredient[]): string[] {
   return items.map(item => item._id);
 }
 
-export function setCookie(name: string, value: string, props: any): void {
+export function setCookie(name: string, value: string, props?: any): void {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
@@ -63,4 +64,46 @@ export function getCookie(name: string): string | undefined {
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+function getCountedArray(array: string[]): { name: string, count: number }[] {
+  const dict = array.reduce((dict: { [key: string]: number }, element) => {
+    dict[element] = (dict[element] || 0) + 1;
+    return dict;
+  }, {});
+
+  return Object.entries(dict).map(entry => {
+    return { name: entry[0], count: entry[1] };
+  });
+}
+
+export function getIngredientsDetails(initialIngredients: TIngredient[], ids: string[]): TIngredient[] {
+  const filteredIngredients: TIngredient[] = [];
+  
+  getCountedArray(ids).forEach(id => {
+    const filteredIngredient = initialIngredients.find(initialIngredient => initialIngredient._id === id.name);
+    filteredIngredient && filteredIngredients.push({ ...filteredIngredient, count: id.count });
+  });
+
+  return filteredIngredients;
+}
+
+export function getOrderPrice(items: TIngredient[]): number {
+  return items.reduce((sum, item) => {
+    return sum + item.price * item.count;
+  }, 0);
+}
+
+export function getOrderNumbers(items: TOrder[]): number[] {
+  return items.map(item => item.number);
+}
+
+function parseTime(time: number) {
+  const stringTime = time.toString();
+  return stringTime.length === 1 ? `0${stringTime}` : stringTime;
+}
+
+export function parseOrderDate(orderDate: string): string {
+  const date = new Date(orderDate);
+  return `${date.getDate()} ${MONTH_DICT[date.getMonth()]}, ${parseTime(date.getHours())}:${parseTime(date.getMinutes())}`;
 }

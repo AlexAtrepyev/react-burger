@@ -1,19 +1,18 @@
 import styles from './profile.module.css';
 
 import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import { updateUser, logout } from '../../services/actions';
-
-import { TUser, TForm } from '../../types';
+import { updateUserThunk, logoutThunk } from '../../services/actions/auth';
+import { TForm } from '../../services/types/data';
+import { useSelector, useDispatch } from '../../services/hooks';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 function ProfilePage() {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.user);
 
-  const user = useSelector<any, TUser>(state => state.auth.user);
   const [form, setValue] = useState<TForm>({ name: '', email: '', password: '' });
 
   useEffect(() => {
@@ -26,7 +25,7 @@ function ProfilePage() {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    dispatch(updateUser({ name: form.name, email: form.email, password: form.password }));
+    dispatch(updateUserThunk(form.name, form.email, form.password));
   };
 
   const onCancel = (): void => {
@@ -34,7 +33,7 @@ function ProfilePage() {
   };
 
   const onLogout = (): void => {
-    dispatch(logout());
+    dispatch(logoutThunk());
   };
 
   const linkClass = 'text text_type_main-medium text_decoration_none text_color_inactive ';
@@ -44,10 +43,10 @@ function ProfilePage() {
       <div className={styles.container}>
         <ul className={styles.list}>
           <li className={styles.item}>
-            <NavLink to="/profile" className={linkClass} activeClassName={styles.activeLink}>Профиль</NavLink>
+            <NavLink className={linkClass} activeClassName={styles.activeLink} exact to="/profile">Профиль</NavLink>
           </li>
           <li className={styles.item}>
-            <NavLink to="/profile/orders" className={linkClass} activeClassName={styles.activeLink}>История заказов</NavLink>
+            <NavLink className={linkClass} activeClassName={styles.activeLink} exact to="/profile/orders">История заказов</NavLink>
           </li>
           <li className={styles.item}>
             <button className={linkClass + styles.logout} onClick={onLogout}>Выход</button>

@@ -1,12 +1,11 @@
 import styles from './burger-constructor.module.css';
 
 import { useDrop, DropTargetMonitor } from 'react-dnd';
-import { useDispatch } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 
-import { ADD_BUN, ADD_INTER_INGREDIENT } from '../../utils/constants';
-
-import { TIngredient } from '../../types';
+import { addBunAction, addInterIngredientAction } from '../../services/actions/burger';
+import { TIngredient } from '../../services/types/data';
+import { useDispatch } from '../../services/hooks';
 
 import ConstructorIngredients from '../constructor-ingredients/constructor-ingredients';
 import ConstructorOrder from '../constructor-order/constructor-order';
@@ -21,18 +20,9 @@ function BurgerConstructor() {
     }),
     drop(item: TIngredient) {
       if (item.type === 'bun') {
-        dispatch({
-          type: ADD_BUN,
-          bun: item
-        });
+        dispatch(addBunAction(item));
       } else {
-        dispatch({
-          type: ADD_INTER_INGREDIENT,
-          ingredient: {
-            ...item,
-            dragId: uuid()
-          }
-        });
+        dispatch(addInterIngredientAction({ ...item, dragId: uuid() }));
       }
     },
   });

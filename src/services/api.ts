@@ -1,4 +1,4 @@
-import { TIngredient, TCreateOrderRes, TMessageRes, TAuthRes, TGetNewTokenRes, TUserRes } from '../types';
+import { TIngredient, TCreateOrderRes, TMessageRes, TAuthRes, TGetNewTokenRes, TUserRes } from './types/data';
 
 class Api {
   private baseUrl: string;
@@ -62,7 +62,7 @@ class Api {
     }).then(res => this.checkResponseStatus<TAuthRes>(res));
   }
 
-  getNewToken(token: string) {
+  getNewToken(token?: string) {
     return fetch(`${this.baseUrl}/auth/token`, {
       method: 'POST',
       headers: this.headers,
@@ -70,7 +70,7 @@ class Api {
     }).then(res => this.checkResponseStatus<TGetNewTokenRes>(res));
   }
   
-  logout(token: string) {
+  logout(token?: string) {
     return fetch(`${this.baseUrl}/auth/logout`, {
       method: 'POST',
       headers: this.headers,
@@ -78,7 +78,7 @@ class Api {
     }).then(res => this.checkResponseStatus<TMessageRes>(res));
   }
 
-  getUser(token: string) {
+  getUser(token?: string) {
     return fetch(`${this.baseUrl}/auth/user`, {
       method: 'GET',
       headers: {
@@ -88,7 +88,7 @@ class Api {
     }).then(res => this.checkResponseStatus<TUserRes>(res));
   }
 
-  updateUser(token: string, name: string, email: string, password: string) {
+  updateUser(name: string, email: string, password: string, token?: string) {
     return fetch(`${this.baseUrl}/auth/user`, {
       method: 'PATCH',
       headers: {
