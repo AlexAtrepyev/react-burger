@@ -3,7 +3,7 @@ import styles from './order-info.module.css';
 import { useEffect } from 'react';
 import { useParams, useLocation, useRouteMatch } from 'react-router-dom';
 
-import { wsConnectionStartAction, wsAuthConnectionStartAction, wsConnectionCloseAction } from '../../services/actions/feed';
+import { wsConnectionStartAction, wsConnectionStopAction } from '../../services/actions/feed';
 import { TOrder } from '../../services/types/data';
 import { useSelector, useDispatch } from '../../services/hooks';
 import { getOrderPrice, getIngredientsDetails, getCookie } from '../../services/utils';
@@ -31,9 +31,9 @@ function OrderInfo() {
     const isBackground = location.state && location.state.background;
     !isBackground && isFeed && dispatch(wsConnectionStartAction('wss://norma.nomoreparties.space/orders/all'));
     !isBackground && isProfile &&
-      dispatch(wsAuthConnectionStartAction(`wss://norma.nomoreparties.space/orders?token=${getCookie('accessToken')}`));
+      dispatch(wsConnectionStartAction(`wss://norma.nomoreparties.space/orders?token=${getCookie('accessToken')}`));
     return () => {
-      !isBackground && dispatch(wsConnectionCloseAction());
+      !isBackground && dispatch(wsConnectionStopAction());
     };
   }, []);
 

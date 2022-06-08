@@ -1,7 +1,7 @@
 import type { TFeedActions } from '../actions/feed';
 
 import {
-  WS_CONNECTION_SUCCESS,
+  WS_CONNECTION_OPENED,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
   WS_GET_MESSAGE
@@ -25,7 +25,7 @@ const feedInitialState: TFeedState = {
 
 export const feedReducer = (state = feedInitialState, action: TFeedActions): TFeedState => {
   switch (action.type) {
-    case WS_CONNECTION_SUCCESS: {
+    case WS_CONNECTION_OPENED: {
       return {
         ...state,
         wsConnected: true

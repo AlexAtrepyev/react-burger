@@ -1,8 +1,7 @@
 import {
   WS_CONNECTION_START,
-  WS_AUTH_CONNECTION_START,
-  WS_CONNECTION_CLOSE,
-  WS_CONNECTION_SUCCESS,
+  WS_CONNECTION_STOP,
+  WS_CONNECTION_OPENED,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
   WS_GET_MESSAGE
@@ -96,10 +95,9 @@ export type TUserRes = {
 };
 
 export type TWsActions = {
-  wsInit: typeof WS_CONNECTION_START;
-  wsAuthInit: typeof WS_AUTH_CONNECTION_START;
-  wsClose: typeof WS_CONNECTION_CLOSE;
-  onOpen: typeof WS_CONNECTION_SUCCESS;
+  wsStart: typeof WS_CONNECTION_START;
+  wsStop: typeof WS_CONNECTION_STOP;
+  onOpen: typeof WS_CONNECTION_OPENED;
   onError: typeof WS_CONNECTION_ERROR;
   onClose: typeof WS_CONNECTION_CLOSED;
   onMessage: typeof WS_GET_MESSAGE;

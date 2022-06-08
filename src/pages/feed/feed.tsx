@@ -3,7 +3,7 @@ import styles from './feed.module.css';
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import { wsConnectionStartAction, wsConnectionCloseAction } from '../../services/actions/feed';
+import { wsConnectionStartAction, wsConnectionStopAction } from '../../services/actions/feed';
 import { TOrder } from '../../services/types/data';
 import { useSelector, useDispatch } from '../../services/hooks';
 import { getIngredientsDetails, getOrderNumbers } from '../../services/utils';
@@ -29,7 +29,7 @@ function FeedPage() {
   useEffect(() => {
     dispatch(wsConnectionStartAction('wss://norma.nomoreparties.space/orders/all'));
     return () => {
-      dispatch(wsConnectionCloseAction());
+      dispatch(wsConnectionStopAction());
     };
   }, []);
 

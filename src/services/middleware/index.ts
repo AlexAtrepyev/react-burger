@@ -10,16 +10,13 @@ export const socketMiddleware = (wsActions: TWsActions): Middleware => {
     return next => action => {
       const { dispatch } = store;
       const { type, payload } = action;
-      const { wsInit, wsAuthInit, wsClose, onOpen, onError, onClose, onMessage } = wsActions;
+      const { wsStart, wsStop, onOpen, onError, onClose, onMessage } = wsActions;
 
-      if (type === wsInit) {
-        socket = new WebSocket(payload);
-      }
-      if (type === wsAuthInit) {
+      if (type === wsStart) {
         socket = new WebSocket(payload);
       }
       if (socket) {
-        if (type === wsClose) {
+        if (type === wsStop) {
           socket.close();
         }
         

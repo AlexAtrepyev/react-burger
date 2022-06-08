@@ -1,8 +1,7 @@
 import {
   WS_CONNECTION_START,
-  WS_AUTH_CONNECTION_START,
-  WS_CONNECTION_CLOSE,
-  WS_CONNECTION_SUCCESS,
+  WS_CONNECTION_STOP,
+  WS_CONNECTION_OPENED,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
   WS_GET_MESSAGE
@@ -11,10 +10,9 @@ import {
 import { TOrdersRes, TWsActions } from "../types/data";
 
 export const wsActions: TWsActions = {
-  wsInit: WS_CONNECTION_START,
-  wsAuthInit: WS_AUTH_CONNECTION_START,
-  wsClose: WS_CONNECTION_CLOSE,
-  onOpen: WS_CONNECTION_SUCCESS,
+  wsStart: WS_CONNECTION_START,
+  wsStop: WS_CONNECTION_STOP,
+  onOpen: WS_CONNECTION_OPENED,
   onError: WS_CONNECTION_ERROR,
   onClose: WS_CONNECTION_CLOSED,
   onMessage: WS_GET_MESSAGE
@@ -25,15 +23,11 @@ export interface IWsConnectionStartAction {
   readonly type: typeof WS_CONNECTION_START;
   readonly payload: string;
 }
-export interface IWsAuthConnectionStartAction {
-  readonly type: typeof WS_AUTH_CONNECTION_START;
-  readonly payload: string;
+export interface IWsConnectionStopAction {
+  readonly type: typeof WS_CONNECTION_STOP;
 }
-export interface IWsConnectionCloseAction {
-  readonly type: typeof WS_CONNECTION_CLOSE;
-}
-export interface IWsConnectionSuccessAction {
-  readonly type: typeof WS_CONNECTION_SUCCESS;
+export interface IWsConnectionOpenedAction {
+  readonly type: typeof WS_CONNECTION_OPENED;
 }
 export interface IWsConnectionErrorAction {
   readonly type: typeof WS_CONNECTION_ERROR;
@@ -51,9 +45,8 @@ export interface IWsGetMessageAction {
 // Объединяем в Union
 export type TFeedActions =
   | IWsConnectionStartAction
-  | IWsAuthConnectionStartAction
-  | IWsConnectionCloseAction
-  | IWsConnectionSuccessAction
+  | IWsConnectionStopAction
+  | IWsConnectionOpenedAction
   | IWsConnectionErrorAction
   | IWsConnectionClosedAction
   | IWsGetMessageAction;
@@ -63,15 +56,11 @@ export const wsConnectionStartAction = (payload: string): IWsConnectionStartActi
   type: WS_CONNECTION_START,
   payload
 });
-export const wsAuthConnectionStartAction = (payload: string): IWsAuthConnectionStartAction => ({
-  type: WS_AUTH_CONNECTION_START,
-  payload
+export const wsConnectionStopAction = (): IWsConnectionStopAction => ({
+  type: WS_CONNECTION_STOP
 });
-export const wsConnectionCloseAction = (): IWsConnectionCloseAction => ({
-  type: WS_CONNECTION_CLOSE
-});
-export const wsConnectionSuccessAction = (): IWsConnectionSuccessAction => ({
-  type: WS_CONNECTION_SUCCESS
+export const wsConnectionOpenedAction = (): IWsConnectionOpenedAction => ({
+  type: WS_CONNECTION_OPENED
 });
 export const wsConnectionErrorAction = (): IWsConnectionErrorAction => ({
   type: WS_CONNECTION_ERROR
