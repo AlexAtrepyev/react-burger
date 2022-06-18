@@ -1,7 +1,8 @@
 import { SyntheticEvent, RefObject } from 'react';
 
-import { MONTH_DICT } from '../services/constants';
-import { TIngredient, TOrder } from './types/data';
+import { TIngredient, TOrder } from '../@types/data';
+
+import { MONTH_DICT } from './constants';
 
 export function getNearestRef(container: SyntheticEvent['currentTarget'], refs: RefObject<HTMLHeadingElement>[]): any {
   const aim = container.getBoundingClientRect().top;

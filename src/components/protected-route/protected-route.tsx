@@ -10,15 +10,10 @@ const ProtectedRoute: FC<RouteProps> = ({ children, ...props }) => {
     <Route
       {...props}
       render={({ location }) =>
-        user.name ? (
+        user ? (
           children
         ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: location }
-            }}
-          />
+          <Redirect to={{ pathname: '/login', state: { from: location } }} />
         )
       }
     />

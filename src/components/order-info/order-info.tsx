@@ -1,30 +1,33 @@
 import styles from './order-info.module.css';
 
 import { useEffect } from 'react';
-import { useParams, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useParams, useRouteMatch } from 'react-router-dom';
 
-import { wsConnectionStartAction, wsConnectionStopAction } from '../../services/actions/feed';
-import { TOrder } from '../../services/types/data';
-import { useSelector, useDispatch } from '../../services/hooks';
-import { getOrderPrice, getIngredientsDetails, getCookie } from '../../services/utils';
+import { TOrder } from '../../@types/data';
 
 import OrderItem from '../../components/order-item/order-item';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { wsConnectionStartAction, wsConnectionStopAction } from '../../services/actions/feed';
+import { useSelector, useDispatch } from '../../services/hooks';
+
+import { getOrderPrice, getIngredientsDetails, getCookie } from '../../utils/functions';
+
 function OrderInfo() {
   const location = useLocation<any>();
+  const { id } = useParams<{ id: string }>();
   const isFeed = useRouteMatch<any>('/feed');
   const isProfile = useRouteMatch<any>('/profile');
 
   const dispatch = useDispatch();
   const orders = useSelector(state => state.feed.orders);
-  const ingredients = useSelector(state => state.burger.ingredients.items);
+  const ingredients = useSelector(state => state.ingredients.ingredients);
   
   const improvedOrders: TOrder[] = orders.map(order => {
     order.ingredientsDetails = getIngredientsDetails(ingredients, order.ingredients);
     return order;
   });
-  const { id } = useParams<{ id: string }>();
+  
   const order = improvedOrders.find(order => order._id === id);
   
   useEffect(() => {

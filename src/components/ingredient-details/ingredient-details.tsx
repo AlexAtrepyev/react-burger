@@ -2,14 +2,14 @@ import styles from './ingredient-details.module.css';
 
 import { useParams } from 'react-router-dom';
 
-import { useSelector } from '../../services/hooks';
-
 import NutritionalValue from '../nutritional-value/nutritional-value';
 
+import { useSelector } from '../../services/hooks';
+
 function IngredientDetails() {
-  const ingredients = useSelector(state => state.burger.ingredients.items);
-  
   const { ingredientId } = useParams<{ ingredientId: string }>();
+
+  const ingredients = useSelector(state => state.ingredients.ingredients);
   const ingredient = ingredients.find(item => item._id === ingredientId);
   const {
     image=undefined,

@@ -1,74 +1,41 @@
-import {
-  WS_CONNECTION_START,
-  WS_CONNECTION_STOP,
-  WS_CONNECTION_OPENED,
-  WS_CONNECTION_ERROR,
-  WS_CONNECTION_CLOSED,
-  WS_GET_MESSAGE
-} from '../constants';
+import * as types from '../../@types/redux/feed';
+import { TOrdersRes } from '../../@types/data';
 
-import { TOrdersRes, TWsActions } from "../types/data";
-
-export const wsActions: TWsActions = {
-  wsStart: WS_CONNECTION_START,
-  wsStop: WS_CONNECTION_STOP,
-  onOpen: WS_CONNECTION_OPENED,
-  onError: WS_CONNECTION_ERROR,
-  onClose: WS_CONNECTION_CLOSED,
-  onMessage: WS_GET_MESSAGE
-};
-
-// Типизация экшенов
-export interface IWsConnectionStartAction {
-  readonly type: typeof WS_CONNECTION_START;
-  readonly payload: string;
-}
-export interface IWsConnectionStopAction {
-  readonly type: typeof WS_CONNECTION_STOP;
-}
-export interface IWsConnectionOpenedAction {
-  readonly type: typeof WS_CONNECTION_OPENED;
-}
-export interface IWsConnectionErrorAction {
-  readonly type: typeof WS_CONNECTION_ERROR;
-
-}
-export interface IWsConnectionClosedAction {
-  readonly type: typeof WS_CONNECTION_CLOSED;
-}
-
-export interface IWsGetMessageAction {
-  readonly type: typeof WS_GET_MESSAGE;
-  readonly payload: TOrdersRes;
-}
-
-// Объединяем в Union
-export type TFeedActions =
-  | IWsConnectionStartAction
-  | IWsConnectionStopAction
-  | IWsConnectionOpenedAction
-  | IWsConnectionErrorAction
-  | IWsConnectionClosedAction
-  | IWsGetMessageAction;
+import * as constants from '../../utils/constants/feed';
 
 // Генераторы экшенов
-export const wsConnectionStartAction = (payload: string): IWsConnectionStartAction => ({
-  type: WS_CONNECTION_START,
+export const wsConnectionStartAction = (payload: string): types.IWsConnectionStartAction => ({
+  type: constants.WS_CONNECTION_START,
   payload
 });
-export const wsConnectionStopAction = (): IWsConnectionStopAction => ({
-  type: WS_CONNECTION_STOP
+
+export const wsConnectionStopAction = (): types.IWsConnectionStopAction => ({
+  type: constants.WS_CONNECTION_STOP
 });
-export const wsConnectionOpenedAction = (): IWsConnectionOpenedAction => ({
-  type: WS_CONNECTION_OPENED
+
+export const wsConnectionOpenedAction = (): types.IWsConnectionOpenedAction => ({
+  type: constants.WS_CONNECTION_OPENED
 });
-export const wsConnectionErrorAction = (): IWsConnectionErrorAction => ({
-  type: WS_CONNECTION_ERROR
+
+export const wsConnectionErrorAction = (): types.IWsConnectionErrorAction => ({
+  type: constants.WS_CONNECTION_ERROR
 });
-export const wsConnectionClosedAction = (): IWsConnectionClosedAction => ({
-  type: WS_CONNECTION_CLOSED
+
+export const wsConnectionClosedAction = (): types.IWsConnectionClosedAction => ({
+  type: constants.WS_CONNECTION_CLOSED
 });
-export const wsGetMessageAction = (payload: TOrdersRes): IWsGetMessageAction => ({
-  type: WS_GET_MESSAGE,
+
+export const wsGetMessageAction = (payload: TOrdersRes): types.IWsGetMessageAction => ({
+  type: constants.WS_GET_MESSAGE,
   payload
 });
+
+// WS
+export const wsActions: types.TWsActions = {
+  wsStart: constants.WS_CONNECTION_START,
+  wsStop: constants.WS_CONNECTION_STOP,
+  onOpen: constants.WS_CONNECTION_OPENED,
+  onError: constants.WS_CONNECTION_ERROR,
+  onClose: constants.WS_CONNECTION_CLOSED,
+  onMessage: constants.WS_GET_MESSAGE
+};

@@ -3,20 +3,22 @@ import styles from './profile-orders.module.css';
 import { useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
-import { logoutThunk } from '../../services/actions/auth';
-import { wsConnectionStartAction, wsConnectionStopAction } from '../../services/actions/feed';
-import { TOrder } from '../../services/types/data';
-import { useSelector, useDispatch } from '../../services/hooks';
-import { getIngredientsDetails, getCookie } from '../../services/utils';
+import { TOrder } from '../../@types/data';
 
 import OrderCard from '../../components/order-card/order-card';
+
+import { logoutThunk } from '../../services/actions/auth';
+import { wsConnectionStartAction, wsConnectionStopAction } from '../../services/actions/feed';
+import { useSelector, useDispatch } from '../../services/hooks';
+
+import { getIngredientsDetails, getCookie } from '../../utils/functions';
 
 function ProfileOrdersPage() {
   const location = useLocation<any>();
 
   const dispatch = useDispatch();
   const orders = useSelector(state => state.feed.orders);
-  const ingredients = useSelector(state => state.burger.ingredients.items);
+  const ingredients = useSelector(state => state.ingredients.ingredients);
 
   const improvedOrders: TOrder[] = orders.map(order => {
     order.ingredientsDetails = getIngredientsDetails(ingredients, order.ingredients);

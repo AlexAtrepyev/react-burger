@@ -2,12 +2,13 @@ import styles from './order-card.module.css';
 
 import { FC } from 'react';
 
-import { MAX_CARD_LOGO_COUNT } from '../../services/constants';
-import { TOrder } from '../../services/types/data';
-import { getOrderPrice, parseOrderDate } from '../../services/utils';
+import { TOrder } from '../../@types/data';
 
 import IngredientLogo from '../ingredient-logo/ingredient-logo';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { MAX_CARD_LOGO_COUNT } from '../../utils/constants';
+import { getOrderPrice, parseOrderDate } from '../../utils/functions';
 
 const OrderCard: FC<{ location: 'feed' | 'profile', data: TOrder }> = ({ location, data }) => {
   function getStatus(status: "created" | "pending" | "done"): JSX.Element {

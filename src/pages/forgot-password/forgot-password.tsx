@@ -3,16 +3,17 @@ import styles from './forgot-password.module.css';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
-import { resetPasswordStepOneThunk } from '../../services/actions/auth';
-import { TForm } from '../../services/types/data';
-import { useSelector, useDispatch } from '../../services/hooks';
+import { TForm } from '../../@types/data';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { resetPasswordStepOneThunk } from '../../services/actions/auth';
+import { useSelector, useDispatch } from '../../services/hooks';
 
 function ForgotPasswordPage() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
-  const success = useSelector(state => state.auth.resetPassword.stepOne.success);
+  const success = useSelector(state => state.auth.resetPasswordStepOneSuccess);
   
   const [form, setValue] = useState<TForm>({ email: '' });
   
@@ -27,23 +28,15 @@ function ForgotPasswordPage() {
   
   const linkClass: string = 'text text_type_main-default text_color_link text_decoration_none';
   
-  if (user.name) {
+  if (user) {
     return (
-      <Redirect
-        to={{
-          pathname: '/'
-        }}
-      />
+      <Redirect to={{ pathname: '/' }} />
     );
   }
 
   if (success) {
     return (
-      <Redirect
-        to={{
-          pathname: '/reset-password'
-        }}
-      />
+      <Redirect to={{ pathname: '/reset-password' }} />
     );
   }
 

@@ -1,8 +1,4 @@
-import { Route, Switch, useLocation, useHistory } from 'react-router-dom';
-
-import { resetCurrentIngredientAction } from '../../services/actions/burger';
-import { toggleIngredientModalAction } from '../../services/actions/ui';
-import { useDispatch } from '../../services/hooks';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
 import AppHeader from '../app-header/app-header';
 import ProtectedRoute from '../protected-route/protected-route';
@@ -15,7 +11,7 @@ import {
   ForgotPasswordPage,
   IngredientPage,
   LoginPage,
-  Main,
+  MainPage,
   NotFoundPage,
   OrderInfoPage,
   ProfilePage,
@@ -25,18 +21,10 @@ import {
 } from '../../pages';
 
 function ModalSwitch() {
-  const location = useLocation<any>();
   const history = useHistory<any>();
-
-  const dispatch = useDispatch();
+  const location = useLocation<any>();
   
   let background = location.state && location.state.background;
-  
-  function handleCloseModal() {
-    dispatch(toggleIngredientModalAction());
-    dispatch(resetCurrentIngredientAction());
-    history.goBack();
-  }
   
   return (
     <>
@@ -55,7 +43,7 @@ function ModalSwitch() {
           <ResetPasswordPage />
         </Route>
         <Route exact path="/">
-          <Main />
+          <MainPage />
         </Route>
         <Route exact path="/ingredients/:ingredientId">
           <IngredientPage />
@@ -82,7 +70,7 @@ function ModalSwitch() {
       
       {background && (
         <Route path='/ingredients/:ingredientId'>
-          <Modal title="Детали ингредиента" onClose={handleCloseModal}>
+          <Modal title="Детали ингредиента" onClose={() => history.goBack()}>
             <IngredientDetails />
           </Modal>
         </Route>

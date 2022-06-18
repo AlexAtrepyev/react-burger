@@ -2,17 +2,17 @@ import styles from './burger-ingredients.module.css';
 
 import { useRef, SyntheticEvent } from 'react';
 
-import { setCurrentTabAction } from '../../services/actions/ui';
-import { useSelector, useDispatch } from '../../services/hooks';
-import { getNearestRef, filterIngredients } from '../../services/utils';
-
 import IngredientsGroup from '../ingredients-group/ingredients-group';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { setCurrentTabAction } from '../../services/actions/ingredients';
+import { useSelector, useDispatch } from '../../services/hooks';
+
+import { getNearestRef, filterIngredients } from '../../utils/functions';
+
 function BurgerIngredients() {
   const dispatch = useDispatch();
-  const ingredients = useSelector(state => state.burger.ingredients.items);
-  const currentTab = useSelector(state => state.ui.currentTab);
+  const { currentTab, ingredients } = useSelector(state => state.ingredients);
 
   const bunsRef = useRef<HTMLHeadingElement>(null);
   const saucesRef = useRef<HTMLHeadingElement>(null);

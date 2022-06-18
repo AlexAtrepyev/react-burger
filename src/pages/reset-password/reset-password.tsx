@@ -3,17 +3,18 @@ import styles from './reset-password.module.css';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
-import { resetPasswordStepTwoThunk } from '../../services/actions/auth';
-import { TForm } from '../../services/types/data';
-import { useSelector, useDispatch } from '../../services/hooks';
+import { TForm } from '../../@types/data';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { resetPasswordStepTwoThunk } from '../../services/actions/auth';
+import { useSelector, useDispatch } from '../../services/hooks';
 
 function ResetPasswordPage() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
-  const permission = useSelector(state => state.auth.resetPassword.stepOne.success);
-  const success = useSelector(state => state.auth.resetPassword.stepTwo.success);
+  const permission = useSelector(state => state.auth.resetPasswordStepOneSuccess);
+  const success = useSelector(state => state.auth.resetPasswordStepTwoSuccess);
   
   const [form, setValue] = useState<TForm>({ password: '', token: '' });
   
@@ -28,33 +29,21 @@ function ResetPasswordPage() {
   
   const linkClass = 'text text_type_main-default text_color_link text_decoration_none';
 
-  if (user.name) {
+  if (user) {
     return (
-      <Redirect
-        to={{
-          pathname: '/'
-        }}
-      />
+      <Redirect to={{ pathname: '/' }} />
     );
   }
   
   if (!permission) {
     return (
-      <Redirect
-        to={{
-          pathname: '/forgot-password'
-        }}
-      />
+      <Redirect to={{ pathname: '/forgot-password' }} />
     );
   }
 
   if (success) {
     return (
-      <Redirect
-        to={{
-          pathname: '/login'
-        }}
-      />
+      <Redirect to={{ pathname: '/login' }} />
     );
   }
 

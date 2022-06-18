@@ -3,11 +3,12 @@ import styles from './profile.module.css';
 import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { updateUserThunk, logoutThunk } from '../../services/actions/auth';
-import { TForm } from '../../services/types/data';
-import { useSelector, useDispatch } from '../../services/hooks';
+import { TForm } from '../../@types/data';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { updateUserThunk, logoutThunk } from '../../services/actions/auth';
+import { useSelector, useDispatch } from '../../services/hooks';
 
 function ProfilePage() {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ function ProfilePage() {
   const [form, setValue] = useState<TForm>({ name: '', email: '', password: '' });
 
   useEffect(() => {
-    setValue({ name: user.name, email: user.email, password: '' });
+    setValue({ name: user?.name, email: user?.email, password: '' });
   }, [user]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -29,7 +30,7 @@ function ProfilePage() {
   };
 
   const onCancel = (): void => {
-    setValue({ name: user.name, email: user.email, password: '' });
+    setValue({ name: user?.name, email: user?.email, password: '' });
   };
 
   const onLogout = (): void => {

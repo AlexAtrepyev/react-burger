@@ -3,11 +3,12 @@ import styles from './register.module.css';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
-import { registerThunk } from '../../services/actions/auth';
-import { TForm } from '../../services/types/data';
-import { useSelector, useDispatch } from '../../services/hooks';
+import { TForm } from '../../@types/data';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { registerThunk } from '../../services/actions/auth';
+import { useSelector, useDispatch } from '../../services/hooks';
 
 function RegisterPage() {
   const dispatch = useDispatch();
@@ -26,13 +27,9 @@ function RegisterPage() {
   
   const linkClass = 'text text_type_main-default text_color_link text_decoration_none';
 
-  if (user.name) {
+  if (user) {
     return (
-      <Redirect
-        to={{
-          pathname: '/'
-        }}
-      />
+      <Redirect to={{ pathname: '/' }} />
     );
   }
 

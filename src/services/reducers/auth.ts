@@ -1,381 +1,208 @@
-import type { TAuthActions } from '../actions/auth';
+import { TAuthActions, TAuthState } from '../../@types/redux/auth';
 
-import {
-  REGISTER_REQUEST,
-  REGISTER_REQUEST_SUCCESS,
-  REGISTER_REQUEST_FAILED,
-  LOGIN_REQUEST,
-  LOGIN_REQUEST_SUCCESS,
-  LOGIN_REQUEST_FAILED,
-  RESET_PASSWORD_STEP_ONE_REQUEST,
-  RESET_PASSWORD_STEP_ONE_REQUEST_SUCCESS,
-  RESET_PASSWORD_STEP_ONE_REQUEST_FAILED,
-  RESET_PASSWORD_STEP_TWO_REQUEST,
-  RESET_PASSWORD_STEP_TWO_REQUEST_SUCCESS,
-  RESET_PASSWORD_STEP_TWO_REQUEST_FAILED,
-  LOGOUT_REQUEST,
-  LOGOUT_REQUEST_SUCCESS,
-  LOGOUT_REQUEST_FAILED,
-  GET_NEW_TOKEN_REQUEST,
-  GET_NEW_TOKEN_REQUEST_SUCCESS,
-  GET_NEW_TOKEN_REQUEST_FAILED,
-  GET_USER_REQUEST,
-  GET_USER_REQUEST_SUCCESS,
-  GET_USER_REQUEST_FAILED,
-  UPDATE_USER_REQUEST,
-  UPDATE_USER_REQUEST_SUCCESS,
-  UPDATE_USER_REQUEST_FAILED
-} from '../constants';
-
-type TAuthState = {
-  register: {
-    request: boolean,
-    failed: boolean
-  },
-  resetPassword: {
-    stepOne: {
-      request: boolean,
-      failed: boolean,
-      success: boolean
-    },
-    stepTwo: {
-      request: boolean,
-      failed: boolean,
-      success: boolean
-    }
-  },
-  login: {
-    request: boolean,
-    failed: boolean
-  },
-  getNewToken: {
-    request: boolean,
-    failed: boolean
-  },
-  logout: {
-    request: boolean,
-    failed: boolean
-  },
-  user: {
-    getRequest: boolean,
-    getFailed: boolean,
-    updateRequest: boolean,
-    updateFailed: boolean,
-    name: string,
-    email: string
-  }
-}
+import * as constants from '../../utils/constants/auth';
 
 const authInitialState: TAuthState = {
-  register: {
-    request: false,
-    failed: false
-  },
-  resetPassword: {
-    stepOne: {
-      request: false,
-      failed: false,
-      success: false
-    },
-    stepTwo: {
-      request: false,
-      failed: false,
-      success: false
-    }
-  },
-  login: {
-    request: false,
-    failed: false
-  },
-  getNewToken: {
-    request: false,
-    failed: false
-  },
-  logout: {
-    request: false,
-    failed: false
-  },
-  user: {
-    getRequest: false,
-    getFailed: false,
-    updateRequest: false,
-    updateFailed: false,
-    name: '',
-    email: ''
-  }
+  user: null,
+
+  getUserRequest: false,
+  getUserFailed: false,
+
+  updateUserRequest: false,
+  updateUserFailed: false,
+  
+  registerRequest: false,
+  registerFailed: false,
+
+  loginRequest: false,
+  loginFailed: false,
+
+  resetPasswordStepOneRequest: false,
+  resetPasswordStepOneFailed: false,
+  resetPasswordStepOneSuccess: false,
+
+  resetPasswordStepTwoRequest: false,
+  resetPasswordStepTwoFailed: false,
+  resetPasswordStepTwoSuccess: false,
+  
+  refreshTokenRequest: false,
+  refreshTokenFailed: false,
+  
+  logoutRequest: false,
+  logoutFailed: false
 }
 
 export const authReducer = (state = authInitialState, action: TAuthActions): TAuthState => {
   switch (action.type) {
-    case REGISTER_REQUEST: {
+    case constants.GET_USER_REQUEST: {
       return {
         ...state,
-        register: {
-          request: true,
-          failed: false
-        }
+        getUserRequest: true,
+        getUserFailed: false
       };
     }
-    case REGISTER_REQUEST_SUCCESS: {
+    case constants.GET_USER_SUCCESS: {
       return {
         ...state,
-        register: {
-          request: false,
-          failed: false
-        },
-        user: {
-          ...state.user,
-          name: action.user.name,
-          email: action.user.email
-        }
+        getUserRequest: false,
+        user: action.user
       };
     }
-    case REGISTER_REQUEST_FAILED: {
+    case constants.GET_USER_FAILED: {
       return {
         ...state,
-        register: {
-          request: false,
-          failed: true
-        }
+        getUserRequest: false,
+        getUserFailed: true
       };
     }
-    case RESET_PASSWORD_STEP_ONE_REQUEST: {
+    case constants.UPDATE_USER_REQUEST: {
       return {
         ...state,
-        resetPassword: {
-          ...state.resetPassword,
-          stepOne: {
-            request: true,
-            failed: false,
-            success: false
-          },
-          stepTwo: {
-            ...state.resetPassword.stepTwo,
-            success: false
-          }
-        }
+        updateUserRequest: true,
+        updateUserFailed: false
       };
     }
-    case RESET_PASSWORD_STEP_ONE_REQUEST_SUCCESS: {
+    case constants.UPDATE_USER_SUCCESS: {
       return {
         ...state,
-        resetPassword: {
-          ...state.resetPassword,
-          stepOne: {
-            request: false,
-            failed: false,
-            success: true
-          }
-        }
+        updateUserRequest: false,
+        user: action.user
       };
     }
-    case RESET_PASSWORD_STEP_ONE_REQUEST_FAILED: {
+    case constants.UPDATE_USER_FAILED: {
       return {
         ...state,
-        resetPassword: {
-          ...state.resetPassword,
-          stepOne: {
-            request: false,
-            failed: true,
-            success: false
-          }
-        }
+        updateUserRequest: false,
+        updateUserFailed: true
       };
     }
-    case RESET_PASSWORD_STEP_TWO_REQUEST: {
+    case constants.REGISTER_REQUEST: {
       return {
         ...state,
-        resetPassword: {
-          ...state.resetPassword,
-          stepOne: {
-            ...state.resetPassword.stepOne,
-            success: false
-          },
-          stepTwo: {
-            request: true,
-            failed: false,
-            success: false
-          }
-        }
+        registerRequest: true,
+        registerFailed: false
       };
     }
-    case RESET_PASSWORD_STEP_TWO_REQUEST_SUCCESS: {
+    case constants.REGISTER_SUCCESS: {
       return {
         ...state,
-        resetPassword: {
-          ...state.resetPassword,
-          stepTwo: {
-            request: false,
-            failed: false,
-            success: true
-          }
-        }
+        registerRequest: false,
+        user: action.user
       };
     }
-    case RESET_PASSWORD_STEP_TWO_REQUEST_FAILED: {
+    case constants.REGISTER_FAILED: {
       return {
         ...state,
-        resetPassword: {
-          ...state.resetPassword,
-          stepTwo: {
-            request: false,
-            failed: true,
-            success: false
-          }
-        }
+        registerRequest: false,
+        registerFailed: true
       };
     }
-    case LOGIN_REQUEST: {
+    case constants.LOGIN_REQUEST: {
       return {
         ...state,
-        login: {
-          request: true,
-          failed: false
-        }
+        loginRequest: true,
+        loginFailed: false
       };
     }
-    case LOGIN_REQUEST_SUCCESS: {
+    case constants.LOGIN_SUCCESS: {
       return {
         ...state,
-        login: {
-          request: false,
-          failed: false
-        },
-        user: {
-          ...state.user,
-          name: action.user.name,
-          email: action.user.email
-        }
+        loginRequest: false,
+        user: action.user
       };
     }
-    case LOGIN_REQUEST_FAILED: {
+    case constants.LOGIN_FAILED: {
       return {
         ...state,
-        login: {
-          request: false,
-          failed: true
-        }
+        loginRequest: false,
+        loginFailed: true
       };
     }
-    case GET_NEW_TOKEN_REQUEST: {
+    case constants.RESET_PASSWORD_STEP_ONE_REQUEST: {
       return {
         ...state,
-        getNewToken: {
-          request: true,
-          failed: false
-        }
+        resetPasswordStepOneRequest: true,
+        resetPasswordStepOneFailed: false,
+        resetPasswordStepOneSuccess: false,
+        resetPasswordStepTwoSuccess: false
       };
     }
-    case GET_NEW_TOKEN_REQUEST_SUCCESS: {
+    case constants.RESET_PASSWORD_STEP_ONE_SUCCESS: {
       return {
         ...state,
-        getNewToken: {
-          request: false,
-          failed: false
-        }
+        resetPasswordStepOneRequest: false,
+        resetPasswordStepOneSuccess: true
       };
     }
-    case GET_NEW_TOKEN_REQUEST_FAILED: {
+    case constants.RESET_PASSWORD_STEP_ONE_FAILED: {
       return {
         ...state,
-        getNewToken: {
-          request: false,
-          failed: true
-        }
+        resetPasswordStepOneRequest: false,
+        resetPasswordStepOneFailed: true
       };
     }
-    case LOGOUT_REQUEST: {
+    case constants.RESET_PASSWORD_STEP_TWO_REQUEST: {
       return {
         ...state,
-        logout: {
-          request: true,
-          failed: false
-        }
+        resetPasswordStepOneSuccess: false,
+        resetPasswordStepTwoRequest: true,
+        resetPasswordStepTwoFailed: false,
+        resetPasswordStepTwoSuccess: false
       };
     }
-    case LOGOUT_REQUEST_SUCCESS: {
+    case constants.RESET_PASSWORD_STEP_TWO_SUCCESS: {
       return {
         ...state,
-        logout: {
-          request: false,
-          failed: false
-        },
-        user: {
-          ...state.user,
-          name: '',
-          email: ''
-        }
+        resetPasswordStepTwoRequest: false,
+        resetPasswordStepTwoSuccess: true
       };
     }
-    case LOGOUT_REQUEST_FAILED: {
+    case constants.RESET_PASSWORD_STEP_TWO_FAILED: {
       return {
         ...state,
-        logout: {
-          request: false,
-          failed: true
-        }
+        resetPasswordStepTwoRequest: false,
+        resetPasswordStepTwoFailed: true
       };
     }
-    case GET_USER_REQUEST: {
+    case constants.REFRESH_TOKEN_REQUEST: {
       return {
         ...state,
-        user: {
-          ...state.user,
-          getRequest: true,
-          getFailed: false
-        },
+        refreshTokenRequest: true,
+        refreshTokenFailed: false
       };
     }
-    case GET_USER_REQUEST_SUCCESS: {
+    case constants.REFRESH_TOKEN_SUCCESS: {
       return {
         ...state,
-        user: {
-          ...state.user,
-          getRequest: false,
-          name: action.user.name,
-          email: action.user.email
-        },
+        refreshTokenRequest: false
       };
     }
-    case GET_USER_REQUEST_FAILED: {
+    case constants.REFRESH_TOKEN_FAILED: {
       return {
         ...state,
-        user: {
-          ...state.user,
-          getRequest: false,
-          getFailed: false
-        },
+        refreshTokenRequest: false,
+        refreshTokenFailed: true
       };
     }
-    case UPDATE_USER_REQUEST: {
+    case constants.LOGOUT_REQUEST: {
       return {
         ...state,
-        user: {
-          ...state.user,
-          updateRequest: true,
-          updateFailed: false
-        },
+        logoutRequest: true,
+        logoutFailed: false
       };
     }
-    case UPDATE_USER_REQUEST_SUCCESS: {
+    case constants.LOGOUT_SUCCESS: {
       return {
         ...state,
-        user: {
-          ...state.user,
-          updateRequest: false,
-          name: action.user.name,
-          email: action.user.email
-        },
+        logoutRequest: false,
+        user: null
       };
     }
-    case UPDATE_USER_REQUEST_FAILED: {
+    case constants.LOGOUT_FAILED: {
       return {
         ...state,
-        user: {
-          ...state.user,
-          updateRequest: false,
-          updateFailed: false
-        },
+        logoutRequest: false,
+        logoutFailed: true
       };
     }
     default: {

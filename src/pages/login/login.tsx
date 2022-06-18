@@ -3,11 +3,12 @@ import styles from './login.module.css';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 
-import { loginThunk } from '../../services/actions/auth';
-import { TForm } from '../../services/types/data';
-import { useSelector, useDispatch } from '../../services/hooks';
+import { TForm } from '../../@types/data';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { loginThunk } from '../../services/actions/auth';
+import { useSelector, useDispatch } from '../../services/hooks';
 
 function LoginPage() {
   const history = useHistory<any>();
@@ -28,11 +29,9 @@ function LoginPage() {
   
   const linkClass = 'text text_type_main-default text_color_link text_decoration_none';
 
-  if (user.name) {
+  if (user) {
     return (
-      <Redirect
-        to={ history.location.state?.from || '/' }
-      />
+      <Redirect to={ history.location.state?.from || '/' } />
     );
   }
 

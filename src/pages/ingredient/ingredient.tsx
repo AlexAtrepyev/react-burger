@@ -2,15 +2,16 @@ import styles from './ingredient.module.css';
 
 import { useParams } from 'react-router-dom';
 
-import { TIngredient } from '../../services/types/data';
-import { useSelector } from '../../services/hooks';
+import { TIngredient } from '../../@types/data';
 
 import NutritionalValue from '../../components/nutritional-value/nutritional-value';
 
-function IngredientPage() {
-  const ingredients = useSelector(state => state.burger.ingredients.items);
+import { useSelector } from '../../services/hooks';
 
+function IngredientPage() {
   const { ingredientId } = useParams<{ ingredientId: string }>();
+
+  const ingredients = useSelector(state => state.ingredients.ingredients);
   const ingredient = ingredients.find((item: TIngredient) => item._id === ingredientId);
   const {
     name=undefined,

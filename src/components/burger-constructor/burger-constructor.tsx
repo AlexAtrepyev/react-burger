@@ -3,12 +3,13 @@ import styles from './burger-constructor.module.css';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 import { v4 as uuid } from 'uuid';
 
-import { addBunAction, addInterIngredientAction } from '../../services/actions/burger';
-import { TIngredient } from '../../services/types/data';
-import { useDispatch } from '../../services/hooks';
+import { TIngredient } from '../../@types/data';
 
 import ConstructorIngredients from '../constructor-ingredients/constructor-ingredients';
 import ConstructorOrder from '../constructor-order/constructor-order';
+
+import { addBunAction, addIngredientAction } from '../../services/actions/burger';
+import { useDispatch } from '../../services/hooks';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ function BurgerConstructor() {
       if (item.type === 'bun') {
         dispatch(addBunAction(item));
       } else {
-        dispatch(addInterIngredientAction({ ...item, dragId: uuid() }));
+        dispatch(addIngredientAction({ ...item, dragId: uuid() }));
       }
     },
   });

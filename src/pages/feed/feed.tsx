@@ -3,21 +3,23 @@ import styles from './feed.module.css';
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import { wsConnectionStartAction, wsConnectionStopAction } from '../../services/actions/feed';
-import { TOrder } from '../../services/types/data';
-import { useSelector, useDispatch } from '../../services/hooks';
-import { getIngredientsDetails, getOrderNumbers } from '../../services/utils';
+import { TOrder } from '../../@types/data';
 
 import OrderCard from '../../components/order-card/order-card';
 import OrdersBoard from '../../components/orders-board/orders-board';
 import OrderStats from '../../components/order-stats/order-stats';
+
+import { wsConnectionStartAction, wsConnectionStopAction } from '../../services/actions/feed';
+import { useSelector, useDispatch } from '../../services/hooks';
+
+import { getIngredientsDetails, getOrderNumbers } from '../../utils/functions';
 
 function FeedPage() {
   const location = useLocation<any>();
 
   const dispatch = useDispatch();
   const { orders, total, totalToday } = useSelector(state => state.feed);
-  const ingredients = useSelector(state => state.burger.ingredients.items);
+  const ingredients = useSelector(state => state.ingredients.ingredients);
   
   const improvedOrders: TOrder[] = orders.map(order => {
     order.ingredientsDetails = getIngredientsDetails(ingredients, order.ingredients);
