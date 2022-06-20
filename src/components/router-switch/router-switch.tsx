@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
-import AppHeader from '../app-header/app-header';
-import ProtectedRoute from '../protected-route/protected-route';
-import Modal from '../modal/modal';
+import Header from '../header/header';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import OrderInfo from '../order-info/order-info';
+import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
+import ProtectedRoute from '../protected-route/protected-route';
 
 import {
   FeedPage,
@@ -14,7 +14,7 @@ import {
   LoginPage,
   MainPage,
   NotFoundPage,
-  OrderInfoPage,
+  OrderPage,
   ProfilePage,
   ProfileOrdersPage,
   RegisterPage,
@@ -29,7 +29,7 @@ const RouterSwitch: FC = () => {
   
   return (
     <>
-      <AppHeader />
+      <Header />
       <Switch location={background || location}>
         <Route exact path="/register">
           <RegisterPage />
@@ -53,7 +53,7 @@ const RouterSwitch: FC = () => {
           <FeedPage />
         </Route>
         <Route exact path="/feed/:id">
-          <OrderInfoPage />
+          <OrderPage />
         </Route>
         <ProtectedRoute exact path="/profile">
           <ProfilePage />
@@ -62,7 +62,7 @@ const RouterSwitch: FC = () => {
           <ProfileOrdersPage />
         </ProtectedRoute>
         <ProtectedRoute exact path="/profile/orders/:id">
-          <OrderInfoPage />
+          <OrderPage />
         </ProtectedRoute>
         <Route>
           <NotFoundPage />
@@ -80,7 +80,7 @@ const RouterSwitch: FC = () => {
       {background && (
         <Route path='/feed/:id'>
           <Modal orderModal onClose={() => history.goBack()}>
-            <OrderInfo />
+            <OrderDetails />
           </Modal>
         </Route>
       )}
@@ -88,7 +88,7 @@ const RouterSwitch: FC = () => {
       {background && (
         <ProtectedRoute path='/profile/orders/:id'>
           <Modal orderModal onClose={() => history.goBack()}>
-            <OrderInfo />
+            <OrderDetails />
           </Modal>
         </ProtectedRoute>
       )}

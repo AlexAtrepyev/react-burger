@@ -1,13 +1,13 @@
-import styles from './order-info-page.module.css';
+import styles from './order.module.css';
 
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 
-import OrderInfo from '../../components/order-info/order-info';
+import OrderDetails from '../../components/order-details/order-details';
 
 import { useSelector } from '../../services/hooks';
 
-const OrderInfoPage: FC = () => {
+const OrderPage: FC = () => {
   const { id } = useParams<{ id: string }>();
   
   const order = useSelector(state => {
@@ -18,9 +18,9 @@ const OrderInfoPage: FC = () => {
   return (
     <section className={styles.section}>
       <h1 className="text text_type_digits-default text_align_center">{order ? `#${order.number}` : '-'}</h1>
-      <OrderInfo/>
+      <OrderDetails/>
     </section>
   );
 }
 
-export default OrderInfoPage;
+export default OrderPage;

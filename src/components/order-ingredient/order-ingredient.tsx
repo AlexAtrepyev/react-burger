@@ -1,11 +1,11 @@
-import styles from './order-item.module.css';
+import styles from './order-ingredient.module.css';
 
 import { FC } from 'react';
 
 import IngredientLogo from '../ingredient-logo/ingredient-logo';
 import Price from '../price/price';
 
-const OrderItem: FC<{ name: string, image: string, count: number, price: number }> = ({ name, image, count, price }) => {
+const OrderIngredient: FC<{ name: string, image: string, count: number, price: number }> = ({ name, image, count, price }) => {
   return (
     <li className={styles.item}>
       <IngredientLogo image={image} name={name} />
@@ -15,4 +15,4 @@ const OrderItem: FC<{ name: string, image: string, count: number, price: number 
   );
 }
 
-export default OrderItem;
+export default OrderIngredient;

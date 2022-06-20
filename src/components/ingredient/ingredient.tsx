@@ -1,4 +1,4 @@
-import styles from './ingredients-item.module.css';
+import styles from './ingredient.module.css';
 
 import { FC } from 'react';
 import { useDrag } from 'react-dnd';
@@ -9,7 +9,7 @@ import { TIngredient } from '../../@types/data';
 import Price from '../price/price';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const IngredientsItem: FC<{ item: TIngredient, background: any }> = ({ item, background }) => {
+const Ingredient: FC<{ item: TIngredient, background: any }> = ({ item, background }) => {
   const [{ opacity }, dragRef] = useDrag({
     type: 'ingredient',
     item: item,
@@ -32,4 +32,4 @@ const IngredientsItem: FC<{ item: TIngredient, background: any }> = ({ item, bac
   );
 }
 
-export default IngredientsItem;
+export default Ingredient;

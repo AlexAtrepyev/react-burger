@@ -4,7 +4,7 @@ import IngredientPage from './ingredient/ingredient';
 import LoginPage from './login/login';
 import MainPage from './main/main';
 import NotFoundPage from './not-found/not-found';
-import OrderInfoPage from './order-info-page/order-info-page';
+import OrderPage from './order/order';
 import ProfilePage from './profile/profile';
 import ProfileOrdersPage from './profile-orders/profile-orders'; 
 import RegisterPage from './register/register';
@@ -17,7 +17,7 @@ export {
   LoginPage,
   MainPage,
   NotFoundPage,
-  OrderInfoPage,
+  OrderPage,
   ProfilePage,
   ProfileOrdersPage,
   RegisterPage,

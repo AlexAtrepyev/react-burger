@@ -1,17 +1,11 @@
-.section {
-  width: 600px;
-  box-sizing: border-box;
-  padding: 100px 16px 52px;
-  margin-right: auto;
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
   display: flex;
   flex-direction: column;
-}
-
-.hover {
-  box-shadow: 0 0 .2rem #fff,
-              0 0 .2rem #fff,
-              0 0 2rem #bc13fe,
-              0 0 0.8rem #bc13fe,
-              0 0 2.8rem #bc13fe,
-              inset 0 0 1.3rem #bc13fe;
+  gap: 16px;
+  max-height: calc(100vh - 616px);
+  overflow-x: hidden;
+  overflow-y: auto;
 }

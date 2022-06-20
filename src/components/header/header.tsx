@@ -1,11 +1,11 @@
-import styles from './app-header.module.css';
+import styles from './header.module.css';
 
 import { FC } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const AppHeader: FC = () => {
+const Header: FC = () => {
   const { pathname } = useLocation();
   
   const getType = (link: string, exact?: 'exact'): 'primary' | 'secondary' => {
@@ -49,4 +49,4 @@ const AppHeader: FC = () => {
   );
 }
 
-export default AppHeader;
+export default Header;

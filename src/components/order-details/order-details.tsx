@@ -1,30 +1,78 @@
 import styles from './order-details.module.css';
 
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { useLocation, useParams, useRouteMatch } from 'react-router-dom';
 
+import { TOrder } from '../../@types/data';
+
+import OrderIngredient from '../order-ingredient/order-ingredient';
 import Preloader from '../preloader/preloader';
+import Price from '../price/price';
 
-import { useSelector } from '../../services/hooks';
+import { wsConnectionStartAction, wsConnectionStopAction } from '../../services/actions/feed';
+import { useSelector, useDispatch } from '../../services/hooks';
 
-import { ORDER_DETAILS_TEXT } from '../../utils/constants';
+import { getOrderPrice, getIngredientsDetails, getCookie, parseOrderDate } from '../../utils/functions';
 
 const OrderDetails: FC = () => {
-  const orderNumber = useSelector(state => state.burger.orderNumber);
+  const location = useLocation<any>();
+  const { id } = useParams<{ id: string }>();
+  const isFeed = useRouteMatch<any>('/feed');
+  const isProfile = useRouteMatch<any>('/profile');
 
-  return (
-    <div className={styles.container}>
-      <h3 className="text text_type_digits-large mt-4 mb-8">{orderNumber ?? '-'}</h3>
-      <p className="text text_type_main-medium">идентификатор заказа</p>
+  const dispatch = useDispatch();
+  const orders = useSelector(state => state.feed.orders);
+  const ingredients = useSelector(state => state.ingredients.ingredients);
+  
+  const improvedOrders: TOrder[] = orders.map(order => {
+    order.ingredientsDetails = getIngredientsDetails(ingredients, order.ingredients);
+    return order;
+  });
+  
+  const order = improvedOrders.find(order => order._id === id);
+  
+  useEffect(() => {
+    const isBackground = location.state && location.state.background;
+    !isBackground && isFeed && dispatch(wsConnectionStartAction('wss://norma.nomoreparties.space/orders/all'));
+    !isBackground && isProfile &&
+      dispatch(wsConnectionStartAction(`wss://norma.nomoreparties.space/orders?token=${getCookie('accessToken')}`));
+    return () => {
+      !isBackground && dispatch(wsConnectionStopAction());
+    };
+  }, [dispatch]);
 
-      {orderNumber ? (<span className={styles.done} />) : (<Preloader />)}
+  const getStatusElement = (status: "created" | "pending" | "done"): JSX.Element => {
+    switch(status) {
+      case 'created':
+        return (<p className="text text_type_main-default">Оформлен</p>);
+      case 'pending':
+        return (<p className="text text_type_main-default">Готовится</p>);
+      case 'done':
+        return (<p className="text text_type_main-default text_color_success">Выполнен</p>);
+      default:
+        return (<p className="text text_type_main-default">Нет данных</p>);
+    }
+  }
 
-      <p className="text text_type_main-default">
-        {orderNumber ? ORDER_DETAILS_TEXT.status.done : ORDER_DETAILS_TEXT.status.loading}
-      </p>
-      <p className="text text_type_main-default text_color_inactive mt-2 mb-15">
-        {orderNumber ? ORDER_DETAILS_TEXT.message.done : ORDER_DETAILS_TEXT.message.loading}
-      </p>
-    </div>
+  return order ? (
+    <>
+      <h2 className="text text_type_main-medium mt-10 mb-3">{order.name}</h2>
+      {order.status && getStatusElement(order.status)}
+      <p className="text text_type_main-medium mt-15 mb-6">Состав:</p>
+      
+      <ul className={styles.list}>
+        {order.ingredientsDetails && order.ingredientsDetails.map(item => (
+          <OrderIngredient key={item._id} name={item.name} image={item.image_mobile} count={item.count} price={item.price} />
+        ))}
+      </ul>
+
+      <div className={styles.container}>
+        <span className="text text_type_main-default text_color_inactive">{parseOrderDate(order.createdAt)}</span>
+        <Price value={order.ingredientsDetails && getOrderPrice(order.ingredientsDetails)} />
+      </div>
+    </>
+  ) : (
+    <Preloader />
   );
 }
 

@@ -1,4 +1,4 @@
-import styles from './constructor-bun-item.module.css';
+import styles from './constructor-bun.module.css';
 
 import { FC } from 'react';
 
@@ -6,7 +6,7 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 
 import { useSelector } from '../../services/hooks';
 
-const ConstructorBunItem: FC<{ type: 'top' | 'bottom' | undefined }> = ({ type }) => {
+const ConstructorBun: FC<{ type: 'top' | 'bottom' | undefined }> = ({ type }) => {
   const bun = useSelector(state => state.burger.bun);
   
   return bun && (
@@ -22,4 +22,4 @@ const ConstructorBunItem: FC<{ type: 'top' | 'bottom' | undefined }> = ({ type }
   );
 }
 
-export default ConstructorBunItem;
+export default ConstructorBun;

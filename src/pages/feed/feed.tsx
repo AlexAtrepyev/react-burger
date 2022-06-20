@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 import OrderCard from '../../components/order-card/order-card';
 import OrdersBoard from '../../components/orders-board/orders-board';
-import OrderStats from '../../components/order-stats/order-stats';
+import OrdersStats from '../../components/orders-stats/orders-stats';
 import Preloader from '../../components/preloader/preloader';
 
 import { wsConnectionStartAction, wsConnectionStopAction } from '../../services/actions/feed';
@@ -46,8 +46,8 @@ const FeedPage: FC = () => {
             <OrdersBoard title="Готовы:" orders={doneNumbers} done />
             <OrdersBoard title="В работе:" orders={pendingNumbers} />
           </div>
-          <OrderStats title="Выполнено за все время:" value={total} />
-          <OrderStats title="Выполнено за сегодня:" value={totalToday} />
+          <OrdersStats title="Выполнено за все время:" value={total} />
+          <OrdersStats title="Выполнено за сегодня:" value={totalToday} />
         </div>
       </div>
     </section>

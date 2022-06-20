@@ -1,4 +1,4 @@
-import styles from './constructor-inter-item.module.css';
+import styles from './constructor-ingredient.module.css';
 
 import { FC, useRef } from 'react';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
@@ -10,7 +10,7 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 import { removeIngredientAction } from '../../services/actions/burger';
 import { useDispatch } from '../../services/hooks';
 
-const ConstructorInterItem: FC<{ index: number, item: TIngredient, moveCard: TMoveCard }> = ({ index, item, moveCard }) => {
+const ConstructorIngredient: FC<{ index: number, item: TIngredient, moveCard: TMoveCard }> = ({ index, item, moveCard }) => {
   const ref = useRef<HTMLLIElement>(null);
   
   const dispatch = useDispatch();
@@ -83,4 +83,4 @@ const ConstructorInterItem: FC<{ index: number, item: TIngredient, moveCard: TMo
   )
 }
 
-export default ConstructorInterItem;
+export default ConstructorIngredient;

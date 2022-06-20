@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-const OrderStats: FC<{ title: string, value: number }> = ({ title, value }) => {
+const OrdersStats: FC<{ title: string, value: number }> = ({ title, value }) => {
   return (
     <div>
       <h2 className="text text_type_main-medium">{title}</h2>
@@ -9,4 +9,4 @@ const OrderStats: FC<{ title: string, value: number }> = ({ title, value }) => {
   );
 }
 
-export default OrderStats;
+export default OrdersStats;

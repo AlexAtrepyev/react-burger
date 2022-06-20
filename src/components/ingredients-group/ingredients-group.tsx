@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 import { TIngredient } from '../../@types/data';
 
-import IngredientsItem from '../ingredients-item/ingredients-item';
+import Ingredient from '../ingredient/ingredient';
 
 const IngredientsGroup = FR<HTMLHeadingElement, { title: string, items: TIngredient[] }>(({ title, items }, ref) => {
   const location = useLocation<any>();
@@ -14,7 +14,7 @@ const IngredientsGroup = FR<HTMLHeadingElement, { title: string, items: TIngredi
     <li>
       <h2 ref={ref} className="text text_type_main-medium mb-6">{title}</h2>
       <ul className={styles.list}>
-        {items.map(item => <IngredientsItem key={item._id} item={item} background={location} />)}
+        {items.map(item => <Ingredient key={item._id} item={item} background={location} />)}
       </ul>
     </li>
   );

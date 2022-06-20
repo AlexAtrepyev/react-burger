@@ -1,4 +1,4 @@
-import styles from './burger-ingredients.module.css';
+import styles from './ingredients.module.css';
 
 import { FC, SyntheticEvent, useRef } from 'react';
 
@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from '../../services/hooks';
 
 import { getNearestRef, filterIngredients } from '../../utils/functions';
 
-const BurgerIngredients: FC = () => {
+const Ingredients: FC = () => {
   const dispatch = useDispatch();
   const burgerIngredients = useSelector(state => {
     const { bun, ingredients } = state.burger;
@@ -63,4 +63,4 @@ const BurgerIngredients: FC = () => {
   );
 }
 
-export default BurgerIngredients;
+export default Ingredients;
