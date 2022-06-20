@@ -6,12 +6,17 @@
   border-radius: 40px;
 }
 
-.card_location_feed {
+.card_section_feed {
   width: 584px;
 }
 
-.card_location_profile {
+.card_section_profile {
   width: 844px;
+}
+
+.link {
+  text-decoration: none;
+  color: #f2f2f3;
 }
 
 .number {
@@ -35,10 +40,4 @@
 
 .container {
   margin-right: -16px;
-}
-
-.price {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }

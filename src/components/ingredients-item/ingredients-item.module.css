@@ -1,16 +1,15 @@
 .item {
   width: 272px;
+} 
+
+.link {
+  text-decoration: none;
+  color: #f2f2f3;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
   cursor: pointer;
-}
-
-.price {
-  display: flex;
-  align-items: center;
-  margin: 4px 0;
 }
 
 .name {

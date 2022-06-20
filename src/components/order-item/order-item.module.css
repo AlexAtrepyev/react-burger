@@ -7,9 +7,3 @@
   grid-gap: 16px;
   align-items: center;
 }
-
-.price {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}

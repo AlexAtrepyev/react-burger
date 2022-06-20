@@ -8,23 +8,17 @@ import { useSelector } from '../../services/hooks';
 
 const ConstructorBunItem: FC<{ type: 'top' | 'bottom' | undefined }> = ({ type }) => {
   const bun = useSelector(state => state.burger.bun);
-
-  const text = `${bun?.name} ${type === 'top' ? '(верх)' : '(низ)'}`;
-
-  return (
-    <>
-      {bun?._id && (
-        <div className={styles.container}>
-          <ConstructorElement
-            type={type}
-            isLocked={true}
-            text={text}
-            price={bun.price}
-            thumbnail={bun.image_mobile}
-          />
-        </div>
-      )}
-    </>
+  
+  return bun && (
+    <div className={styles.container}>
+      <ConstructorElement
+        type={type}
+        isLocked={true}
+        text={`${bun.name} ${type === 'top' ? '(верх)' : '(низ)'}`}
+        price={bun.price}
+        thumbnail={bun.image_mobile}
+      />
+    </div>
   );
 }
 

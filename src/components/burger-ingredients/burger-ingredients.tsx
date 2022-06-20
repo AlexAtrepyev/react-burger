@@ -1,8 +1,9 @@
 import styles from './burger-ingredients.module.css';
 
-import { useRef, SyntheticEvent } from 'react';
+import { FC, SyntheticEvent, useRef } from 'react';
 
 import IngredientsGroup from '../ingredients-group/ingredients-group';
+import Preloader from '../preloader/preloader';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { setCurrentTabAction } from '../../services/actions/ingredients';
@@ -10,15 +11,23 @@ import { useSelector, useDispatch } from '../../services/hooks';
 
 import { getNearestRef, filterIngredients } from '../../utils/functions';
 
-function BurgerIngredients() {
+const BurgerIngredients: FC = () => {
   const dispatch = useDispatch();
-  const { currentTab, ingredients } = useSelector(state => state.ingredients);
+  const burgerIngredients = useSelector(state => {
+    const { bun, ingredients } = state.burger;
+    return ingredients.concat(bun ? [bun, bun] : []);
+  });
+  const { currentTab, getIngredientsFailed, getIngredientsRequest, ingredients } = useSelector(state => state.ingredients);
+  const countedIngredients = ingredients.map(ingredient => {
+    const filterIngredients = burgerIngredients.filter(burgerIngredient => burgerIngredient._id === ingredient._id);
+    return filterIngredients.length ? { ...ingredient, count: filterIngredients.length } : ingredient;
+  });
 
   const bunsRef = useRef<HTMLHeadingElement>(null);
   const saucesRef = useRef<HTMLHeadingElement>(null);
   const mainsRef = useRef<HTMLHeadingElement>(null);
   
-  function handleScroll(e: SyntheticEvent) {
+  const handleScroll = (e: SyntheticEvent): void => {
     const nearestRef = getNearestRef(e.currentTarget, [bunsRef, saucesRef, mainsRef]);
     const newTab = nearestRef === bunsRef ? 'bun' : nearestRef === saucesRef ? 'sauce' : 'main';
     newTab !== currentTab && dispatch(setCurrentTabAction(newTab));
@@ -38,11 +47,18 @@ function BurgerIngredients() {
           Начинки
         </Tab>
       </div>
-      <ul className={styles.list} onScroll={handleScroll}>
-        <IngredientsGroup ref={bunsRef} title="Булки" items={filterIngredients(ingredients, 'bun')} />
-        <IngredientsGroup ref={saucesRef} title="Соусы" items={filterIngredients(ingredients, 'sauce')} />
-        <IngredientsGroup ref={mainsRef} title="Начинки" items={filterIngredients(ingredients, 'main')} />
-      </ul>
+      
+      {getIngredientsRequest ? (
+        <Preloader />
+      ) : getIngredientsFailed ? (
+        <div>Не удалось загрузить ингредиенты</div>
+      ) : (
+        <ul className={styles.list} onScroll={handleScroll}>
+          <IngredientsGroup ref={bunsRef} title="Булки" items={filterIngredients(countedIngredients, 'bun')} />
+          <IngredientsGroup ref={saucesRef} title="Соусы" items={filterIngredients(countedIngredients, 'sauce')} />
+          <IngredientsGroup ref={mainsRef} title="Начинки" items={filterIngredients(countedIngredients, 'main')} />
+        </ul>
+      )}
     </section>
   );
 }

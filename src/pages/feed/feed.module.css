@@ -20,11 +20,6 @@
   overflow-y: auto;
 }
 
-.link {
-  text-decoration: none;
-  color: #f2f2f3;
-}
-
 .stats {
   display: flex;
   flex-direction: column;

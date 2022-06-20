@@ -3,7 +3,7 @@ import styles from './modal-overlay.module.css';
 import { FC, SyntheticEvent } from 'react';
 
 const ModalOverlay: FC<{ onClose: () => void }> = ({ children, onClose }) => {
-  function handleClick(e: SyntheticEvent) {
+  const handleClick = (e: SyntheticEvent): void => {
     if (e.target === e.currentTarget) {
       onClose();
     }

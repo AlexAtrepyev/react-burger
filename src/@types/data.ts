@@ -78,3 +78,14 @@ export type TMessageRes = {
   success: boolean,
   message: string
 };
+
+export type TOrderDetailsText = {
+  status: {
+    loading: string,
+    done: string
+  },
+  message: {
+    loading: string,
+    done: string
+  }
+};

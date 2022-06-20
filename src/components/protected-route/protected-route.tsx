@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Route, Redirect, RouteProps } from 'react-router-dom';
+import { Redirect, Route, RouteProps } from 'react-router-dom';
 
 import { useSelector } from '../../services/hooks';
 
@@ -8,13 +8,9 @@ const ProtectedRoute: FC<RouteProps> = ({ children, ...props }) => {
   
   return (
     <Route
-      {...props}
-      render={({ location }) =>
-        user ? (
-          children
-        ) : (
-          <Redirect to={{ pathname: '/login', state: { from: location } }} />
-        )
+      { ...props }
+      render={
+        ({ location }) => user ? children : <Redirect to={{ pathname: '/login', state: { from: location } }} />
       }
     />
   );

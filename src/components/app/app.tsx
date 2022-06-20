@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { FC, useEffect } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
-import ModalSwitch from '../modal-switch/modal-switch';
+import RouterSwitch from '../router-switch/router-switch';
 
 import { getUserThunk } from '../../services/actions/auth';
 import { getIngredientsThunk } from '../../services/actions/ingredients';
 import { useDispatch } from '../../services/hooks';
 
-function App() {
+const App: FC = () => {
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -16,9 +16,9 @@ function App() {
   }, [dispatch]);
   
   return (
-    <Router>
-      <ModalSwitch />
-    </Router>
+    <BrowserRouter>
+      <RouterSwitch />
+    </BrowserRouter>
   );
 }
 

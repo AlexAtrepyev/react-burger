@@ -1,8 +1,9 @@
 import styles from './not-found.module.css';
 
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-function NotFoundPage() {
+const NotFoundPage: FC = () => {
   const linkClass = "text text_type_main-medium text_color_inactive";
   return (
     <section className={styles.section}>

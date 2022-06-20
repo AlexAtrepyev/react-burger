@@ -19,12 +19,8 @@ export function getNearestRef(container: SyntheticEvent['currentTarget'], refs: 
   return nearestRef;
 }
 
-export function filterIngredients(ingredients: TIngredient[], type: 'bun' | 'sauce' | 'main'): TIngredient[] {
-  if (ingredients.length) {
-    return ingredients.filter(ingredient => ingredient.type === type);
-  } else {
-    return [];
-  }
+export const filterIngredients = (ingredients: TIngredient[], type: 'bun' | 'sauce' | 'main'): TIngredient[] => {
+  return ingredients.filter(ingredient => ingredient.type === type);
 }
 
 export function getTotalPrice(items: TIngredient[]): number {

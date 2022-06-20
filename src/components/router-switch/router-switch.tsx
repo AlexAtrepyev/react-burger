@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
 import AppHeader from '../app-header/app-header';
@@ -20,7 +21,7 @@ import {
   ResetPasswordPage
 } from '../../pages';
 
-function ModalSwitch() {
+const RouterSwitch: FC = () => {
   const history = useHistory<any>();
   const location = useLocation<any>();
   
@@ -78,7 +79,7 @@ function ModalSwitch() {
 
       {background && (
         <Route path='/feed/:id'>
-          <Modal onClose={() => history.goBack()}>
+          <Modal orderModal onClose={() => history.goBack()}>
             <OrderInfo />
           </Modal>
         </Route>
@@ -86,7 +87,7 @@ function ModalSwitch() {
 
       {background && (
         <ProtectedRoute path='/profile/orders/:id'>
-          <Modal onClose={() => history.goBack()}>
+          <Modal orderModal onClose={() => history.goBack()}>
             <OrderInfo />
           </Modal>
         </ProtectedRoute>
@@ -95,4 +96,4 @@ function ModalSwitch() {
   );
 };
 
-export default ModalSwitch;
+export default RouterSwitch;

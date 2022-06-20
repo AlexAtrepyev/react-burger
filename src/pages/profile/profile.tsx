@@ -1,16 +1,16 @@
 import styles from './profile.module.css';
 
-import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
-import { NavLink } from 'react-router-dom';
+import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 
 import { TForm } from '../../@types/data';
 
+import ProfileSidebar from '../../components/profile-sidebar/profile-sidebar';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { updateUserThunk, logoutThunk } from '../../services/actions/auth';
+import { updateUserThunk } from '../../services/actions/auth';
 import { useSelector, useDispatch } from '../../services/hooks';
 
-function ProfilePage() {
+const ProfilePage: FC = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
 
@@ -33,31 +33,10 @@ function ProfilePage() {
     setValue({ name: user?.name, email: user?.email, password: '' });
   };
 
-  const onLogout = (): void => {
-    dispatch(logoutThunk());
-  };
-
-  const linkClass = 'text text_type_main-medium text_decoration_none text_color_inactive ';
 
   return (
     <section className={styles.section}>
-      <div className={styles.container}>
-        <ul className={styles.list}>
-          <li className={styles.item}>
-            <NavLink className={linkClass} activeClassName={styles.activeLink} exact to="/profile">Профиль</NavLink>
-          </li>
-          <li className={styles.item}>
-            <NavLink className={linkClass} activeClassName={styles.activeLink} exact to="/profile/orders">История заказов</NavLink>
-          </li>
-          <li className={styles.item}>
-            <button className={linkClass + styles.logout} onClick={onLogout}>Выход</button>
-          </li>
-        </ul>
-        <p className="text text_type_main-default text_color_inactive mt-20">
-          В этом разделе вы можете изменить свои персональные данные
-        </p>
-      </div>
-      
+      <ProfileSidebar />
       <form className={styles.form} onSubmit={onSubmit}>
         <Input
           type="text"
@@ -84,7 +63,7 @@ function ProfilePage() {
           icon="EditIcon"
         />
         <Button type="primary" htmlType="submit" size="medium">Сохранить</Button>
-        <Button type="primary" htmlType="button" size="medium" onClick={onCancel}>Отмена</Button>
+        <Button type="primary" htmlType="reset" size="medium" onClick={onCancel}>Отмена</Button>
       </form>
     </section>
   );

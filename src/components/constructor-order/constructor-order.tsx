@@ -1,5 +1,6 @@
 import styles from './constructor-order.module.css';
 
+import { FC } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import Modal from '../modal/modal';
@@ -11,7 +12,7 @@ import { useSelector, useDispatch } from '../../services/hooks';
 
 import { getTotalPrice, getIDs } from '../../utils/functions';
 
-function ConstructorOrder() {
+const ConstructorOrder: FC = () => {
   const history = useHistory();
   const location = useLocation();
   
@@ -19,11 +20,11 @@ function ConstructorOrder() {
   const user = useSelector(state => state.auth.user);
   const allItems = useSelector(state => {
     const { bun, ingredients } = state.burger;
-    return bun?._id ? ingredients.concat([bun, bun]) : ingredients;
+    return ingredients.concat(bun ? [bun, bun] : []);
   });
   const { createOrderRequest, orderModal } = useSelector(state => state.burger);
   
-  function handleClick() {
+  const handleClick = (): void => {
     if (!user) {
       history.replace({ pathname: '/login', state: { from: location } });
     } else {
@@ -32,7 +33,7 @@ function ConstructorOrder() {
     }
   }
 
-  function handleCloseModal() {
+  const handleCloseModal= (): void => {
     dispatch(toggleOrderModalAction());
   }
   

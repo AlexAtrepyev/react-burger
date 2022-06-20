@@ -1,6 +1,6 @@
 import styles from './forgot-password.module.css';
 
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
 import { TForm } from '../../@types/data';
@@ -10,7 +10,7 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import { resetPasswordStepOneThunk } from '../../services/actions/auth';
 import { useSelector, useDispatch } from '../../services/hooks';
 
-function ForgotPasswordPage() {
+const ForgotPasswordPage: FC = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
   const success = useSelector(state => state.auth.resetPasswordStepOneSuccess);

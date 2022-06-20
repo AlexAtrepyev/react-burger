@@ -1,36 +1,34 @@
 import styles from './ingredient-details.module.css';
 
+import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 
 import NutritionalValue from '../nutritional-value/nutritional-value';
+import Preloader from '../preloader/preloader';
 
 import { useSelector } from '../../services/hooks';
 
-function IngredientDetails() {
+const IngredientDetails: FC = () => {
   const { ingredientId } = useParams<{ ingredientId: string }>();
 
-  const ingredients = useSelector(state => state.ingredients.ingredients);
-  const ingredient = ingredients.find(item => item._id === ingredientId);
-  const {
-    image=undefined,
-    name=undefined,
-    calories=undefined,
-    proteins=undefined,
-    fat=undefined,
-    carbohydrates=undefined
-  } = ingredient ? ingredient : {};
+  const ingredient = useSelector(state => {
+    const { ingredients } = state.ingredients;
+    return ingredients.find(item => item._id === ingredientId);
+  });
   
-  return (
-    <>
-      <img src={image} alt={name} />
-      <h3 className="text text_type_main-medium mt-4 mb-8">{name}</h3>
+  return ingredient ? (
+    <div className={styles.container}>
+      <img src={ingredient.image} alt={ingredient.name} />
+      <h2 className="text text_type_main-medium mt-4 mb-8">{ingredient.name}</h2>
       <ul className={styles.list}>
-        <NutritionalValue name="Калории, ккал" value={calories} />
-        <NutritionalValue name="Белки, г" value={proteins} />
-        <NutritionalValue name="Жиры, г" value={fat} />
-        <NutritionalValue name="Углеводы, г" value={carbohydrates} />
+        <NutritionalValue name="Калории, ккал" value={ingredient.calories} />
+        <NutritionalValue name="Белки, г" value={ingredient.proteins} />
+        <NutritionalValue name="Жиры, г" value={ingredient.fat} />
+        <NutritionalValue name="Углеводы, г" value={ingredient.carbohydrates} />
       </ul>
-    </>
+    </div>
+  ) : (
+    <Preloader />
   );
 }
 

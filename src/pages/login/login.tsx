@@ -1,6 +1,6 @@
 import styles from './login.module.css';
 
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 
 import { TForm } from '../../@types/data';
@@ -10,7 +10,7 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import { loginThunk } from '../../services/actions/auth';
 import { useSelector, useDispatch } from '../../services/hooks';
 
-function LoginPage() {
+const LoginPage: FC = () => {
   const history = useHistory<any>();
   
   const dispatch = useDispatch();

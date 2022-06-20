@@ -1,6 +1,6 @@
 import styles from './constructor-ingredients.module.css';
 
-import { useCallback } from 'react';
+import { FC, useCallback } from 'react';
 
 import { TMoveCard } from '../../@types/data';
 
@@ -10,7 +10,7 @@ import ConstructorInterItem from '../constructor-inter-item/constructor-inter-it
 import { updateIngredientAction } from '../../services/actions/burger';
 import { useSelector, useDispatch } from '../../services/hooks';
 
-function ConstructorIngredients() {
+const ConstructorIngredients: FC = () => {
   const dispatch = useDispatch();
   const ingredients = useSelector(state => state.burger.ingredients);
   
@@ -27,9 +27,7 @@ function ConstructorIngredients() {
     <>
       <ConstructorBunItem type={'top'} />
       <ul className={styles.list}>
-        {ingredients.map((item, index) => (
-          <ConstructorInterItem key={item.dragId} index={index} item={item} moveCard={moveCard} />
-        ))}
+        {ingredients.map((item, index) => <ConstructorInterItem key={item.dragId} index={index} item={item} moveCard={moveCard} />)}
       </ul>
       <ConstructorBunItem type={'bottom'} />
     </>

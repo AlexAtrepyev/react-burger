@@ -1,27 +1,26 @@
 import styles from './feed.module.css';
 
-import { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-
-import { TOrder } from '../../@types/data';
+import { FC, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import OrderCard from '../../components/order-card/order-card';
 import OrdersBoard from '../../components/orders-board/orders-board';
 import OrderStats from '../../components/order-stats/order-stats';
+import Preloader from '../../components/preloader/preloader';
 
 import { wsConnectionStartAction, wsConnectionStopAction } from '../../services/actions/feed';
 import { useSelector, useDispatch } from '../../services/hooks';
 
 import { getIngredientsDetails, getOrderNumbers } from '../../utils/functions';
 
-function FeedPage() {
+const FeedPage: FC = () => {
   const location = useLocation<any>();
 
   const dispatch = useDispatch();
-  const { orders, total, totalToday } = useSelector(state => state.feed);
+  const { orders, total, totalToday, wsConnected } = useSelector(state => state.feed);
   const ingredients = useSelector(state => state.ingredients.ingredients);
   
-  const improvedOrders: TOrder[] = orders.map(order => {
+  const improvedOrders = orders.map(order => {
     order.ingredientsDetails = getIngredientsDetails(ingredients, order.ingredients);
     return order;
   });
@@ -33,25 +32,14 @@ function FeedPage() {
     return () => {
       dispatch(wsConnectionStopAction());
     };
-  }, []);
+  }, [dispatch]);
 
-  return (
+  return wsConnected ? (
     <section className={styles.section}>
       <h1 className="text text_type_main-large mt-10 mb-5">Лента заказов</h1>
       <div className={styles.container}>
         <ul className={styles.orders}>
-          {improvedOrders.map(order => (
-            <Link
-              key={order._id}
-              className={styles.link}
-              to={{
-                pathname: `/feed/${order._id}`,
-                state: { background: location }
-              }}
-            >
-              <OrderCard location="feed" data={order} />
-            </Link>
-          ))}
+          {improvedOrders.map(order => <OrderCard key={order._id} path="feed" data={order} background={location} />)}
         </ul>
         <div className={styles.stats}>
           <div className={styles.cont}>
@@ -63,6 +51,8 @@ function FeedPage() {
         </div>
       </div>
     </section>
+  ) : (
+    <Preloader />
   );
 }
 

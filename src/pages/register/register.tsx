@@ -1,6 +1,6 @@
 import styles from './register.module.css';
 
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
 import { TForm } from '../../@types/data';
@@ -10,7 +10,7 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import { registerThunk } from '../../services/actions/auth';
 import { useSelector, useDispatch } from '../../services/hooks';
 
-function RegisterPage() {
+const RegisterPage: FC = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
 
