@@ -12,7 +12,6 @@ import { useSelector, useDispatch } from '../../services/hooks';
 
 const ResetPasswordPage: FC = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.auth.user);
   const permission = useSelector(state => state.auth.resetPasswordStepOneSuccess);
   const success = useSelector(state => state.auth.resetPasswordStepTwoSuccess);
   
@@ -28,12 +27,6 @@ const ResetPasswordPage: FC = () => {
   };
   
   const linkClass = 'text text_type_main-default text_color_link text_decoration_none';
-
-  if (user) {
-    return (
-      <Redirect to={{ pathname: '/' }} />
-    );
-  }
   
   if (!permission) {
     return (

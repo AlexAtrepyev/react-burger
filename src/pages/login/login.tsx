@@ -1,20 +1,17 @@
 import styles from './login.module.css';
 
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { TForm } from '../../@types/data';
 
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { loginThunk } from '../../services/actions/auth';
-import { useSelector, useDispatch } from '../../services/hooks';
+import { useDispatch } from '../../services/hooks';
 
 const LoginPage: FC = () => {
-  const history = useHistory<any>();
-  
   const dispatch = useDispatch();
-  const user = useSelector(state => state.auth.user);
 
   const [form, setValue] = useState<TForm>({ email: '', password: '' });
 
@@ -28,13 +25,7 @@ const LoginPage: FC = () => {
   };
   
   const linkClass = 'text text_type_main-default text_color_link text_decoration_none';
-
-  if (user) {
-    return (
-      <Redirect to={ history.location.state?.from || '/' } />
-    );
-  }
-
+  
   return (
     <section className={styles.section}>
       <div className={styles.content}>

@@ -1,4 +1,5 @@
-import { TOrdersRes, TOrder } from '../data';
+import { TOrdersRes } from '../api';
+import { TOrder } from '../data';
 
 import * as constants from '../../utils/constants/feed';
 

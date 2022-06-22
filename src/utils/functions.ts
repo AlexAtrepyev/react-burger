@@ -33,8 +33,12 @@ export function getIDs(items: TIngredient[]): string[] {
   return items.map(item => item._id);
 }
 
-export function setCookie(name: string, value: string, props?: any): void {
-  props = props || {};
+export function setCookie(name: string, value: string, props: any = {}): void {
+  props = {
+    ...props,
+    path: '/'
+  };
+  
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
     const d = new Date();

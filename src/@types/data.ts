@@ -3,24 +3,6 @@ export type TUser = {
   email: string;
 };
 
-export type TUserRes = {
-  success: boolean,
-  user: TUser
-};
-
-export type TAuthRes = {
-  success: boolean,
-  user: TUser,
-  accessToken: string,
-  refreshToken: string
-};
-
-export type TRefreshTokenRes = {
-  success: boolean,
-  accessToken: string,
-  refreshToken: string
-};
-
 export type TIngredient = {
   _id: string;
   name: string;
@@ -39,16 +21,6 @@ export type TIngredient = {
   index?: number;
 };
 
-export type TMoveCard = (dragIndex: number, hoverIndex: number) => void;
-
-export type TCreateOrderRes = {
-  success: boolean,
-  name: string,
-  order: {
-    number: number
-  }
-};
-
 export type TOrder = {
   _id: string;
   ingredients: string[];
@@ -60,23 +32,11 @@ export type TOrder = {
   updatedAt: string;
 };
 
-export type TOrdersRes = {
-  success: boolean;
-  orders: TOrder[];
-  total: number;
-  totalToday: number;
-};
-
 export type TForm = {
   name?: string;
   email?: string;
   password?: string;
   token?: string;
-};
-
-export type TMessageRes = {
-  success: boolean,
-  message: string
 };
 
 export type TOrderDetailsText = {
@@ -89,3 +49,5 @@ export type TOrderDetailsText = {
     done: string
   }
 };
+
+export type TMoveCard = (dragIndex: number, hoverIndex: number) => void;

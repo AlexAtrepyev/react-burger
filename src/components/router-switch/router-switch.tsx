@@ -25,24 +25,24 @@ const RouterSwitch: FC = () => {
   const history = useHistory<any>();
   const location = useLocation<any>();
   
-  let background = location.state && location.state.background;
+  const background = location.state && location.state.background;
   
   return (
     <>
       <Header />
       <Switch location={background || location}>
-        <Route exact path="/register">
+        <ProtectedRoute onlyUnAuth exact path="/register">
           <RegisterPage />
-        </Route>
-        <Route exact path="/login">
+        </ProtectedRoute>
+        <ProtectedRoute onlyUnAuth exact path="/login">
           <LoginPage />
-        </Route>
-        <Route exact path="/forgot-password">
+        </ProtectedRoute>
+        <ProtectedRoute onlyUnAuth exact path="/forgot-password">
           <ForgotPasswordPage />
-        </Route>
-        <Route exact path="/reset-password">
+        </ProtectedRoute>
+        <ProtectedRoute onlyUnAuth exact path="/reset-password">
           <ResetPasswordPage />
-        </Route>
+        </ProtectedRoute>
         <Route exact path="/">
           <MainPage />
         </Route>
@@ -70,27 +70,25 @@ const RouterSwitch: FC = () => {
       </Switch>
       
       {background && (
-        <Route path='/ingredients/:ingredientId'>
-          <Modal title="Детали ингредиента" onClose={() => history.goBack()}>
-            <IngredientDetails />
-          </Modal>
-        </Route>
-      )}
+        <>
+          <Route path='/ingredients/:ingredientId'>
+            <Modal title="Детали ингредиента" onClose={() => history.goBack()}>
+              <IngredientDetails />
+            </Modal>
+          </Route>
 
-      {background && (
-        <Route path='/feed/:id'>
-          <Modal orderModal onClose={() => history.goBack()}>
-            <OrderDetails />
-          </Modal>
-        </Route>
-      )}
+          <Route path='/feed/:id'>
+            <Modal orderModal onClose={() => history.goBack()}>
+              <OrderDetails />
+            </Modal>
+          </Route>
 
-      {background && (
-        <ProtectedRoute path='/profile/orders/:id'>
-          <Modal orderModal onClose={() => history.goBack()}>
-            <OrderDetails />
-          </Modal>
-        </ProtectedRoute>
+          <ProtectedRoute path='/profile/orders/:id'>
+            <Modal orderModal onClose={() => history.goBack()}>
+              <OrderDetails />
+            </Modal>
+          </ProtectedRoute>
+        </>
       )}
     </>
   );

@@ -110,86 +110,36 @@ export const logoutFailedAction = (): types.ILogoutFailedAction => ({
 // Thunks
 export const getUserThunk: AppThunk = () => (dispatch: AppDispatch) => {
   dispatch(getUserAction());
-  const accessToken = getCookie('accessToken');
-  api.getUser(accessToken)
-    .then(res => {
-      if (res && res.success) {
-        dispatch(getUserSuccessAction(res.user));
-      } else {
-        dispatch(getUserFailedAction());
-      }
-    })
-    .catch(() => {
-      dispatch(getNewTokenAction());
-      const refreshToken = getCookie('refreshToken');
-      api.refreshToken(refreshToken)
-        .then(res => {
-          if (res && res.success) {
-            const accessToken = res.accessToken.split('Bearer ')[1];
-            accessToken && setCookie('accessToken', accessToken);
-            res.refreshToken && setCookie('refreshToken', res.refreshToken);
-            dispatch(getNewTokenSuccessAction());
-
-            api.getUser(accessToken)
-              .then(res => {
-                if (res && res.success) {
-                  dispatch(getUserSuccessAction(res.user));
-                } else {
-                  dispatch(getUserFailedAction());
-                }
-              })
-              .catch(() => dispatch(getUserFailedAction()));
-          } else {
-            dispatch(getNewTokenFailedAction());
-          }
-        })
-        .catch(() => {
-          dispatch(getNewTokenFailedAction());
+  if (!getCookie('accessToken')) {
+    dispatch(getUserFailedAction());
+  } else {
+    api.getUser()
+      .then(res => {
+        if (res && res.success) {
+          dispatch(getUserSuccessAction(res.user));
+        } else {
           dispatch(getUserFailedAction());
-        });
-    });
+        }
+      })
+      .catch(() => dispatch(getUserFailedAction()));
+  }
 }
 
 export const updateUserThunk: AppThunk = (name: string, email: string, password: string) => (dispatch: AppDispatch) => {
   dispatch(updateUserAction());
-  const accessToken = getCookie('accessToken');
-  api.updateUser(name, email, password, accessToken)
-    .then(res => {
-      if (res && res.success) {
-        dispatch(updateUserSuccessAction(res.user));
-      } else {
-        dispatch(updateUserFailedAction());
-      }
-    })
-    .catch(() => {
-      dispatch(getNewTokenAction());
-      const refreshToken = getCookie('refreshToken');
-      api.refreshToken(refreshToken)
-        .then(res => {
-          if (res && res.success) {
-            const accessToken = res.accessToken.split('Bearer ')[1];
-            accessToken && setCookie('accessToken', accessToken);
-            res.refreshToken && setCookie('refreshToken', res.refreshToken);
-            dispatch(getNewTokenSuccessAction());
-
-            api.updateUser(accessToken, name, email, password)
-              .then(res => {
-                if (res && res.success) {
-                  dispatch(updateUserSuccessAction(res.user));
-                } else {
-                  dispatch(updateUserFailedAction());
-                }
-              })
-              .catch(() => dispatch(updateUserFailedAction()));
-          } else {
-            dispatch(getNewTokenFailedAction());
-          }
-        })
-        .catch(() => {
-          dispatch(getNewTokenFailedAction());
+  if (!getCookie('accessToken')) {
+    dispatch(updateUserFailedAction());
+  } else {
+    api.updateUser(name, email, password)
+      .then(res => {
+        if (res && res.success) {
+          dispatch(updateUserSuccessAction(res.user));
+        } else {
           dispatch(updateUserFailedAction());
-        });
-    });
+        }
+      })
+      .catch(() => dispatch(updateUserFailedAction()));
+  }
 }
 
 export const registerThunk: AppThunk = (name: string, email: string, password: string) => (dispatch: AppDispatch) => {
@@ -249,8 +199,7 @@ export const resetPasswordStepTwoThunk: AppThunk = (password: string, token: str
 
 export const logoutThunk: AppThunk = () => (dispatch: AppDispatch) => {
   dispatch(logoutAction());
-  const refreshToken = getCookie('refreshToken');
-  api.logout(refreshToken)
+  api.logout()
     .then(res => {
       if (res && res.success) {
         setCookie('accessToken', '', { expires: -1 });

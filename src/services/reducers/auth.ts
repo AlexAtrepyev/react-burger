@@ -3,6 +3,7 @@ import { TAuthActions, TAuthState } from '../../@types/redux/auth';
 import * as constants from '../../utils/constants/auth';
 
 const authInitialState: TAuthState = {
+  isAuthChecked: false,
   user: null,
 
   getUserRequest: false,
@@ -45,14 +46,16 @@ export const authReducer = (state = authInitialState, action: TAuthActions): TAu
       return {
         ...state,
         getUserRequest: false,
-        user: action.user
+        user: action.user,
+        isAuthChecked: true
       };
     }
     case constants.GET_USER_FAILED: {
       return {
         ...state,
         getUserRequest: false,
-        getUserFailed: true
+        getUserFailed: true,
+        isAuthChecked: true
       };
     }
     case constants.UPDATE_USER_REQUEST: {

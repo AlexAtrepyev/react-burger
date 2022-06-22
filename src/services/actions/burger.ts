@@ -47,14 +47,17 @@ export const toggleOrderModalAction = (): types.IToggleOrderModalAction => ({
 // Thunks
 export const createOrderThunk: AppThunk = (ingredientIDs: string[]) => (dispatch: AppDispatch) => {
   dispatch(createOrderAction());
-  const accessToken = getCookie('accessToken');
-  accessToken && api.createOrder(ingredientIDs, accessToken)
-    .then(res => {
-      if (res && res.success) {
-        dispatch(createOrderSuccessAction(res.order.number));
-      } else {
-        dispatch(createOrderFailedAction());
-      }
-    })
-    .catch(() => dispatch(createOrderFailedAction()));
+  if (!getCookie('accessToken')) {
+    dispatch(createOrderFailedAction());
+  } else {
+    api.createOrder(ingredientIDs)
+      .then(res => {
+        if (res && res.success) {
+          dispatch(createOrderSuccessAction(res.order.number));
+        } else {
+          dispatch(createOrderFailedAction());
+        }
+      })
+      .catch(() => dispatch(createOrderFailedAction()));
+  }
 }

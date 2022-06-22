@@ -1,18 +1,40 @@
 import { FC } from 'react';
-import { Redirect, Route, RouteProps } from 'react-router-dom';
+import { Redirect, Route, RouteProps, useHistory, useLocation } from 'react-router-dom';
+
+import Preloader from '../preloader/preloader';
 
 import { useSelector } from '../../services/hooks';
 
-const ProtectedRoute: FC<RouteProps> = ({ children, ...props }) => {
-  const user = useSelector(state => state.auth.user);
+const ProtectedRoute: FC<RouteProps & { onlyUnAuth?: boolean }> = ({ onlyUnAuth = false, children, ...props }) => {
+  const history = useHistory<any>();
+  const location = useLocation<any>();
+
+  const { isAuthChecked, user } = useSelector(state => state.auth);
+  
+  if (!isAuthChecked) {
+    return (
+      <Preloader />
+    );
+  }
+
+  if (onlyUnAuth && user) {
+    return (
+      <Redirect to={ history.location.state?.from || '/' } />
+    );
+  }
+
+  if (!onlyUnAuth && !user) {
+    return (
+      <Route { ...props }>
+        <Redirect to={{ pathname: '/login', state: { from: location } }} />
+      </Route>
+    );
+  }
   
   return (
-    <Route
-      { ...props }
-      render={
-        ({ location }) => user ? children : <Redirect to={{ pathname: '/login', state: { from: location } }} />
-      }
-    />
+    <Route { ...props }>
+      {children}
+    </Route>
   );
 }
 

@@ -1,5 +1,5 @@
 import * as types from '../../@types/redux/feed';
-import { TOrdersRes } from '../../@types/data';
+import { TOrdersRes } from '../../@types/api';
 
 import * as constants from '../../utils/constants/feed';
 

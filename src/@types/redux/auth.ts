@@ -132,6 +132,7 @@ export type TAuthActions =
 
 // Типизация стейта
 export type TAuthState = {
+  isAuthChecked: boolean,
   user: TUser | null,
   
   getUserRequest: boolean,

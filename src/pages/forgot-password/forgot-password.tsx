@@ -12,7 +12,6 @@ import { useSelector, useDispatch } from '../../services/hooks';
 
 const ForgotPasswordPage: FC = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.auth.user);
   const success = useSelector(state => state.auth.resetPasswordStepOneSuccess);
   
   const [form, setValue] = useState<TForm>({ email: '' });
@@ -28,12 +27,6 @@ const ForgotPasswordPage: FC = () => {
   
   const linkClass: string = 'text text_type_main-default text_color_link text_decoration_none';
   
-  if (user) {
-    return (
-      <Redirect to={{ pathname: '/' }} />
-    );
-  }
-
   if (success) {
     return (
       <Redirect to={{ pathname: '/reset-password' }} />
