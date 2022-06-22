@@ -2,7 +2,7 @@ import { TFeedActions, TFeedState } from '../../@types/redux/feed';
 
 import * as constants from '../../utils/constants/feed';
 
-const feedInitialState: TFeedState = {
+export const feedInitialState: TFeedState = {
   wsConnected: false,
   orders: [],
   total: 0,

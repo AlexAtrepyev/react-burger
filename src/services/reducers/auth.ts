@@ -2,7 +2,7 @@ import { TAuthActions, TAuthState } from '../../@types/redux/auth';
 
 import * as constants from '../../utils/constants/auth';
 
-const authInitialState: TAuthState = {
+export const authInitialState: TAuthState = {
   isAuthChecked: false,
   user: null,
 
@@ -25,9 +25,6 @@ const authInitialState: TAuthState = {
   resetPasswordStepTwoRequest: false,
   resetPasswordStepTwoFailed: false,
   resetPasswordStepTwoSuccess: false,
-  
-  refreshTokenRequest: false,
-  refreshTokenFailed: false,
   
   logoutRequest: false,
   logoutFailed: false
@@ -165,26 +162,6 @@ export const authReducer = (state = authInitialState, action: TAuthActions): TAu
         ...state,
         resetPasswordStepTwoRequest: false,
         resetPasswordStepTwoFailed: true
-      };
-    }
-    case constants.REFRESH_TOKEN_REQUEST: {
-      return {
-        ...state,
-        refreshTokenRequest: true,
-        refreshTokenFailed: false
-      };
-    }
-    case constants.REFRESH_TOKEN_SUCCESS: {
-      return {
-        ...state,
-        refreshTokenRequest: false
-      };
-    }
-    case constants.REFRESH_TOKEN_FAILED: {
-      return {
-        ...state,
-        refreshTokenRequest: false,
-        refreshTokenFailed: true
       };
     }
     case constants.LOGOUT_REQUEST: {

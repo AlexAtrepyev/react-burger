@@ -83,18 +83,6 @@ export const resetPasswordStepTwoFailedAction = (): types.IResetPasswordStepTwoF
   type: constants.RESET_PASSWORD_STEP_TWO_FAILED
 });
 
-export const getNewTokenAction = (): types.IRefreshTokenRequestAction => ({
-  type: constants.REFRESH_TOKEN_REQUEST
-});
-
-export const getNewTokenSuccessAction = (): types.IRefreshTokenSuccessAction => ({
-  type: constants.REFRESH_TOKEN_SUCCESS
-});
-
-export const getNewTokenFailedAction = (): types.IRefreshTokenFailedAction => ({
-  type: constants.REFRESH_TOKEN_FAILED
-});
-
 export const logoutAction = (): types.ILogoutRequestAction => ({
   type: constants.LOGOUT_REQUEST
 });

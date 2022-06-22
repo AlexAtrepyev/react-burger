@@ -2,7 +2,7 @@ import { TIngredientsActions, TIngredientsState } from '../../@types/redux/ingre
 
 import * as constants from '../../utils/constants/ingredients';
 
-const ingredientsInitialState: TIngredientsState = {
+export const ingredientsInitialState: TIngredientsState = {
   ingredients: [],
   
   getIngredientsRequest: false,
