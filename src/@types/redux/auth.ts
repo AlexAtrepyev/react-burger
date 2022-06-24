@@ -79,18 +79,6 @@ export interface IResetPasswordStepTwoFailedAction {
   readonly type: typeof constants.RESET_PASSWORD_STEP_TWO_FAILED;
 }
 
-export interface IRefreshTokenRequestAction {
-  readonly type: typeof constants.REFRESH_TOKEN_REQUEST;
-}
-
-export interface IRefreshTokenSuccessAction {
-  readonly type: typeof constants.REFRESH_TOKEN_SUCCESS;
-}
-
-export interface IRefreshTokenFailedAction {
-  readonly type: typeof constants.REFRESH_TOKEN_FAILED;
-}
-
 export interface ILogoutRequestAction {
   readonly type: typeof constants.LOGOUT_REQUEST;
 }
@@ -123,9 +111,6 @@ export type TAuthActions =
   | IResetPasswordStepTwoRequestAction
   | IResetPasswordStepTwoSuccessAction
   | IResetPasswordStepTwoFailedAction
-  | IRefreshTokenRequestAction
-  | IRefreshTokenSuccessAction
-  | IRefreshTokenFailedAction
   | ILogoutRequestAction
   | ILogoutSuccessAction
   | ILogoutFailedAction;
@@ -154,9 +139,6 @@ export type TAuthState = {
   resetPasswordStepTwoRequest: boolean,
   resetPasswordStepTwoFailed: boolean,
   resetPasswordStepTwoSuccess: boolean,
-  
-  refreshTokenRequest: boolean,
-  refreshTokenFailed: boolean,
   
   logoutRequest: boolean,
   logoutFailed: boolean

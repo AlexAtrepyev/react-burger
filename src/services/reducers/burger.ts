@@ -2,7 +2,7 @@ import { TBurgerActions, TBurgerState } from '../../@types/redux/burger';
 
 import * as constants from '../../utils/constants/burger';
 
-const burgerInitialState: TBurgerState = {
+export const burgerInitialState: TBurgerState = {
   bun: null,
   ingredients: [],
 
